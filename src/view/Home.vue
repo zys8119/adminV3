@@ -10,6 +10,8 @@ export default {
     mounted() {
         console.log(this.$store,111)
         console.log(this.airforce)
+        this.airforce.input("aa","a.b.c",{})
+        console.log(this.airforce)
     }
 }
 </script>

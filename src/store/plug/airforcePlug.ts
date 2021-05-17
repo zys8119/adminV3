@@ -1,11 +1,11 @@
 import { Plugin } from "vue"
-import { mapState } from "vuex"
+import { mapState,mapActions } from "vuex"
 
 const airforcePlug:Plugin = {
     install(App){
         App.mixin({
             computed:{
-                ...mapState(["airforce"])
+                ...mapState(["airforce"]),
             }
         })
     }
