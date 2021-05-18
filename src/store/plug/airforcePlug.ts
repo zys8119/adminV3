@@ -7,7 +7,7 @@ import directive from "../../directive"
 import _ from "lodash"
 
 const airforcePlug:Plugin = {
-    install(App,opts:airforcePlugOptionsType){
+    install(App,opts:airforcePlugOptionsType = <any>{}){
         new request(_.merge({},opts.requestBaseOptions || {}));
         App.config.globalProperties.airforce = store.state.airforce;
         App.config.globalProperties.axios = (options:WindowCommonAxiosRequestConfig)=>{
