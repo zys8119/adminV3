@@ -10,20 +10,14 @@
 export default {
     name: "Home",
     mounted() {
-        // window.common.Axios({
-        //     url:"/a"
-        // })
         this.axios({
-            a:11,
-            url:"http://localhost:81/Dome",
             method:"get",
-            // ModelName:"asda",
-            ModuleName:"AAAA",
+            url:"http://localhost:81/Dome",
+            ModuleName:"AAAA"
         }).then(res=>{
-            console.log(res,2222)
+            console.log(res)
             console.log(this.airforce)
-        }).catch(errs=>{
-            console.log(errs,33)
+            console.log(this)
         })
     }
 }
