@@ -7,7 +7,9 @@
 export default {
     name: "Home",
     mounted() {
-
+       this.$ZAlert.show({
+           title:"asd"
+       });
     }
 }
 </script>
