@@ -16,6 +16,13 @@ export default <Module<any,any>>{
                 b:"asda"
             }
         },
+        /**
+         * 设置状态数据
+         * @param ModuleName 模块名称
+         * @param keyPathName 路径名称
+         * @param value 路径值
+         * @param replace 强制替换，当数据类型为object时候生效
+         */
         input(ModuleName, keyPathName,value,replace){
             let goods = _.set({},keyPathName,value);
             let isMerge = true;
@@ -35,6 +42,7 @@ export default <Module<any,any>>{
     },
     mutations:{
         airforceSet(state, {goods,ModuleName,isMerge,value,keyPathName,replace}){
+            console.log(ModuleName, keyPathName,goods, value,Object.prototype.toString.call(goods))
             switch (Object.prototype.toString.call(goods)){
                 case "[object Object]":
                     if(isMerge){
@@ -51,8 +59,6 @@ export default <Module<any,any>>{
                     state[ModuleName] = goods;
                     break;
             }
-            // console.log(goods)
-
         }
     },
     actions:{
