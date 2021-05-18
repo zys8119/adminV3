@@ -2,7 +2,7 @@
     <div class="Home">
         asdadsdfsdf
         <el-button type="primary">asdasd</el-button>
-        <div>{{airforce.AAAA}}</div>
+        <div>{{airforce.AAAA | BB}}</div>
     </div>
 </template>
 
