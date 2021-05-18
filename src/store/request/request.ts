@@ -100,7 +100,7 @@ class AxiosClass implements AxiosClassInterface{
         this.service.interceptors.response.use(response => {
             if(this.isLoading) {this.loadingInstance.close()}
             if (this.isLoadingProgress) window._this.$LP.hide();
-            if (response.data.code !== 0) window._this.$message.error(response.data.message);
+            if (response.data.code !== 0) window._this.$message.error(response.data.message || response.data.msg || '接口错误');
             return new Promise((resolve, reject) => {
                 if (response.data.code === 0) resolve(response.data)
                 else if (response.data.code === 401) {

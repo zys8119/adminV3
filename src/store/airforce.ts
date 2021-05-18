@@ -1,23 +1,12 @@
 import {Module} from "vuex"
 import store from "./index"
 import _ from "lodash"
+import airforceStateInit from "./airforceStateInit"
 import {windowCommon,WindowCommonAxiosRequestConfig} from "./request/AxiosClassInterface"
 declare const window:windowCommon;
 export default <Module<any,any>>{
     state:{
-        a:11,
-        bb:{a:"AAAA"},
-        cc:{},
-        dd:[1,2,3],
-        ee:{
-            a:1,
-            b:2,
-            c:[6,3,8],
-            d:{
-                a:2,
-                b:"asda"
-            }
-        },
+        ...airforceStateInit,
         /**
          * 设置状态数据
          * @param ModuleName 模块名称
@@ -25,7 +14,7 @@ export default <Module<any,any>>{
          * @param value 路径值
          * @param replace 强制替换，当数据类型为object时候生效
          */
-        input(ModuleName, keyPathName,value,replace){
+        input(ModuleName:string, keyPathName:any,value:any,replace:boolean){
             let goods = _.set({},keyPathName,value);
             let isMerge = true;
             if(undefined === value){
@@ -63,9 +52,31 @@ export default <Module<any,any>>{
         }
     },
     actions:{
-        axios(a,WindowCommonAxiosRequestConfig:WindowCommonAxiosRequestConfig){
-            window.common.Axios(WindowCommonAxiosRequestConfig).then(res=>{
-                console.log(res)
+        axios(injectee,options:WindowCommonAxiosRequestConfig){
+            return window.common.Axios(options).then(res=>{
+                if(options.ModuleName){
+                    injectee.state.input(options.ModuleName, null);
+                    if(options.ModuleFilter){
+                        const ModuleFilterRes = options.ModuleFilter(res);
+                        if(Object.prototype.toString.call(ModuleFilterRes) === "[object Promise]"){
+                            ModuleFilterRes.then(resNext=>{
+                                injectee.state.input(options.ModuleName, resNext);
+                            }).catch(()=>{
+                                injectee.state.input(options.ModuleName, null);
+                            })
+                        }else{
+                            injectee.state.input(options.ModuleName, ModuleFilterRes);
+                        }
+                    }else {
+                        injectee.state.input(options.ModuleName, res);
+                    }
+                }
+                return res;
+            }).catch(err=>{
+                if(options.ModuleName){
+                    injectee.state.input(options.ModuleName, undefined);
+                }
+                return err;
             })
         }
     }

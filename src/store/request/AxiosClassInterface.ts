@@ -66,4 +66,6 @@ export interface WindowCommonAxiosRequestConfig extends AxiosRequestConfig{
     loadingProgress?:boolean; // 是否需要加载进度层，默认false不需要
     isAxiosOptions?:boolean; // 是否使用原始Axios配置，默认不使用
     isFormData?:boolean; // 是否以FormData形式请求，默认不使用
+    ModuleName?:string; // 是否缓存到状态管理器，并设置对应模块名称，默认不使用
+    ModuleFilter?<T=any>(res:T):Promise<T>; // 缓存到状态管理器之前的数据过滤，默认不使用
 }

@@ -1,6 +1,7 @@
 import vue, { Plugin } from "vue"
 import { mapState,mapActions } from "vuex"
 import "../request/request"
+import {WindowCommonAxiosRequestConfig} from "../request/AxiosClassInterface"
 
 const airforcePlug:Plugin = {
     install(App){
@@ -9,7 +10,9 @@ const airforcePlug:Plugin = {
                 ...mapState(["airforce"]),
             },
             methods:{
-                ...mapActions(["axios"]),
+                axios(options:WindowCommonAxiosRequestConfig){
+                    return this.$store.dispatch("axios",options);
+                },
             }
         })
     }
