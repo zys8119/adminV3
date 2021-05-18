@@ -1,6 +1,7 @@
 <template>
     <div class="Home">
         asdadsdfsdf
+        <el-button type="primary">asdasd</el-button>
     </div>
 </template>
 
@@ -8,17 +9,16 @@
 export default {
     name: "Home",
     mounted() {
-        // console.log(this.$store,111)
-        // console.log(this.airforce)
-        // this.airforce.input("aa","a.b.c",{})
-        // this.airforce.input("bb",{})
-        this.airforce.input("bb","asdad")
-        this.airforce.input("bb","asdad",0)
-        // this.airforce.input("bb","asdad",false)
-        // this.airforce.input("cc","asdad",null)
-        // this.airforce.input("dd","[1]",[454])
-        // this.airforce.input("ee","c",[454],true)
-        console.log(this.airforce.bb)
+        // window.common.Axios({
+        //     url:"/a"
+        // })
+        this.axios({
+            a:11,
+            url:"http://localhost:81/Dome",
+            method:"get",
+        }).then(res=>{
+            console.log(res,2222)
+        })
     }
 }
 </script>

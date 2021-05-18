@@ -1,6 +1,8 @@
 import {Module} from "vuex"
 import store from "./index"
 import _ from "lodash"
+import {windowCommon,WindowCommonAxiosRequestConfig} from "./request/AxiosClassInterface"
+declare const window:windowCommon;
 export default <Module<any,any>>{
     state:{
         a:11,
@@ -61,6 +63,10 @@ export default <Module<any,any>>{
         }
     },
     actions:{
-
+        axios(a,WindowCommonAxiosRequestConfig:WindowCommonAxiosRequestConfig){
+            window.common.Axios(WindowCommonAxiosRequestConfig).then(res=>{
+                console.log(res)
+            })
+        }
     }
 }
