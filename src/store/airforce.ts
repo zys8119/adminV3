@@ -42,7 +42,6 @@ export default <Module<any,any>>{
     },
     mutations:{
         airforceSet(state, {goods,ModuleName,isMerge,value,keyPathName,replace}){
-            console.log(ModuleName, keyPathName,goods, value,Object.prototype.toString.call(goods))
             switch (Object.prototype.toString.call(goods)){
                 case "[object Object]":
                     if(isMerge){
