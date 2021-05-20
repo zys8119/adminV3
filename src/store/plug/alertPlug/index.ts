@@ -11,10 +11,51 @@ const plugin:Plugin = {
         vue.component("ZAlertFooter", ZAlertFooter);
         const $ZXDialogAlert = <$ZAlert>{
             show:(opts:$ZAlertOptions)=>{
+                opts = (<any>Object).assign({
+                    components:null,
+                    props: {},
+                    content: null,
+                    title: null,
+                    width: "50%",
+                    fullscreen: null,
+                    top: "15vh",
+                    modal: true,
+                    modalAppendToBody: true,
+                    appendToBody:  false,
+                    lockScroll: true,
+                    customClass:  null,
+                    closeOnClickModal:  false,
+                    closeOnPressEscape:  true,
+                    showClose:  true,
+                    beforeClose:  null,
+                    center:  false,
+                    destroyOnClose:  false,
+                    slotTitle:  null,
+                    slotFooter: null,
+                    maxHeight:  1,
+                    layout: "conter",
+                },opts);
+                opts.props = opts.props || {};
+                opts._event = opts._event || {};
+                opts.content = opts.content || null;
+                opts.components = opts.components || null;
+                let FilterField = {
+                    onShow:true,
+                    onHide:true,
+                    onOpened:true,
+                    onClosed:true,
+                    _event:true,
+                };
+                for(var i in opts){
+                    if(!FilterField[i]){
+                        ZXDialogAlert.props[i] = ZXDialogAlert.props[i] || {};
+                        ZXDialogAlert.props[i].default = opts[i]
+                    }
+                }
                 let $vm;
                 if (!$vm) {
                     const container = document.createElement('div');
-                    $vm = createApp(ZXDialogAlert)
+                    $vm = createApp(<any>ZXDialogAlert)
                         .use(ElementPlus)
                         .use(store)
                         .use(airforcePlug)
@@ -31,18 +72,6 @@ const plugin:Plugin = {
                 vue.config.globalProperties.$ZAlert.index += 1;
                 $vm.show = false;
                 $vm.showBox = false;
-                opts = (<any>Object).assign({},opts);
-                opts.props = opts.props || {};
-                opts._event = opts._event || {};
-                opts.content = opts.content || null;
-                opts.components = opts.components || null;
-                let FilterField = {
-                    onShow:true,
-                    onHide:true,
-                    onOpened:true,
-                    onClosed:true,
-                    _event:true,
-                };
                 for(var i in opts){
                     if(FilterField[i]){
                         if(typeof opts[i] === "function"){
@@ -55,9 +84,6 @@ const plugin:Plugin = {
                         }else {
                             $vm[i] = opts[i];
                         }
-                    }else {
-                        // $vm._.propsDefaults.props[i] = opts[i];
-                        $vm.$props.props[i] = opts[i];
                     }
                 }
                 $vm.show = true;

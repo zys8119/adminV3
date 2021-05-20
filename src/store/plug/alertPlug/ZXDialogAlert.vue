@@ -3,32 +3,25 @@
         ZXDialogAlertRight:layout === 'right'
     }" v-if="showBox">
         <el-dialog :title="title"
-                   v-model="show"
-                   class="x-dialog">
-        <!--
-            <el-dialog :title="title"
-                   v-model="show"
-                   :width="modeConfig.alert ? calcWidth : width"
-                   :fullscreen="fullscreen"
-                   :top="top"
-                   :modal="modal"
-                   :modal-append-to-body="modalAppendToBody"
-                   :append-to-body="appendToBody"
-                   :lock-scroll="lockScroll"
-                   :custom-class="`${layout === 'right' && showBoxDialog ? 'ZXDialogAlert-custom-class' : ''} ${customClass? customClass : ''}`"
-                   :close-on-click-modal="closeOnClickModal"
-                   :close-on-press-escape="closeOnPressEscape"
-                   :show-close="showClose"
-                   :before-close="beforeClose"
-                   :center="center"
-                   :destroy-on-close="destroyOnClose"
-                   @open="onShow"
-                   @opened="onOpened"
-                   @closed="onClosed"
-                   @close="onHide"
-                   ref="dialog"
-                   class="x-dialog">
-                   -->
+               v-model="show"
+               :width="modeConfig.alert ? calcWidth : width"
+               :fullscreen="fullscreen"
+               :top="top"
+               :modal="modal"
+               :append-to-body="appendToBody"
+               :lock-scroll="lockScroll"
+               :custom-class="customClassName"
+               :close-on-click-modal="closeOnClickModal"
+               :close-on-press-escape="closeOnPressEscape"
+               :show-close="showClose"
+               :before-close="beforeClose"
+               :center="center"
+               :destroy-on-close="destroyOnClose"
+               @open="onShow"
+               @opened="onOpened"
+               @closed="onClosed"
+               @close="onHide"
+               ref="dialog">
             <div class="ZXDialogAlert-el-dialog-box">
                 <div class="ZXDialogAlert-el-dialog" :style="{maxHeight:maxHeightIndex+'px',height:layout === 'right' && showBoxDialog?maxHeightIndex + 'px':'auto',overflow: 'auto',paddingRight: '10px'}">
                     <component ref="component" v-if="show && components && temp" :is="temp"></component>
@@ -41,12 +34,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import {shallowRef} from "vue"
 export default {
     name: "z-x-dialog-alert",
     props: {
-        components: {type: String, default: null},
+        components: {type: [String,Object,Promise], default: null},
         props: {type: Object, default: Object},
         content: {type: String, default: null},
         title: {type: String, default: null},
@@ -68,6 +61,13 @@ export default {
         slotFooter: {type: Object, default: null},
         maxHeight: {type: Number, default: 1},
         layout: {type: String, default: "conter"},
+    },
+    computed:{
+        customClassName:{
+            get(){
+                return `x-dialog ${this.layout === 'right' && this.showBoxDialog ? 'ZXDialogAlert-custom-class' : ''} ${this.customClass? this.customClass : ''}`
+            }
+        }
     },
     data() {
         return {
@@ -97,7 +97,7 @@ export default {
             this.$nextTick(()=>{
                 this.showBoxDialog = val;
             });
-        }
+        },
     },
     beforeMount() {
         this.watchWidth();
@@ -164,7 +164,6 @@ export default {
             }
         },
         onShow() {
-            console.log(66)
             this.$emit('on-show');
         },
         onHide() {
@@ -189,8 +188,12 @@ export default {
                     let currentView = null;
                     if(_this.components && Object.prototype.toString.call(_this.components) !== '[object String]'){
                         currentView = (this.components.default)?_this.components.default:_this.components;
-                        if(Object.prototype.toString.call(currentView) === "[object Function]"){
-                            currentView = await currentView()
+                        if(["[object Promise]", "[object Function]"].includes(Object.prototype.toString.call(currentView))){
+                            if(["[object Promise]"].includes(Object.prototype.toString.call(currentView))){
+                                currentView = await currentView;
+                            }else {
+                                currentView = await currentView();
+                            }
                             currentView = (currentView.default)?currentView.default:currentView;
                         }
                     }
@@ -222,11 +225,11 @@ export default {
                         ...(currentView.emits || {}),
                         ...(_this._event || {})
                     };
-                    // _vm.$nextTick(() => {
-                    //
-                    // });
-                    _vm[temp] = shallowRef(currentView);
+                    if(currentView){
+                        _vm[temp] = shallowRef(currentView);
+                    }
                 } catch (e) {
+                    console.error(e)
                     // err
                 }
             })()
@@ -262,7 +265,7 @@ export default {
     .el-dialog__body {
         padding: 0!important;
     }
-    & .x-dialog {
+    .x-dialog {
         width: auto;
         .weui-mask {
             z-index: 499 !important;
@@ -336,7 +339,7 @@ export default {
     }
     &.ZXDialogAlertRight{
         .x-dialog{
-            .el-dialog{
+            &.el-dialog{
                 transition: all ease-in-out 700ms;
                 border-radius: 0;
                 margin-top: initial !important;

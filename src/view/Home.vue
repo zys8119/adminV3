@@ -13,11 +13,14 @@ export default {
         }
     },
     mounted() {
-       this.$ZAlert.show({
+       this.$ZAlert.alert({
            title:"标题",
            components:()=>import("./Alert/Alert.vue"),
            props:{
-               aaa:this.aaa
+               aaa:this.aaa,
+               bb:{
+                   a:11
+               }
            },
            _event:{
                save:(val,b)=>{
@@ -28,6 +31,18 @@ export default {
        setTimeout(()=>{
            this.aaa = "adkjahj"
            this.airforce.input("AAA","哈哈")
+           this.$ZAlert.show({
+               title:"标题",
+               components:()=>import("./Alert/Alert.vue"),
+               props:{
+                   aaa:this.aaa,
+               },
+               _event:{
+                   save:(val,b)=>{
+                       console.log(val,9999,b)
+                   }
+               }
+           });
        },2000)
     }
 }

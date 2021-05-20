@@ -3,6 +3,7 @@
         我是内容{{aaa}}---{{airforce.AAA}}
         <el-button @click="test">adsada</el-button>
         <ZAlertFooter><el-button @click="test">adsada</el-button></ZAlertFooter>
+        <div>----{{ bb }}</div>
     </div>
 </template>
 
@@ -10,7 +11,8 @@
 export default {
     name: "Alert",
     props:{
-        aaa:{type:String, default:null}
+        aaa:{type:String, default:null},
+        bb:{type:Object,default: Object}
     },
     mounted() {
     },
