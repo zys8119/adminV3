@@ -2,7 +2,7 @@ import ZXDialogAlert from './ZXDialogAlert.vue'
 import ZAlertFooter from './ZAlertFooter.vue';
 // @ts-ignore
 import {$ZAlert, $ZAlertOptions} from "../../../src/api/Interface";
-import { Plugin, render, createApp, createVNode, h, defineComponent } from "vue"
+import { Plugin, createApp } from "vue"
 import ElementPlus from 'element-plus';
 import airforcePlug from '../airforcePlug';
 import store from '../../index';
