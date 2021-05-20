@@ -2,8 +2,8 @@
     <div class="Alert">
         我是内容{{aaa}}---{{airforce.AAA}}
         <el-button @click="test">adsada</el-button>
-        <ZAlertFooter><el-button @click="test">adsada</el-button></ZAlertFooter>
         <div>----{{ bb }}</div>
+        <ZAlertFooter><el-button @click="test">adsada</el-button></ZAlertFooter>
     </div>
 </template>
 
