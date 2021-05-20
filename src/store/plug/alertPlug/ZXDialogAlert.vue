@@ -24,19 +24,22 @@
                    @close="onHide"
                    ref="dialog"
                    class="x-dialog">
-            <div class="ZXDialogAlert-el-dialog-box">
-                <div class="ZXDialogAlert-el-dialog" :style="{maxHeight:maxHeightIndex+'px',height:layout === 'right' && showBoxDialog?maxHeightIndex + 'px':'auto',overflow: 'auto',paddingRight: '10px'}">
-                    <component ref="component" v-if="show && components && temp" :is="temp"></component>
-                    <div v-if="show && !components && content && !temp" v-html="content" class="ZXDialogAlertContent console-PagePadding"></div>
+            <div>
+                <div class="ZXDialogAlert-el-dialog-box">
+                    <div class="ZXDialogAlert-el-dialog" :style="{maxHeight:maxHeightIndex+'px',height:layout === 'right' && showBoxDialog?maxHeightIndex + 'px':'auto',overflow: 'auto',paddingRight: '10px'}">
+                        <component ref="component" v-if="show && components && temp" :is="temp"></component>
+                        <div v-if="show && !components && content && !temp" v-html="content" class="ZXDialogAlertContent console-PagePadding"></div>
+                    </div>
                 </div>
+                <component slot="title" ref="title" :is="slotTitleTemp" v-if="slotTitleTemp"></component>
+                <component slot="footer" ref="footer" :is="slotFooterTemp" v-if="slotFooterTemp"></component>
             </div>
-            <component slot="title" ref="title" :is="slotTitleTemp" v-if="slotTitleTemp"></component>
-            <component slot="footer" ref="footer" :is="slotFooterTemp" v-if="slotFooterTemp"></component>
         </el-dialog>
     </div>
 </template>
 
 <script>
+import {shallowRef} from "vue"
 export default {
     name: "z-x-dialog-alert",
     props: {
@@ -205,20 +208,21 @@ export default {
                             // err
                         }
                     }
-                    _vm.$nextTick(() => {
-                        if (currentView.methods && !currentView.methodsBool) {
-                            currentView.methodsBool = true;
-                            currentView.CopyMethods = JSON.parse(JSON.stringify(currentView.methods));
-                        }
-                        for (let j in currentView.CopyMethods) {
-                            currentView.$vnode.componentOptions._events[j] = currentView.CopyMethods[j];
-                        }
-                        currentView.emits = {
-                            ...(currentView.emits || {}),
-                            ...(_this._event || {})
-                        };
-                    });
-                    _vm[temp] = currentView;
+                    if (currentView.methods && !currentView.methodsBool) {
+                        currentView.methodsBool = true;
+                        currentView.CopyMethods = JSON.parse(JSON.stringify(currentView.methods));
+                    }
+                    for (let j in currentView.CopyMethods) {
+                        currentView.$vnode.componentOptions._events[j] = currentView.CopyMethods[j];
+                    }
+                    currentView.emits = {
+                        ...(currentView.emits || {}),
+                        ...(_this._event || {})
+                    };
+                    // _vm.$nextTick(() => {
+                    //
+                    // });
+                    _vm[temp] = shallowRef(currentView);
                 } catch (e) {
                     // err
                 }

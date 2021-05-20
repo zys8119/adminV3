@@ -56,7 +56,8 @@ const plugin:Plugin = {
                             $vm[i] = opts[i];
                         }
                     }else {
-                        $vm.props[i] = opts[i];
+                        // $vm._.propsDefaults.props[i] = opts[i];
+                        $vm.$props.props[i] = opts[i];
                     }
                 }
                 $vm.show = true;
