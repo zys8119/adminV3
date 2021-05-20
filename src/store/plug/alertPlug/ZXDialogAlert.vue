@@ -4,6 +4,10 @@
     }" v-if="showBox">
         <el-dialog :title="title"
                    v-model="show"
+                   class="x-dialog">
+        <!--
+            <el-dialog :title="title"
+                   v-model="show"
                    :width="modeConfig.alert ? calcWidth : width"
                    :fullscreen="fullscreen"
                    :top="top"
@@ -24,16 +28,15 @@
                    @close="onHide"
                    ref="dialog"
                    class="x-dialog">
-            <div>
-                <div class="ZXDialogAlert-el-dialog-box">
-                    <div class="ZXDialogAlert-el-dialog" :style="{maxHeight:maxHeightIndex+'px',height:layout === 'right' && showBoxDialog?maxHeightIndex + 'px':'auto',overflow: 'auto',paddingRight: '10px'}">
-                        <component ref="component" v-if="show && components && temp" :is="temp"></component>
-                        <div v-if="show && !components && content && !temp" v-html="content" class="ZXDialogAlertContent console-PagePadding"></div>
-                    </div>
+                   -->
+            <div class="ZXDialogAlert-el-dialog-box">
+                <div class="ZXDialogAlert-el-dialog" :style="{maxHeight:maxHeightIndex+'px',height:layout === 'right' && showBoxDialog?maxHeightIndex + 'px':'auto',overflow: 'auto',paddingRight: '10px'}">
+                    <component ref="component" v-if="show && components && temp" :is="temp"></component>
+                    <div v-if="show && !components && content && !temp" v-html="content" class="ZXDialogAlertContent console-PagePadding"></div>
                 </div>
-                <component slot="title" ref="title" :is="slotTitleTemp" v-if="slotTitleTemp"></component>
-                <component slot="footer" ref="footer" :is="slotFooterTemp" v-if="slotFooterTemp"></component>
             </div>
+            <component slot="title" ref="title" :is="slotTitleTemp" v-if="slotTitleTemp"></component>
+            <component slot="footer" ref="footer" :is="slotFooterTemp" v-if="slotFooterTemp"></component>
         </el-dialog>
     </div>
 </template>
