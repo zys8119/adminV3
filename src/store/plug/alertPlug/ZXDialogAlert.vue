@@ -3,7 +3,7 @@
         ZXDialogAlertRight:layout === 'right'
     }" v-if="showBox">
         <el-dialog :title="title"
-                   :visible.sync="show"
+                   v-model="show"
                    :width="modeConfig.alert ? calcWidth : width"
                    :fullscreen="fullscreen"
                    :top="top"
@@ -65,9 +65,9 @@ export default {
     },
     data() {
         return {
-            show: false,
-            showBox: false,
-            showBoxDialog: false,
+            show: true,
+            showBox: true,
+            showBoxDialog: true,
             temp:null,
             // modeConfig:JSON.parse($modeConfig),
             modeConfig: {
@@ -97,7 +97,6 @@ export default {
         this.watchWidth();
     },
     mounted() {
-        console.log(111666666666)
         this.watchWidth();
         this.setHeight();
         this.WinOnResize = window.onresize;
@@ -159,6 +158,7 @@ export default {
             }
         },
         onShow() {
+            console.log(66)
             this.$emit('on-show');
         },
         onHide() {
@@ -177,46 +177,52 @@ export default {
             this.$emit('on-closed');
         },
         init(_vm,_this, temp,ref) {
-            try {
-                _vm[temp] = null;
-                let currentView = null;
-                if(_this.components && Object.prototype.toString.call(_this.components) !== '[object String]'){
-                    currentView = (this.components.default)?_this.components.default:_this.components;
-                }
-                if (currentView.props && !currentView.CopyPropsBool) {
-                    currentView.CopyPropsBool = true;
-                    currentView.CopyProps = JSON.parse(JSON.stringify(currentView.props));
-                }
-                for (let j in currentView.CopyProps) {
-                    currentView.props[j].default = currentView.CopyProps[j].default;
-                }
-                for (let i in _this.props) {
-                    try {
-                        if (Object.keys(currentView.props).indexOf(i) > -1) {
-                            currentView.props[i].default = _this.props[i];
+            (async ()=>{
+                try {
+                    _vm[temp] = null;
+                    let currentView = null;
+                    if(_this.components && Object.prototype.toString.call(_this.components) !== '[object String]'){
+                        currentView = (this.components.default)?_this.components.default:_this.components;
+                        if(Object.prototype.toString.call(currentView) === "[object Function]"){
+                            currentView = await currentView()
+                            currentView = (currentView.default)?currentView.default:currentView;
                         }
-                    } catch (e) {
-                        // err
                     }
+
+                    if (currentView.props && !currentView.CopyPropsBool) {
+                        currentView.CopyPropsBool = true;
+                        currentView.CopyProps = JSON.parse(JSON.stringify(currentView.props));
+                    }
+                    for (let j in currentView.CopyProps) {
+                        currentView.props[j].default = currentView.CopyProps[j].default;
+                    }
+                    for (let i in _this.props) {
+                        try {
+                            if (Object.keys(currentView.props).indexOf(i) > -1) {
+                                currentView.props[i].default = _this.props[i];
+                            }
+                        } catch (e) {
+                            // err
+                        }
+                    }
+                    _vm.$nextTick(() => {
+                        if (currentView.methods && !currentView.methodsBool) {
+                            currentView.methodsBool = true;
+                            currentView.CopyMethods = JSON.parse(JSON.stringify(currentView.methods));
+                        }
+                        for (let j in currentView.CopyMethods) {
+                            currentView.$vnode.componentOptions._events[j] = currentView.CopyMethods[j];
+                        }
+                        currentView.emits = {
+                            ...(currentView.emits || {}),
+                            ...(_this._event || {})
+                        };
+                    });
+                    _vm[temp] = currentView;
+                } catch (e) {
+                    // err
                 }
-                _vm.$nextTick(() => {
-                    if (currentView.methods && !currentView.methodsBool) {
-                        currentView.methodsBool = true;
-                        currentView.CopyMethods = JSON.parse(JSON.stringify(currentView.methods));
-                    }
-                    for (let j in currentView.CopyMethods) {
-                        currentView.$vnode.componentOptions._events[j] = currentView.CopyMethods[j];
-                    }
-                    for (let i in _this._event) {
-                        _vm.getRefs(ref,component=>{
-                            component._events[i] = [_this._event[i]];
-                        })
-                    }
-                });
-                _vm[temp] = currentView;
-            } catch (e) {
-                // err
-            }
+            })()
         },
         getRefs(keyName,callback){
             if(this.$refs[keyName]){
