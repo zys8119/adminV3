@@ -4,11 +4,11 @@ import ZAlertFooter from './ZAlertFooter.vue';
 import {$ZAlert, $ZAlertOptions} from "../../../src/api/Interface";
 import { Plugin, render, createApp, createVNode, h, defineComponent } from "vue"
 import ElementPlus from 'element-plus';
-import alertPlug from './index';
 import airforcePlug from '../airforcePlug';
 import store from '../../index';
 const plugin:Plugin = {
     install (vue) {
+        vue.component("ZAlertFooter", ZAlertFooter);
         const $ZXDialogAlert = <$ZAlert>{
             show:(opts:$ZAlertOptions)=>{
                 let $vm;
@@ -18,8 +18,12 @@ const plugin:Plugin = {
                         .use(ElementPlus)
                         .use(store)
                         .use(airforcePlug)
-                        .use(alertPlug)
-                        // .component("ZAlertFooter", ZAlertFooter)
+                        .use({
+                            install($vmVue){
+                                $vmVue.config.globalProperties.$ZAlert = $ZXDialogAlert;
+                            }
+                        })
+                        .component("ZAlertFooter", ZAlertFooter)
                         .mount(container);
                     document.body.appendChild(container);
                 }

@@ -15,7 +15,7 @@ export default {
     name: "ZAlertFooter",
     props:{
         align:{
-            type:new String(),
+            type:String,
             default:"center"
         },
         page:{

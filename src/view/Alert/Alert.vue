@@ -1,7 +1,8 @@
 <template>
     <div class="Alert">
-        我是内容{{aaa}}
+        我是内容{{aaa}}---{{airforce.AAA}}
         <el-button @click="test">adsada</el-button>
+        <ZAlertFooter><el-button @click="test">adsada</el-button></ZAlertFooter>
     </div>
 </template>
 
@@ -12,7 +13,6 @@ export default {
         aaa:{type:String, default:null}
     },
     mounted() {
-
     },
     methods:{
         test(){

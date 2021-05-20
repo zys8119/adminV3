@@ -27,6 +27,7 @@ export default {
        });
        setTimeout(()=>{
            this.aaa = "adkjahj"
+           this.airforce.input("AAA","哈哈")
        },2000)
     }
 }
