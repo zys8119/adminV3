@@ -14,11 +14,16 @@ export default {
         aaa:{type:String, default:null},
         bb:{type:Object,default: Object}
     },
+    emits: {
+        save(){
+            console.log(222)
+        }
+    },
     mounted() {
     },
     methods:{
         test(){
-            this.$emit("save","564645645",5445);
+            this.$emit("save",[]);
             this.$ZAlert.hide()
         }
     }

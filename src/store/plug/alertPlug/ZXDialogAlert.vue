@@ -221,9 +221,19 @@ export default {
                     for (let j in currentView.CopyMethods) {
                         currentView.$vnode.componentOptions._events[j] = currentView.CopyMethods[j];
                     }
+                    let _emits = (_this._event || {});
+                    for (let k in _emits){
+                        if(["[object Function]"].includes(Object.prototype.toString.call(_emits[k]))){
+                            let _emitsOld = _emits[k];
+                            _emits[k] = (...args)=>{
+                                _emitsOld(...args);
+                                return true;
+                            }
+                        }
+                    }
                     currentView.emits = {
                         ...(currentView.emits || {}),
-                        ...(_this._event || {})
+                        ..._emits
                     };
                     if(currentView){
                         _vm[temp] = shallowRef(currentView);
