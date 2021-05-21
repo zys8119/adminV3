@@ -6,7 +6,7 @@ import router from "./src/router"
 import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 import App from "./src/App.vue"
-createApp(App)
+createApp(<any>App)
     .use(ElementPlus)
     .use(router)
     .use(store)
