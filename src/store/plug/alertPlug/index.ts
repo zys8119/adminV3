@@ -48,7 +48,9 @@ const plugin:Plugin = {
                 };
                 for(var i in opts){
                     if(!FilterField[i]){
+                        // @ts-ignore
                         ZXDialogAlert.props[i] = ZXDialogAlert.props[i] || {};
+                        // @ts-ignore
                         ZXDialogAlert.props[i].default = opts[i]
                     }
                 }
