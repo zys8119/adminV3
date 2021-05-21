@@ -1,6 +1,8 @@
 import {
     PluginOption,
     TransformResult,
+    HmrContext,
+    ModuleNode,
 } from 'vite'
 
 import {readFileSync} from "fs"
@@ -21,5 +23,18 @@ export default (options:string[])=>{
                 map:null
             }
         },
+        // handleHotUpdate(ctx: HmrContext): Array<ModuleNode> | void | Promise<Array<ModuleNode> | void> {
+        //     console.log(this)
+        //     if(/\.less$/.test(ctx.file)){
+        //         ctx.server.ws.close().then(()=>{
+        //             ctx.server.ws.send({
+        //                 type:"connected",
+        //             });
+        //         });
+        //
+        //         return ctx.modules;
+        //     }
+        //     return ctx.modules;
+        // }
     }
 }

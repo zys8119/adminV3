@@ -33,7 +33,7 @@ export default {
 .Home{
     div{
         color: @themeColor;
-        color: @success;
+        //color: @success;
         font-size: @unit15;
     }
 }
