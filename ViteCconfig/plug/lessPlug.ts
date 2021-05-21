@@ -15,7 +15,7 @@ export default (options:string[])=>{
         enforce:"pre",
         name:"vue文件lees全局变量注入插件",
         transform(code: string, id: string,): Promise<TransformResult> | TransformResult {
-            if(/\.less$/.test(id)){
+            if(options && options.length > 0 && /\.less$/.test(id)){
                 RelationshipFile[id.replace( resolve(__dirname,"../../").replace(/\\/g,"/"),"")] = true;
                 return {
                     code:`${options.map(filePath => readFileSync(filePath, "utf-8")).join("\\n")}${code}`,
@@ -28,7 +28,7 @@ export default (options:string[])=>{
             }
         },
         handleHotUpdate(ctx: HmrContext): Array<ModuleNode> | void | Promise<Array<ModuleNode> | void> {
-            if(options.includes(ctx.file.replace(/\//g,"\\"))){
+            if(options && options.length > 0 && options.includes(ctx.file.replace(/\//g,"\\"))){
                 const modules = Object.keys(RelationshipFile).map(key=>ctx.server.moduleGraph.urlToModuleMap.get(key)).filter(e=>e)
                 return modules;
             }
