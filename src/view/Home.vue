@@ -1,6 +1,7 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
+        <el-button @click="aa">打开弹框</el-button>
     </div>
 </template>
 
@@ -12,8 +13,18 @@ export default {
 
         }
     },
-    mounted() {
-
+    methods:{
+        aa() {
+            this.$ZAlert.show({
+                title:"adsa",
+                components:()=>import("./Alert/Alert.vue"),
+                _event:{
+                    save:val=>{
+                        console.log(val)
+                    }
+                }
+            })
+        }
     }
 }
 </script>
@@ -22,7 +33,7 @@ export default {
 .Home{
     div{
         color: @themeColor;
-        //color: @success;
+        color: @success;
         font-size: @unit15;
     }
 }

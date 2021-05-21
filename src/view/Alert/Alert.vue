@@ -23,7 +23,7 @@ export default {
     },
     methods:{
         test(){
-            this.$emit("save",[]);
+            this.$emit("save",[1,2,3]);
             this.$ZAlert.hide()
         }
     }
