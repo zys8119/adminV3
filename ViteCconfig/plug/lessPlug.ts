@@ -1,20 +1,24 @@
 import {
     PluginOption,
     TransformResult,
-    HmrContext,
     ModuleNode,
+    HmrContext,
 } from 'vite'
 
 import {readFileSync} from "fs"
+import {resolve} from "path"
+
+
 export default (options:string[])=>{
-    const globalVars = options.map(filePath=>readFileSync(filePath,"utf-8")).join("\n");
+    const RelationshipFile = {};
     return <PluginOption>{
         enforce:"pre",
         name:"vue文件lees全局变量注入插件",
         transform(code: string, id: string,): Promise<TransformResult> | TransformResult {
             if(/\.less$/.test(id)){
+                RelationshipFile[id.replace( resolve(__dirname,"../../").replace(/\\/g,"/"),"")] = true;
                 return {
-                    code:`${globalVars}${code}`,
+                    code:`${options.map(filePath => readFileSync(filePath, "utf-8")).join("\\n")}${code}`,
                     map:null
                 }
             }
@@ -23,18 +27,12 @@ export default (options:string[])=>{
                 map:null
             }
         },
-        // handleHotUpdate(ctx: HmrContext): Array<ModuleNode> | void | Promise<Array<ModuleNode> | void> {
-        //     console.log(this)
-        //     if(/\.less$/.test(ctx.file)){
-        //         ctx.server.ws.close().then(()=>{
-        //             ctx.server.ws.send({
-        //                 type:"connected",
-        //             });
-        //         });
-        //
-        //         return ctx.modules;
-        //     }
-        //     return ctx.modules;
-        // }
+        handleHotUpdate(ctx: HmrContext): Array<ModuleNode> | void | Promise<Array<ModuleNode> | void> {
+            if(options.includes(ctx.file.replace(/\//g,"\\"))){
+                const modules = Object.keys(RelationshipFile).map(key=>ctx.server.moduleGraph.urlToModuleMap.get(key)).filter(e=>e)
+                return modules;
+            }
+            return ctx.modules;
+        }
     }
 }
