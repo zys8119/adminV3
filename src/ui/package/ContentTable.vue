@@ -85,13 +85,13 @@
                                 align="center"
                                 v-if="item.type === 'selection'"
                                 :width="item.width || 60"
-                                :key="key"
+                                :key="key+'-key'"
                                 :selectable="item.selectable"
                                 type="selection"></el-table-column>
                             <!--序号-->
                             <el-table-column
                                 v-else-if="item.type === 'number'"
-                                :key="key"
+                                :key="key+'-key'"
                                 :width="item.width || 60"
                                 :align="item.align || 'center'"
                                 :label="item.label">
@@ -101,7 +101,7 @@
                             <el-table-column
                                 class-name="operate"
                                 v-else-if="item.type === 'operate'"
-                                :key="key"
+                                :key="key+'-key'"
                                 :width="item.width"
                                 :align="item.align || 'center'"
                                 :label="item.label">
@@ -126,7 +126,7 @@
                             <el-table-column
                                 class-name="textType"
                                 v-else-if="item.type === 'textType'"
-                                :key="key"
+                                :key="key+'-key'"
                                 :width="item.width"
                                 :align="item.align || 'center'"
                                 :label="item.label">
@@ -141,7 +141,7 @@
                             <el-table-column
                                 class-name="edit"
                                 v-else-if="item.type === 'edit'"
-                                :key="key"
+                                :key="key+'-key'"
                                 :width="item.width"
                                 :align="item.align || 'center'"
                                 :label="item.label">
@@ -166,7 +166,7 @@
                             <el-table-column
                                 class-name="textType"
                                 v-else-if="item.type === 'popover'"
-                                :key="key"
+                                :key="key+'-key'"
                                 :width="item.width"
                                 :align="item.align || 'center'"
                                 :label="item.label">
@@ -192,7 +192,7 @@
                             <el-table-column
                                 class-name="select"
                                 v-else-if="item.type === 'select'"
-                                :key="key"
+                                :key="key+'-key'"
                                 :width="item.width"
                                 :align="item.align || 'center'"
                                 :label="item.label">
@@ -213,7 +213,7 @@
                             <el-table-column
                                 class-name="switch"
                                 v-else-if="item.type === 'switch'"
-                                :key="key"
+                                :key="key+'-key'"
                                 :width="item.width"
                                 :align="item.align || 'center'"
                                 :label="item.label">
@@ -224,7 +224,7 @@
                                 </template>
                             </el-table-column>
                             <el-table-column v-else
-                                             :key="key"
+                                             :key="key+'-key'"
                                              :type="item.type"
                                              :index="item.index"
                                              :column-key="item.columnKey"
@@ -324,9 +324,8 @@
     </div>
 </template>
 
-<script>
-import ZButton from "./ZButton";
-import filters from "../../src/filters";
+<script lang="ts">
+import ZButton from "./ZButton.vue";
 export default {
     name: "ContentTable",
     components: {ZButton},
@@ -405,28 +404,6 @@ export default {
             return this.columns.filter(e=>e.label);
         }
     },
-    filters:{
-        filter:function(value,row,item,_self){
-            if(item.filter){
-                let filter = null;
-                try {filter = filter || _self.$parent.$parent.$parent.$parent.$parent.$parent.$options.filters[item.filter]}catch (e) {/*err*/}
-                try {filter = filter || _self.$parent.$parent.$parent.$parent.$parent.$options.filters[item.filter]}catch (e) {/*err*/}
-                try {filter = filter || _self.$parent.$parent.$parent.$parent.$options.filters[item.filter]}catch (e) {/*err*/}
-                try {filter = filter || _self.$parent.$parent.$parent.$options.filters[item.filter]}catch (e) {/*err*/}
-                try {filter = filter || _self.$parent.$parent.$options.filters[item.filter]}catch (e) {/*err*/}
-                try {filter = filter || _self.$parent.$options.filters[item.filter]}catch (e) {/*err*/}
-                if(filter){
-                    return  filter(value,row,item)
-                }
-                try {
-                    return filters[item.filter](value,row,item);
-                }catch (e) {
-                    console.error(`Failed to resolve filter: ${item.filter}`)
-                }
-            }
-            return value;
-        }
-    },
     methods:{
         fn(){},
         popoverClick(columns,row){
@@ -454,7 +431,6 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../src/assets/style/less/publicFun";
 .ContentTable{
     .ContentTableObj{
         .operate{

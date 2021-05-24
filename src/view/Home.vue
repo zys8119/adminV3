@@ -7,9 +7,10 @@
 </template>
 
 <script lang="ts">
-
+import ContentTable from "../ui/package/ContentTable.vue";
 export default {
     name: "Home",
+    components: {ContentTable},
     data(){
         return {
 

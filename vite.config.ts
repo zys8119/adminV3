@@ -8,6 +8,7 @@ export default <UserConfig>{
         pluginVue(),
         lessPlug([
             resolve(__dirname,"./src/assets/less/constant.less"),
+            resolve(__dirname,"./src/assets/less/publicFun.less"),
         ]),
     ],
     resolve:{

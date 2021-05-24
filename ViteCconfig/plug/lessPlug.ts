@@ -18,7 +18,9 @@ export default (options:string[])=>{
             if(options && options.length > 0 && /\.less$/.test(id)){
                 RelationshipFile[id.replace( resolve(__dirname,"../../").replace(/\\/g,"/"),"")] = true;
                 return {
-                    code:`${options.map(filePath => readFileSync(filePath, "utf-8")).join("\\n")}${code}`,
+                    code:`${options.map(filePath => {
+                        return readFileSync(filePath, "utf-8");
+                    }).join("\n")}${code}`,
                     map:null
                 }
             }
