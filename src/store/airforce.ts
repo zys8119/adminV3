@@ -4,16 +4,20 @@ import _ from "lodash"
 import airforceStateInit from "./airforceStateInit"
 import {windowCommon,WindowCommonAxiosRequestConfig} from "./request/AxiosClassInterface"
 declare const window:windowCommon;
+export type airforceStateType =  {
+    /**
+     * 设置状态数据
+     * @param ModuleName 模块名称
+     * @param keyPathName 路径名称
+     * @param value 路径值
+     * @param replace 强制替换，当数据类型为object时候生效
+     */
+    input(ModuleName:string, keyPathName:any,value?:any,replace?:boolean):void;
+} & Partial<any>;
 export default <Module<any,any>>{
-    state:{
+    state:<airforceStateType>{
         ...airforceStateInit,
-        /**
-         * 设置状态数据
-         * @param ModuleName 模块名称
-         * @param keyPathName 路径名称
-         * @param value 路径值
-         * @param replace 强制替换，当数据类型为object时候生效
-         */
+
         input(ModuleName:string, keyPathName:any,value:any,replace:boolean){
             let goods = _.set({},keyPathName,value);
             let isMerge = true;
