@@ -2,7 +2,7 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-button @click="aa">打开弹框</el-button>
-        <content-table :columns="columns" ref="table"></content-table>
+        <content-table @dataChange="dataChange" :columns="columns" ref="table"></content-table>
     </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
     data(){
         return {
             columns:[
-                {label:"asd"}
+                {label:"asd", prop:"name"},
+                {label:"asd", prop:"b"},
             ]
         }
     },
@@ -34,6 +35,10 @@ export default {
                     }
                 }
             })
+        },
+        dataChange(d){
+            console.log(d)
+            return true
         }
     }
 }

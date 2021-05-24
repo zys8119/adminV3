@@ -133,7 +133,7 @@
                                 <template slot-scope="scope">
                                     <slot name="textType" :scope="scope" :column="item" :row="scope.row">
                                 <span :class="`${(item.textType)?item.textType:''} ${(item.textTypeStyle)?item.textTypeStyle(scope.row):''} ${item.ellipsis1?'ellipsis-1':''} ${item.ellipsis2?'ellipsis-2':''} ${item.ellipsis3?'ellipsis-3':''}`"
-                                      @click="(item.emit)? $emit(item.emit,scope.row):fn">{{(item.filterLabel? item.filterLabel(scope.row,item) :  $utils.lodash.get(scope.row,item.prop)) | filter(scope.row,item,_self)}}</span>
+                                      @click="(item.emit)? $emit(item.emit,scope.row):fn">{{(item.filterLabel? item.filterLabel(scope.row,item) :  $utils.lodash.get(scope.row,item.prop))}}</span>
                                     </slot>
                                 </template>
                             </el-table-column>
@@ -152,7 +152,7 @@
                                             :title="`【${item.label}】快捷修改`"
                                             popper-class="contentTable-el-popover"
                                             trigger="click" v-model="scope.row['contentTable-el-popover' + item.prop]">
-                                            <span slot="reference" :class="`${item.textType}`" @click="popoverClick(item,scope.row)">{{scope.row[item.prop] | filter(scope.row,item,_self)}} <i class="el-icon-edit-outline"></i></span>
+                                            <span slot="reference" :class="`${item.textType}`" @click="popoverClick(item,scope.row)">{{scope.row[item.prop]}} <i class="el-icon-edit-outline"></i></span>
                                             <i class="el-icon-close" @click="scope.row['contentTable-el-popover' + item.prop] = !scope.row['contentTable-el-popover' + item.prop]"></i>
                                             <el-input placeholder="请输入关键字" v-model="popoverValue"
                                                       @change="(item.emit)?$emit(item.emit,popoverValue,scope.row):fn"></el-input>
@@ -182,7 +182,7 @@
                                                :class="`${item.textType}`"
                                                @click="(item.emit)?$emit(item.emit):()=>{}">
                                     <slot name="popoverText"  :row="scope.row" :column="item">
-                                        {{$utils.lodash.get(scope.row,item.prop) | filter(scope.row,item,_self) }}
+                                        {{$utils.lodash.get(scope.row,item.prop) }}
                                     </slot>
                                 </span>
                                     </el-popover>
@@ -253,11 +253,11 @@
                                              :filter-method="item.filterMethod"
                                              :filtered-value="item.filteredValue"
                             >
-                                <template slot="header" slot-scope="scope">
+                                <template v-slot:header="scope">
                                     <slot :scope="scope" name="header"  v-if="$slots.header" :column="item"></slot>
                                     <template v-else >{{scope.column.label}}</template>
                                 </template>
-                                <template slot-scope="scope">
+                                <template v-slot="scope">
                                     <slot :scope="scope" :column="item" :row="scope.row">
                                         <el-tooltip v-if="item.type === 'tooltip'"
                                                     :effect="item.tooltip_effect"
@@ -265,28 +265,30 @@
                                         >
 
                                             <template slot="content">
-                                                <slot name="tooltip" :scope="scope" :row="scope.row" :$index="scope.$index">{{$utils.lodash.get(scope.row,item.prop) | filter(scope.row,item,_self)}}</slot>
+                                                <slot name="tooltip" :scope="scope" :row="scope.row" :$index="scope.$index">{{$utils.lodash.get(scope.row,item.prop)}}</slot>
                                             </template>
-                                            <span style="cursor: pointer" :class="`${item.ellipsis1 ? 'ellipsis-1' : ''} ${item.ellipsis2 ? 'ellipsis-2' : ''} ${item.ellipsis3 ? 'ellipsis-3' : ''} ${item.className}`" @click="(item.emit)?$emit(item.emit,scope.row):()=>{}">
-                                        {{$utils.lodash.get(scope.row,item.prop) | filter(scope.row,item,_self) }}
-                                    </span>
+                                                <span style="cursor: pointer" :class="`${item.ellipsis1 ? 'ellipsis-1' : ''} ${item.ellipsis2 ? 'ellipsis-2' : ''} ${item.ellipsis3 ? 'ellipsis-3' : ''} ${item.className}`" @click="(item.emit)?$emit(item.emit,scope.row):()=>{}">
+                                                {{$utils.lodash.get(scope.row,item.prop) }}
+                                            </span>
                                         </el-tooltip>
-                                        <template v-else-if="item.type === 'customize'"><slot name="customize" :scope="scope" :row="scope.row" :$index="scope.$index"  :column="item">
-                                    <span :class="{
-                                        'ellipsis-1':item.ellipsis1,
-                                        'ellipsis-2':item.ellipsis2,
-                                        'ellipsis-3':item.ellipsis3,
-                                }" @click="(item.emit)?$emit(item.emit,scope.row):()=>{}">
-                                    {{$utils.lodash.get(scope.row,item.prop) | filter(scope.row,item,_self) }}
-                                </span>
-                                        </slot></template>
+                                        <template v-else-if="item.type === 'customize'">
+                                            <slot name="customize" :scope="scope" :row="scope.row" :$index="scope.$index"  :column="item">
+                                                <span :class="{
+                                                    'ellipsis-1':item.ellipsis1,
+                                                    'ellipsis-2':item.ellipsis2,
+                                                    'ellipsis-3':item.ellipsis3,
+                                                }" @click="(item.emit)?$emit(item.emit,scope.row):()=>{}">
+                                                    {{$utils.lodash.get(scope.row,item.prop)}}
+                                                </span>
+                                            </slot>
+                                        </template>
                                         <span v-else :class="{
                                         'ellipsis-1':item.ellipsis1,
                                         'ellipsis-2':item.ellipsis2,
                                         'ellipsis-3':item.ellipsis3,
-                                }" @click="(item.emit)?$emit(item.emit,scope.row):()=>{}">
-                                    {{$utils.lodash.get(scope.row,item.prop) | filter(scope.row,item,_self) }}
-                                </span>
+                                        }" @click="(item.emit)?$emit(item.emit,scope.row):()=>{}">
+                                            {{$utils.lodash.get(scope.row,item.prop)}}
+                                        </span>
                                     </slot>
                                 </template>
                             </el-table-column>
@@ -327,9 +329,11 @@
 <script lang="ts">
 import ZButton from "./ZButton.vue";
 import ContentTableItem from "./ContentTableItem.vue";
+import {ElTable} from "element-plus"
 export default {
     name: "ContentTable",
     components: {ZButton,ContentTableItem},
+    emits: ElTable.emits.concat(["on-updated"]),
     props:{
         config:{
             type:Object,
@@ -385,6 +389,7 @@ export default {
         this.$emit("on-updated",this,"created");
     },
     mounted() {
+        console.log(this,111)
         this.currentColumnsInit();
         this.$emit("on-updated",this,"mounted");
     },
