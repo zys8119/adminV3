@@ -24,7 +24,7 @@ export default {
     methods:{
         test(){
             this.$emit("save-a",[1,2,3]);
-            // this.$ZAlert.hide()
+            this.$ZAlert.hide()
         }
     }
 }

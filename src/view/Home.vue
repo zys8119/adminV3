@@ -19,7 +19,7 @@ export default {
         aa() {
             this.$ZAlert.show({
                 title:"adsa",
-                components:()=>import("@/view/Alert/Alert.vue"),
+                components:()=>import("./Alert/Alert.vue"),
                 _event:{
                     onSaveA:val=>{
                         console.log(val,2)
