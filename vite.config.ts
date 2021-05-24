@@ -23,11 +23,4 @@ export default <UserConfig>{
     define:{
         $config:JSON.stringify({})
     },
-    server:{
-        proxy:{
-            "/aa":{
-                target:"http://www.baidu.com"
-            }
-        }
-    }
 }

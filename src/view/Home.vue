@@ -5,7 +5,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     name: "Home",
     data(){
@@ -14,25 +14,14 @@ export default {
         }
     },
     mounted() {
-        this.axios({
-            url:"/aa",
-            method:"get",
-            // baseURL:"//"
-        }).then(res=>{
-            console.log(res)
-        })
-        // this.axios({
-        //     url:"http://www.baidu.com",
-        //     method:"get"
-        // }).then(res=>{
-        //     console.log(res)
-        // })
+        console.log(import.meta.env)
     },
     methods:{
         aa() {
             this.$ZAlert.show({
                 title:"adsa",
                 components:()=>import("@/view/Alert/Alert.vue"),
+                components:()=>import("@/view/Alert"),
                 _event:{
                     onSaveA:val=>{
                         console.log(val,2)
