@@ -5,7 +5,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
     name: "Home",
     data(){
@@ -14,14 +14,12 @@ export default {
         }
     },
     mounted() {
-        console.log(import.meta.env)
     },
     methods:{
         aa() {
             this.$ZAlert.show({
                 title:"adsa",
                 components:()=>import("@/view/Alert/Alert.vue"),
-                components:()=>import("@/view/Alert"),
                 _event:{
                     onSaveA:val=>{
                         console.log(val,2)
