@@ -12,19 +12,19 @@ export default {
     name: "Alert",
     props:{
         aaa:{type:String, default:null},
-        bb:{type:Object,default: Object}
+        bb:{type:Object,default: Object},
     },
-    emits: {
-        save(){
-            console.log(222)
-        }
-    },
+    // emits: {
+    //     save(){
+    //         console.log(222)
+    //     }
+    // },
     mounted() {
     },
     methods:{
         test(){
-            this.$emit("save",[1,2,3]);
-            this.$ZAlert.hide()
+            this.$emit("save-a",[1,2,3]);
+            // this.$ZAlert.hide()
         }
     }
 }

@@ -19,8 +19,8 @@ export default {
                 title:"adsa",
                 components:()=>import("./Alert/Alert.vue"),
                 _event:{
-                    save:val=>{
-                        console.log(val)
+                    onSaveA:val=>{
+                        console.log(val,2)
                     }
                 }
             })

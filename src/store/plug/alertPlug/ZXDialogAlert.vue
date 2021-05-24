@@ -231,12 +231,21 @@ export default {
                             }
                         }
                     }
-                    currentView.emits = {
-                        ...(currentView.emits || {}),
-                        ..._emits
-                    };
+                    // runtime-core.cjs.prod vue核心代码，function emit，位置【line：355】
+                    // currentView.emits = {
+                    //     ...(currentView.emits || {}),
+                    //     ..._emits
+                    // };
                     if(currentView){
                         _vm[temp] = shallowRef(currentView);
+                        _vm.$nextTick(()=>{
+                            // runtime-core.cjs.prod vue核心代码，function emit，位置【line：355】
+                            _vm.$refs[ref]._.vnode.props = {
+                                ..._vm.$refs[ref]._.vnode.props,
+                                ...(currentView.emits || {}),
+                                ..._emits
+                            }
+                        })
                     }
                 } catch (e) {
                     console.error(e)
