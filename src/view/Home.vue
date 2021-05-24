@@ -27,21 +27,6 @@ export default {
                     }
                 }
             })
-            this.$ZAlert.show({
-                _event:{
-                },
-            })
-            this.$ZAlert.show({
-                props:{
-
-                }
-            });
-            this.axios({
-                baseURL:"",
-                isFormData:true
-            }).then(res=>{
-                console.log(res)
-            })
         }
     }
 }
