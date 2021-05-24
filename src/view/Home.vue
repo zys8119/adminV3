@@ -5,7 +5,8 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+
 export default {
     name: "Home",
     data(){
@@ -25,6 +26,21 @@ export default {
                         console.log(val,2)
                     }
                 }
+            })
+            this.$ZAlert.show({
+                _event:{
+                },
+            })
+            this.$ZAlert.show({
+                props:{
+
+                }
+            });
+            this.axios({
+                baseURL:"",
+                isFormData:true
+            }).then(res=>{
+                console.log(res)
             })
         }
     }

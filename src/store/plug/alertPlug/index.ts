@@ -1,40 +1,40 @@
 import ZXDialogAlert from './ZXDialogAlert.vue'
 import ZAlertFooter from './ZAlertFooter.vue';
-// @ts-ignore
-import {$ZAlert, $ZAlertOptions} from "../../../src/api/Interface";
+import {$ZAlert, $ZAlertOptions} from "./Interface";
 import { Plugin, createApp } from "vue"
 import ElementPlus from 'element-plus';
 import airforcePlug from '../airforcePlug';
 import store from '../../index';
+const optsInitData:$ZAlertOptions = {
+    components:null,
+    props: {},
+    content: null,
+    title: null,
+    width: "50%",
+    fullscreen: null,
+    top: "15vh",
+    modal: true,
+    modalAppendToBody: true,
+    appendToBody:  false,
+    lockScroll: true,
+    customClass:  null,
+    closeOnClickModal:  false,
+    closeOnPressEscape:  true,
+    showClose:  true,
+    beforeClose:  null,
+    center:  false,
+    destroyOnClose:  false,
+    slotTitle:  null,
+    slotFooter: null,
+    maxHeight:  1,
+    layout: "conter",
+}
 const plugin:Plugin = {
     install (vue) {
         vue.component("ZAlertFooter", ZAlertFooter);
         const $ZXDialogAlert = <$ZAlert>{
             show:(opts:$ZAlertOptions)=>{
-                opts = (<any>Object).assign({
-                    components:null,
-                    props: {},
-                    content: null,
-                    title: null,
-                    width: "50%",
-                    fullscreen: null,
-                    top: "15vh",
-                    modal: true,
-                    modalAppendToBody: true,
-                    appendToBody:  false,
-                    lockScroll: true,
-                    customClass:  null,
-                    closeOnClickModal:  false,
-                    closeOnPressEscape:  true,
-                    showClose:  true,
-                    beforeClose:  null,
-                    center:  false,
-                    destroyOnClose:  false,
-                    slotTitle:  null,
-                    slotFooter: null,
-                    maxHeight:  1,
-                    layout: "conter",
-                },opts);
+                opts = (<any>Object).assign(<$ZAlertOptions>optsInitData,opts);
                 opts.props = opts.props || {};
                 opts._event = opts._event || {};
                 opts.content = opts.content || null;
@@ -94,7 +94,7 @@ const plugin:Plugin = {
             },
             alert:function (opts){
                 opts = opts || {};
-                this.show((<any>Object).assign({
+                return this.show((<any>Object).assign({
                     layout:"right",
                     width:"90%"
                 }, opts));
@@ -116,14 +116,19 @@ const plugin:Plugin = {
                 });
             },
             hideAll(){
-                let $vmAll = vue.config.globalProperties.$ZAlert.vm;
-                for(let k in $vmAll){
-                    let $vm = $vmAll[k];
-                    if($vm){
-                        $vm.show = false;
-                        $vm.showBox = false;
+                return new Promise(resolve=> {
+                    let $vmAll = vue.config.globalProperties.$ZAlert.vm;
+                    for(let k in $vmAll){
+                        let $vm = $vmAll[k];
+                        if($vm){
+                            $vm.show = false;
+                            $vm.showBox = false;
+                        }
                     }
-                }
+                    setTimeout(()=>{
+                        resolve();
+                    })
+                })
             },
             vm:{},
             index:0,

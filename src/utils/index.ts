@@ -1,3 +1,4 @@
-export default {
+import $utilsOptions from "./Interface"
+export default <$utilsOptions>{
 
 }
