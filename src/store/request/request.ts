@@ -56,7 +56,7 @@ class AxiosClass implements AxiosClassInterface{
     requestBodyInit(){
         this.requestBody = {
             ...this.options,
-            baseURL:this.baseURL,
+            baseURL:this.options.baseURL || this.baseURL,
             method:this.method,
             timeout: this.timeout,
         };

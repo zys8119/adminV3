@@ -13,11 +13,26 @@ export default {
 
         }
     },
+    mounted() {
+        this.axios({
+            url:"/aa",
+            method:"get",
+            // baseURL:"//"
+        }).then(res=>{
+            console.log(res)
+        })
+        // this.axios({
+        //     url:"http://www.baidu.com",
+        //     method:"get"
+        // }).then(res=>{
+        //     console.log(res)
+        // })
+    },
     methods:{
         aa() {
             this.$ZAlert.show({
                 title:"adsa",
-                components:()=>import("./Alert/Alert.vue"),
+                components:()=>import("@/view/Alert/Alert.vue"),
                 _event:{
                     onSaveA:val=>{
                         console.log(val,2)
