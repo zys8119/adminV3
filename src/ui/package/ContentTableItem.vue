@@ -11,14 +11,14 @@ export default {
                     ...this.item
                 }
             },this.item.columns.map((e,key)=>{
-                let v = this.$scopedSlots.default({
+                let v = this.$slots.default({
                     item:e,
                 });
-                v[0].key = key;
+                v[0].key = key+"-key";
                 return v;
             }))
         }
-        return this.$scopedSlots.default({
+        return this.$slots.default({
             item:this.item
         })
     }

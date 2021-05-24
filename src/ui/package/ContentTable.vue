@@ -79,7 +79,7 @@
             >
                 <template v-for="(item,key) in currentColumns">
                     <ContentTableItem :item="item">
-                        <template slot-scope="{item}">
+                        <template v-slot="{item}">
                             <!--复选框-->
                             <el-table-column
                                 align="center"
@@ -326,9 +326,10 @@
 
 <script lang="ts">
 import ZButton from "./ZButton.vue";
+import ContentTableItem from "./ContentTableItem.vue";
 export default {
     name: "ContentTable",
-    components: {ZButton},
+    components: {ZButton,ContentTableItem},
     props:{
         config:{
             type:Object,

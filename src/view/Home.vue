@@ -2,7 +2,7 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-button @click="aa">打开弹框</el-button>
-        <content-table></content-table>
+        <content-table :columns="columns" ref="table"></content-table>
     </div>
 </template>
 
@@ -13,11 +13,15 @@ export default {
     components: {ContentTable},
     data(){
         return {
-
+            columns:[
+                {label:"asd"}
+            ]
         }
     },
     mounted() {
-        console.log(this)
+        this.$refs.table.ContentTableData = [
+            {name:"asdada",b:"测试数据"},
+        ]
     },
     methods:{
         aa() {
