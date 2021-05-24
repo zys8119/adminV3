@@ -16,6 +16,9 @@ export default {
             columns:[
                 {label:"asd", prop:"name"},
                 {label:"asd", prop:"b"},
+                {label:"asd", type:"operate", btns:[
+                    {name:"Asd", type:"text"}
+                ]},
             ]
         }
     },

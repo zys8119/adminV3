@@ -10,7 +10,7 @@
                :icon="config.icon"
                :autofocus="config.autofocus"
                :native-type="config.nativeType"
-               @click="$emit('click',config)"><span v-if="config.iconfont" v-html="config.iconfont" class="iconfont"></span>{{config | text}}</el-button>
+               @click="$emit('click',config)"><span v-if="config.iconfont" v-html="config.iconfont" class="iconfont"></span>{{config.name}}</el-button>
 </template>
 
 <script>
@@ -21,14 +21,6 @@ export default {
             type:[Object,String],
             default:Object
         },
-    },
-    filters:{
-        text(config){
-            if(typeof config === 'string'){
-                return config;
-            }
-            return config.name
-        }
     },
 }
 </script>

@@ -105,7 +105,7 @@
                                 :width="item.width"
                                 :align="item.align || 'center'"
                                 :label="item.label">
-                                <template v-if="item.btns" slot-scope="scope">
+                                <template v-if="item.btns" v-slot="scope">
                                     <slot name="operate" :scope="scope" :column="item" :row="scope.row">
                                         <el-dropdown class="el-dropdown" v-if="item.dropdown">
                                             <span class="el-dropdown-link iconfont">&#xe6d2;</span>
@@ -115,9 +115,9 @@
                                                 </el-dropdown-item>
                                             </el-dropdown-menu>
                                         </el-dropdown>
-                                        <template v-else>
+                                        <template v-else v-for="(btnItem,key) in item.btns" >
                                             <z-button @click="(btnItem.emit)? $emit($event.emit,$event,scope.row):fn" :class="`${btnItem.className}`" v-if="typeof btnItem.show === 'function'? btnItem.show(btnItem,scope.row,item):()=>{}"
-                                                      v-for="(btnItem,key) in item.btns" :config="btnItem" :key="key + 'operate'"></z-button>
+                                                      :config="btnItem" :key="key + 'operate'"></z-button>
                                         </template>
                                     </slot>
                                 </template>
