@@ -31,7 +31,7 @@ const optsInitData:$ZAlertOptions = {
 }
 const plugin:Plugin = {
     install (vue) {
-        vue.component("ZAlertFooter", ZAlertFooter);
+        vue.component("ZAlertFooter", <any>ZAlertFooter);
         const $ZXDialogAlert = <$ZAlert>{
             show:(opts:$ZAlertOptions)=>{
                 opts = (<any>Object).assign(<$ZAlertOptions>optsInitData,opts);
