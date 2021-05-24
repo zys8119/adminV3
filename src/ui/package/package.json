@@ -1,0 +1,42 @@
+{
+  "_from": "git+https://gitlab.zhijiasoft.com/xuyi/pc-ui.git",
+  "_id": "rd-ui@0.1.18",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/rd-ui",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "rd-ui@git+https://gitlab.zhijiasoft.com/xuyi/pc-ui.git",
+    "name": "rd-ui",
+    "escapedName": "rd-ui",
+    "rawSpec": "git+https://gitlab.zhijiasoft.com/xuyi/pc-ui.git",
+    "saveSpec": "git+https://gitlab.zhijiasoft.com/xuyi/pc-ui.git",
+    "fetchSpec": "https://gitlab.zhijiasoft.com/xuyi/pc-ui.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://gitlab.zhijiasoft.com/xuyi/pc-ui.git#e8f5d388329827e72fd4dc0dfb75126dfa42fa9a",
+  "_spec": "rd-ui@git+https://gitlab.zhijiasoft.com/xuyi/pc-ui.git",
+  "_where": "H:\\work\\nbrd_red_new",
+  "author": {
+    "name": "张云山"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "spark-md5": "^3.0.1"
+  },
+  "deprecated": false,
+  "description": "人大Ui库",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "rd-ui",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "types": "types/ui.ts",
+  "version": "0.1.18"
+}

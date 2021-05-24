@@ -2,6 +2,7 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-button @click="aa">打开弹框</el-button>
+        <content-table></content-table>
     </div>
 </template>
 
@@ -15,7 +16,7 @@ export default {
         }
     },
     mounted() {
-        this.airforce.input("AA",4545)
+        console.log(this)
     },
     methods:{
         aa() {
