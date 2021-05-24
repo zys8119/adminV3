@@ -7,6 +7,7 @@ import store from "./src/store"
 import airforcePlug from "./src/store/plug/airforcePlug"
 import alertPlug from "./src/store/plug/alertPlug"
 import uiPlug from "./src/ui"
+import apiPlug from "./src/api"
 createApp(<any>App)
     .use(ElementPlus)
     .use(router)
@@ -14,4 +15,5 @@ createApp(<any>App)
     .use(airforcePlug)
     .use(alertPlug)
     .use(uiPlug)
+    .use(apiPlug)
     .mount("#app")

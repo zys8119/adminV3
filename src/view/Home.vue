@@ -15,6 +15,8 @@ export default {
         }
     },
     mounted() {
+        this.airforce.input("AA",4545)
+        this.api.a.b.c(1,2,3);
     },
     methods:{
         aa() {
