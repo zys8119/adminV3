@@ -1,4 +1,4 @@
-import {App, Component, DefineComponent, PropType,defineComponent} from "vue"
+import {App, Component} from "vue"
 const importFn =  (vue:App, Component:()=>Promise<Component>)=>{
     (async ()=>{
         const ComponentObj = (<any>await Component()).default;
