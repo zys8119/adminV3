@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts">
-import { h } from "vue"
 export default {
     name: "Home",
     data(){
