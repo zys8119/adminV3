@@ -1,8 +1,9 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
-        <el-button @click="aa">打开弹框</el-button>
+        <el-button @click="aa" type="">打开弹框</el-button>
         <content-table @dataChange="dataChange"  :columns="columns" ref="table"></content-table>
+        <ContentTable @dataChange="dataChange"  :columns="columns" ref="table"></ContentTable>
         <a-a></a-a>
     </div>
 </template>
