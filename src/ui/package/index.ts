@@ -7,5 +7,5 @@ const importFn =  (vue:App, Component:()=>Promise<Component>)=>{
 }
 export default (vue:App)=>{
     importFn(vue,()=>import("./ContentTable.vue"));
-    importFn(vue, ()=>import("./AA.vue"));
+    importFn(vue, ()=>import("./ZButton.vue"));
 }

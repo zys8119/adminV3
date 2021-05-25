@@ -1,2 +1,3 @@
-export default interface $utilsOptions{
+export default interface $utilsOptions {
+    lodash:any;
 }

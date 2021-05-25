@@ -1,10 +1,8 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
-        <el-button @click="aa" type="">打开弹框</el-button>
+        <el-button @click="aa">打开弹框</el-button>
         <content-table @dataChange="dataChange"  :columns="columns" ref="table"></content-table>
-        <ContentTable @dataChange="dataChange"  :columns="columns" ref="table"></ContentTable>
-        <a-a></a-a>
     </div>
 </template>
 
@@ -14,9 +12,10 @@ export default {
     data(){
         return {
             columns:[
-                {label:"asd", prop:"name"},
-                {label:"asd", prop:"b"},
-                {label:"asd", type:"operate", btns:[
+                {label:"45", prop:"name"},
+                {label:"a54sd", prop:"b"},
+                {label:"c", prop:"c.b.a"},
+                {label:"45", type:"operate", btns:[
                     {name:"Asd", type:"text"}
                 ]},
             ]
@@ -25,6 +24,7 @@ export default {
     mounted() {
         this.$refs.table.ContentTableData = [
             {name:"asdada",b:"测试数据"},
+            {name:"asdada",b:"测试数据",c:{b:{a:"阿萨大大"}}},
         ];
     },
     methods:{
