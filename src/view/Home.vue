@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts">
+import { h } from "vue"
 export default {
     name: "Home",
     data(){
@@ -24,7 +25,7 @@ export default {
     mounted() {
         this.$refs.table.ContentTableData = [
             {name:"asdada",b:"测试数据"},
-        ]
+        ];
     },
     methods:{
         aa() {

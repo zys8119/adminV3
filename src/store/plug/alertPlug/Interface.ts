@@ -1,3 +1,4 @@
+import {Component} from "vue"
 export interface $ZAlert {
     [key:string]:any;
     show(options:$ZAlertOptions):number | void;
@@ -7,7 +8,7 @@ export interface $ZAlert {
     vm:Partial<any>;
     index:number;
 }
-export type $ZAlertOptionsComponents =  any | object | Promise<any> | string;
+export type $ZAlertOptionsComponents =  Component | Promise<Component>;
 export type $ZAlertOptions = {
     [key:string]:any;
     _props?:Partial<any>;
