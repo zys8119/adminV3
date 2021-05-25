@@ -46,11 +46,9 @@ const plugin:Plugin = {
                     onClosed:true,
                     _event:true,
                 };
-                for(var i in opts){
+                for(let i in opts){
                     if(!FilterField[i]){
-                        // @ts-ignore
                         ZXDialogAlert.props[i] = ZXDialogAlert.props[i] || {};
-                        // @ts-ignore
                         ZXDialogAlert.props[i].default = opts[i]
                     }
                 }
