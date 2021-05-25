@@ -10,10 +10,10 @@ export interface $ZAlert {
 export type $ZAlertOptionsComponents =  any | object | Promise<any> | string;
 export type $ZAlertOptions = {
     [key:string]:any;
-    props?:Partial<any>;
+    _props?:Partial<any>;
     _event?:Partial<any>;
     content?:string;
-    components?:$ZAlertOptionsComponents;
+    _components?:$ZAlertOptionsComponents;
     title?: string;
     width?: string;
     fullscreen?: boolean;

@@ -24,8 +24,8 @@
                ref="dialog">
             <div class="ZXDialogAlert-el-dialog-box">
                 <div class="ZXDialogAlert-el-dialog" :style="{maxHeight:maxHeightIndex+'px',height:layout === 'right' && showBoxDialog?maxHeightIndex + 'px':'auto',overflow: 'auto',paddingRight: '10px'}">
-                    <component ref="component" v-if="show && components && temp" :is="temp"></component>
-                    <div v-if="show && !components && content && !temp" v-html="content" class="ZXDialogAlertContent console-PagePadding"></div>
+                    <component ref="component" v-if="show && _components && temp" :is="temp"></component>
+                    <div v-if="show && !_components && content && !temp" v-html="content" class="ZXDialogAlertContent console-PagePadding"></div>
                 </div>
             </div>
             <component slot="title" ref="title" :is="slotTitleTemp" v-if="slotTitleTemp"></component>
@@ -39,7 +39,7 @@ import {shallowRef} from "vue"
 export default {
     name: "z-x-dialog-alert",
     props: {
-        components: {type: [String,Object,Promise], default: null},
+        _components: {type: [String,Object,Promise], default: null},
         props: {type: Object, default: Object},
         content: {type: String, default: null},
         title: {type: String, default: null},
@@ -186,8 +186,8 @@ export default {
                 try {
                     _vm[temp] = null;
                     let currentView = null;
-                    if(_this.components && Object.prototype.toString.call(_this.components) !== '[object String]'){
-                        currentView = (this.components.default)?_this.components.default:_this.components;
+                    if(_this._components && Object.prototype.toString.call(_this._components) !== '[object String]'){
+                        currentView = (this._components.default)?_this._components.default:_this._components;
                         if(["[object Promise]", "[object Function]"].includes(Object.prototype.toString.call(currentView))){
                             if(["[object Promise]"].includes(Object.prototype.toString.call(currentView))){
                                 currentView = await currentView;

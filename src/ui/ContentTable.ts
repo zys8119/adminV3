@@ -118,9 +118,11 @@ export default <ComponentOptions<ContentTable>>{
             this.ContentTableData = this.data;
         },
         ContentTableData(){
-            if(this._.emitsOptions.dataChange){
-                this.$emit("dataChange", this.ContentTableData, this.currentPaginationTotal);
-            }
+            try {
+                if(this._.emitsOptions.dataChange){
+                    this.$emit("dataChange", this.ContentTableData, this.currentPaginationTotal);
+                }
+            }catch (e){}
         }
     },
     computed:{

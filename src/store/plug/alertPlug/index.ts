@@ -6,8 +6,9 @@ import ElementPlus from 'element-plus';
 import airforcePlug from '../airforcePlug';
 import store from '../../index';
 const optsInitData:$ZAlertOptions = {
-    components:null,
-    props: {},
+    _components:null,
+    _props: {},
+    _event: {},
     content: null,
     title: null,
     width: "50%",
@@ -35,10 +36,10 @@ const plugin:Plugin = {
         const $ZXDialogAlert = <$ZAlert>{
             show:(opts:$ZAlertOptions)=>{
                 opts = (<any>Object).assign(<$ZAlertOptions>optsInitData,opts);
-                opts.props = opts.props || {};
+                opts._props = opts._props || {};
                 opts._event = opts._event || {};
                 opts.content = opts.content || null;
-                opts.components = opts.components || null;
+                opts._components = opts._components || null;
                 let FilterField = {
                     onShow:true,
                     onHide:true,
@@ -48,8 +49,8 @@ const plugin:Plugin = {
                 };
                 for(let i in opts){
                     if(!FilterField[i]){
-                        ZXDialogAlert.props[i] = ZXDialogAlert.props[i] || {};
-                        ZXDialogAlert.props[i].default = opts[i]
+                        (<any>ZXDialogAlert).props[i] = (<any>ZXDialogAlert).props[i] || {};
+                        (<any>ZXDialogAlert).props[i].default = opts[i]
                     }
                 }
                 let $vm;

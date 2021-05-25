@@ -2,7 +2,8 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-button @click="aa">打开弹框</el-button>
-        <content-table @dataChange="dataChange" :columns="columns" ref="table"></content-table>
+        <content-table @dataChange="dataChange"  :columns="columns" ref="table"></content-table>
+        <a-a></a-a>
     </div>
 </template>
 
@@ -29,12 +30,13 @@ export default {
         aa() {
             this.$ZAlert.show({
                 title:"adsa",
-                components:()=>import("./Alert/Alert.vue"),
+                _components:()=>import("./Alert/Alert.vue"),
                 _event:{
                     onSaveA:val=>{
                         console.log(val,2)
                     }
-                }
+                },
+                _props:{},
             })
         },
         dataChange(d){
