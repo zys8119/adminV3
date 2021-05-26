@@ -9,8 +9,7 @@
                :loading="config.loading"
                :icon="config.icon"
                :autofocus="config.autofocus"
-               :native-type="config.nativeType"
-               @click="$emit('click',config)"><span v-if="config.iconfont" v-html="config.iconfont" class="iconfont"></span>{{config.name}}</el-button>
+               :native-type="config.nativeType"><span v-if="config.iconfont" v-html="config.iconfont" class="iconfont"></span>{{config.name}}</el-button>
 </template>
 
 <script>
