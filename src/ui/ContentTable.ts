@@ -119,7 +119,7 @@ export default <ComponentOptions<ContentTable>>{
         },
         ContentTableData(){
             try {
-                if(this._.emitsOptions.dataChange){
+                if(Object.keys(this._.attrs).map(e=>e.toLocaleLowerCase()).includes("ondatachange")){
                     this.$emit("dataChange", this.ContentTableData, this.currentPaginationTotal);
                 }
             }catch (e){}

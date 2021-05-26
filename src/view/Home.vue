@@ -13,27 +13,53 @@
 </template>
 
 <script lang="ts">
+import {columns} from "../ui/package/UiTypes/ContentTable";
+
 export default {
     name: "Home",
     data(){
         return {
-            columns:[
+            columns:<Array<columns>>[
                 {label:"45", type:"selection"},
                 {label:"45", type:"number"},
                 {label:"45", prop:"name"},
                 {label:"a54sd", prop:"b",ellipsis3:true, type:"tooltip"},
-                {label:"c", prop:"c.b.a", emit:"test", className:"primary_link"},
-                {label:"45", type:"operate", btns:[
-                    {name:"Asd", type:"text", className:"delete_link", emit:'test'},
+                {label:"c", prop:"c.b.a", emit:"test", className:"primary_link", classNameFilter(row: any, column: any): any {
+                    return {
+                        orange:row.name === "A"
+                    }
+                }},
+                {
+                    label:"45",
+                    type:"operate",
+                    btns:[
+                    {
+                        name:"Asd",
+                        type:"text",
+                        className:"delete_link",
+                        emit:'test'
+                    },
                     {name:"Asd", type:"text", className:"primary", show:row=>row.c},
                 ]},
+                {
+                    type:"edit",
+                    label:"快捷编辑",
+                    prop:"name",
+                    applyValue:true,
+                    emit:"test"
+                },
+                {
+                    type:"edit",
+                    label:"快捷编辑",
+                    prop:"name",
+                }
             ]
         }
     },
     mounted() {
         this.$refs.table.ContentTableData = [
             {name:"asdada",b:"测试数据"},
-            {name:"asdada",b:"测试数据",c:{b:{a:"阿萨大大"}}},
+            {name:"A",b:"测试数据",c:{b:{a:"阿萨大大"}}},
             {name:"asdada", b:"阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨",c:{b:{a:"阿萨大大"}}},
         ];
     },
