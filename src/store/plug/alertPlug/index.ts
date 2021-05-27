@@ -5,6 +5,7 @@ import { Plugin, createApp } from "vue"
 import ElementPlus from 'element-plus';
 import airforcePlug from '../airforcePlug';
 import store from '../../index';
+import uiPlug from '../../../ui';
 const optsInitData:$ZAlertOptions = {
     _components:null,
     _props: {},
@@ -60,6 +61,7 @@ const plugin:Plugin = {
                         .use(ElementPlus)
                         .use(store)
                         .use(airforcePlug)
+                        .use(uiPlug)
                         .use({
                             install($vmVue){
                                 $vmVue.config.globalProperties.$ZAlert = $ZXDialogAlert;

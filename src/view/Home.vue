@@ -6,8 +6,10 @@
             <el-button @click="aa">打开弹框</el-button>
         </div>
         <div>
-            <Upload>
-                <el-button type="success">文件上传</el-button>
+            <Upload drag>
+                <template #default>
+                    <el-button type="success">文件上传</el-button>
+                </template>
             </Upload>
         </div>
         <content-table
@@ -153,7 +155,7 @@ export default {
             })
         },
         dataChange(d){
-            console.log(d)
+            // console.log(d)
             return true
         },
         test(e){

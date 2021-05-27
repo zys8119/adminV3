@@ -1,6 +1,19 @@
 <template>
     <div class="ZUpload">
         <el-upload
+            class="upload-demo"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+            multiple>
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <template #tip>
+                <div class="el-upload__tip">
+                    只能上传 jpg/png 文件，且不超过 500kb
+                </div>
+            </template>
+        </el-upload>
+        <el-upload
             class="el-upload"
             ref="upload"
             :action="action"
@@ -28,48 +41,45 @@
             :multiple="multiple"
             :accept="accept"
         >
-            <slot>
-                <i class="el-icon-upload" v-if="drag"></i>
-                <div class="el-upload__text" v-if="drag">
-                    <slot name="dragTitle">将文件拖到此处，或<em>点击上传</em></slot>
-                </div>
-                <div class="el-upload__text_msg" v-if="drag">
-                    <slot name="dragMsg"></slot>
-                </div>
-            </slot>
-            <template slot="trigger">
-                <slot name="trigger"></slot>
-            </template>
-            <template slot="tip">
-                <slot name="tip"></slot>
-            </template>
+            <i class="el-icon-upload" v-if="drag"></i>
+            <div class="el-upload__text" v-if="drag">
+                <slot name="dragTitle">将文件拖到此处，或<em>点击上传</em></slot>
+            </div>
+            <div class="el-upload__text_msg" v-if="drag">
+                <slot name="dragMsg"></slot>
+            </div>
+<!--            <template #trigger>-->
+<!--                <slot name="trigger"></slot>-->
+<!--            </template>-->
+<!--            <template #tip>-->
+<!--                <slot name="tip"></slot>-->
+<!--            </template>-->
         </el-upload>
-        <el-dialog v-model="dialogVisible" append-to-body>
-            <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
-        <el-dialog :title="mediaShowTitle" v-model="mediaShow" append-to-body class="t-a-c">
-            <video v-if="mediaShow" controls autoplay name="media" class="w-100" :style="{height:mediaShowType === 'mp3' ? '50px':null}">
-                <source :src="dialogImageUrl">
-                您的浏览器不支持 audio 标签。无法播放该媒体，请手动复制地址打开<br>
-                媒体地址：{{dialogImageUrl}}
-            </video>
-        </el-dialog>
-        <!--    检测结果表格    -->
-        <el-dialog title="敏感词检测" v-model="testingResult" append-to-body :close-on-click-modal="false">
-            <div class="m-b-10">以下文件存在敏感词</div>
-            <content-table
-                ref="table"
-                :columns="columns"
-                :pageConfig="{noPage: true}"
-            >
-            </content-table>
-            <z-alert-footer>
-                <el-button type="default" @click="continueSubmit(true)">继续提交</el-button>
-                <el-button type="success" @click="continueSubmit(false)">放弃提交</el-button>
-            </z-alert-footer>
-        </el-dialog>
+<!--        <el-dialog v-model="dialogVisible" append-to-body>-->
+<!--            <img width="100%" :src="dialogImageUrl" alt="">-->
+<!--        </el-dialog>-->
+<!--        <el-dialog :title="mediaShowTitle" v-model="mediaShow" append-to-body class="t-a-c">-->
+<!--            <video v-if="mediaShow" controls autoplay name="media" class="w-100" :style="{height:mediaShowType === 'mp3' ? '50px':null}">-->
+<!--                <source :src="dialogImageUrl">-->
+<!--                您的浏览器不支持 audio 标签。无法播放该媒体，请手动复制地址打开<br>-->
+<!--                媒体地址：{{dialogImageUrl}}-->
+<!--            </video>-->
+<!--        </el-dialog>-->
+<!--        &lt;!&ndash;    检测结果表格    &ndash;&gt;-->
+<!--        <el-dialog title="敏感词检测" v-model="testingResult" append-to-body :close-on-click-modal="false">-->
+<!--            <div class="m-b-10">以下文件存在敏感词</div>-->
+<!--            <content-table-->
+<!--                ref="table"-->
+<!--                :columns="columns"-->
+<!--                :pageConfig="{noPage: true}"-->
+<!--            >-->
+<!--            </content-table>-->
+<!--            <z-alert-footer>-->
+<!--                <el-button type="default" @click="continueSubmit(true)">继续提交</el-button>-->
+<!--                <el-button type="success" @click="continueSubmit(false)">放弃提交</el-button>-->
+<!--            </z-alert-footer>-->
+<!--        </el-dialog>-->
     </div>
-
 </template>
 
 <script>
@@ -120,7 +130,7 @@ export default {
         },
         headers:{
             type:Object,
-            default:Object
+            default:null
         },
         withCredentials:{
             type:Boolean,
@@ -158,7 +168,7 @@ export default {
         },
         fileList:{
             type:Array,
-            default:Array
+            default:()=>[]
         },
         beforeUpload:{
             type:Function,
@@ -409,7 +419,7 @@ export default {
             color: #AAAAAA;
             margin-top: @unit15;
         }
-        /deep/ .el-upload-list__item{
+        .el-upload-list__item{
             .el-icon-close-tip{
                 display: none !important;
             }
