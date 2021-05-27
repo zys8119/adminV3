@@ -182,6 +182,10 @@ export default{
             type:String,
             default:null
         },
+        params:{
+            type:Object,
+            default:null
+        },
     },
     name: "ContentTable",
     data(){
