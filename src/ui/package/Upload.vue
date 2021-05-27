@@ -88,7 +88,7 @@ export default {
             mediaShowTitle:null,
             typeMap:{
                 mp3:/\.(mp3|m4a|dvf|msv)$/img,
-                mp4:/\.(mp4|wmv)$/img,
+                mp4:/\.(mp4|wmv|mov)$/img,
                 image:/\.(png|jpg|GIF|JPEG)$/img,
             },
             columns: [
