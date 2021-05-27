@@ -175,7 +175,7 @@ export default{
             default:null
         },
         apiPath:{
-            type:[String,Object],
+            type:[String,Object,Function],
             default:null
         },
         url:{

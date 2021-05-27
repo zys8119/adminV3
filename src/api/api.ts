@@ -3,7 +3,6 @@ import { ComponentInternalInstance } from "vue"
 export type apiOpt <T = any> = (this:ComponentInternalInstance,...args:any)=>AxiosPromise<T> | T;
 export default <Partial<apiOpt>>{
     test(data){
-        console.log(data,111)
         return Promise.resolve({
             data:{
                 list:[

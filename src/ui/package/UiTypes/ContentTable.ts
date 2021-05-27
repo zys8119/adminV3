@@ -3,7 +3,7 @@ const ContentTable:DefineComponent<{
     columns:Prop<Array<columns>, Array<any>>;
     data?:Prop<Array<any>, Array<any>>;
     url?:Prop<Array<any>, Array<any>>;
-    pagePosition?:Prop<string,string>;
+    pagePosition?:Prop<string | FunctionConstructor,string | FunctionConstructor>;
     pageConfig?:Prop<object | any,object | any>;
     apiPath?:Prop<object | string |  any,object| string  | any>;
 },any,any,any, {
