@@ -1,31 +1,37 @@
 import {DefineComponent, Prop, PropType, Component, Ref,VNode} from "vue"
 const ContentTable:DefineComponent<{
-    columns:Prop<Array<columns>, Array<any>>;
-    data?:Prop<Array<any>, Array<any>>;
-    url?:Prop<Array<any>, Array<any>>;
-    config?:Prop<object | any, object | any>;
-    pagePosition?:Prop<string | FunctionConstructor,string | FunctionConstructor>;
-    pageConfig?:Prop<object | any,object | any>;
-    apiPath?:Prop<object | string |  any,object| string  | any>;
+    action?:Prop<string, any>;
+    autoUpload?:Prop<boolean, any>;
+    disabled?:Prop<boolean, any>;
+    limit?:Prop<number, any>;
+    headers?:Prop<object | any, any>;
+    withCredentials?:Prop<boolean, any>;
+    showFileList?:Prop<boolean, any>;
+    data?:Prop<object | any, any>;
+    name?:Prop<string, any>;
+    multiple:Prop<boolean, any>;
+    listType:Prop<string, any>;
+    drag:Prop<boolean, any>;
+    accept:Prop<string, any>;
+    fileList:Prop<any[], any>;
+    beforeUpload:Prop<FunctionConstructor, any>;
+    beforeRemove:Prop<FunctionConstructor, any>;
+    customizeFileType:Prop<boolean, any>;
+    needTesting:Prop<FunctionConstructor, any>;
+    isQueueUpload:Prop<boolean, any>;
+    AxiosOtpions:Prop<object | any, any>;
 },any,any,any, {
-    /**
-     * 初始化表格 true：不重置 false：重置
-     * @param bool
-     */
-    init(bool:boolean):void;
+    submit():void;
 }, {
-    popover?(row:any,column:any,index:number,key:number):VNode[];
-    switchAppend?(row:any,column:any,index:number,key:number):VNode[];
-    switchEnd?(row:any,column:any,index:number,key:number):VNode[];
-    custom?(row:any,column:any,index:number,key:number):VNode[];
-    header?(column:any,index:number):VNode[];
     empty?():VNode[];
-    append?():VNode[];
-    default?():VNode[];
+    trigger?():VNode[];
+    tip?():VNode[];
 },any, {
-    onSelection(selectionData:any[]):void
-    dataChange(ContentTableData:any[]):void
-    popoverShow(row:any,column:any):void
+    "on-success"(...args:any):void
+    "on-error"(...args:any):void
+    "on-remove"(...args:any):void
+    "on-progress"(...args:any):void
+    "on-change"(...args:any):void
 },any,any,any, any> = {};
 export default ContentTable;
 

@@ -6,7 +6,7 @@
             <el-button @click="aa">打开弹框</el-button>
         </div>
         <div>
-            <Upload>
+            <Upload accept=".jpg">
                 <el-button type="success">文件上传</el-button>
             </Upload>
         </div>

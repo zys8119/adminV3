@@ -178,6 +178,10 @@ export default {
         isQueueUpload: {
             type: Boolean,
             default: false
+        },
+        AxiosOtpions: {
+            type: Object,
+            default: null
         }
     },
     methods:{
@@ -297,7 +301,10 @@ export default {
                 }
             }
             AxiosOtpions.data[opts.filename] = opts.file;
-            window.common.Axios(AxiosOtpions).then(res=>{
+            window.common.Axios({
+                ...AxiosOtpions,
+                ...(this.AxiosOtpions || {})
+            }).then(res=>{
                 clearInterval(time);
                 opts.onProgress({
                     percent:100
