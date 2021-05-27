@@ -1,15 +1,26 @@
-import {DefineComponent, Prop, PropType, Component, h} from "vue"
+import {DefineComponent, Prop, PropType, Component, Ref,VNode} from "vue"
 const ContentTable:DefineComponent<{
     columns:Prop<Array<columns>, Array<any>>;
     data?:Prop<Array<any>, Array<any>>;
+    url?:Prop<Array<any>, Array<any>>;
+    pagePosition?:Prop<string,string>;
+    pageConfig?:Prop<object | any,object | any>;
+    apiPath?:Prop<object | string |  any,object| string  | any>;
 },any,any,any, {
-},any,any, {
+
+}, {
+    popover?(row:any,column:any,index:number,key:number):VNode[];
+    switchAppend?(row:any,column:any,index:number,key:number):VNode[];
+    switchEnd?(row:any,column:any,index:number,key:number):VNode[];
+    custom?(row:any,column:any,index:number,key:number):VNode[];
+    empty?():VNode[];
+    append?():VNode[];
+    default?():VNode[];
+},any, {
     onSelection(selectionData:any[]):void
     dataChange(ContentTableData:any[]):void
     popoverShow(row:any,column:any):void
-},any,any,any,any> = {
-
-};
+},any,any,any, any> = {};
 export default ContentTable;
 
 export interface columns {
@@ -28,10 +39,13 @@ export interface columns {
     classNameFilter?(row:any,column:any):any;
     applyText?:string;
     applyValue?:boolean;
-    popoverComponent?(h:any):Component;
+    popoverComponent?:Ref<Component>;
     popover_trigger?:TriggerType;
     popover_title?:string;
     popover_placement?:Placement;
+    placeholder?:string;
+    selectData?:selectDataObj[];
+    clearable?:boolean;
 }
 
 export type columns_className = string | null
@@ -40,7 +54,7 @@ export type columns_className = string | null
     | "default_bg_init" | 'success_bg_init' | 'delete_bg_init' | 'primary_bg_init' | 'orange_bg_init' | 'black_bg_init'
     | "default_bg" | 'success_bg' | 'delete_bg' | 'primary_bg' | 'orange_bg' | 'black_bg';
 
-export type columns_type = string| null | "edit" | "operate" | 'tooltip' | 'number' | 'selection' | 'popover';
+export type columns_type = string| null | 'custom' | 'switch' | "edit" | "operate" | 'tooltip' | 'number' | 'selection' | 'popover' | 'select';
 
 export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'
 
@@ -77,4 +91,10 @@ export interface columns_btns {
     autofocus?: BooleanConstructor;
     round?: BooleanConstructor;
     circle?: BooleanConstructor;
+}
+
+export type selectDataObj = {
+    [key:string]:any;
+    label?:any;
+    value?:any;
 }

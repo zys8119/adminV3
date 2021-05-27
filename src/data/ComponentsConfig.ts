@@ -53,3 +53,11 @@ export default {
         rightBtns:[]
     }
 }
+
+//todo 表格默认分页参数
+export const pageConfig = {
+    pageSize:10,
+    layout:"total, sizes, prev, pager, next, jumper",
+    noPage:false,
+    total:0,
+};

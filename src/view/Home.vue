@@ -7,6 +7,7 @@
             @dataChange="dataChange"
             :columns="columns"
             ref="table"
+            :apiPath="api.test"
             @on-selection="selection"
         >
         </content-table>
@@ -69,19 +70,45 @@ export default {
                             return h("div",this.row.name)
                         },
                     })
+                },
+                {
+                    type:"select",
+                    label:"下拉选择",
+                    prop:"name",
+                    selectData:[
+                        {
+                            label:"asdad",
+                            value:"A"
+                        },
+                        {
+                            label:"asa",
+                            value:"B"
+                        }
+                    ],
+                    emit:"on-selection"
+                },
+                {
+                    label:"开关",
+                    prop:"name1",
+                    type:"switch",
+                    emit:"on-selection"
                 }
             ]
         }
     },
     mounted() {
-        this.$refs.table.ContentTableData = [
-            {name:"asdada",b:"测试数据"},
-            {name:"A",b:"测试数据",c:{b:{a:"阿萨大大"}}},
-            {name:"asdada", b:"阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨",c:{b:{a:"阿萨大大"}}},
-        ];
+        // this.$refs.table.ContentTableData = [
+        //     {name:"asdada",b:"测试数据"},
+        //     {name:"A",b:"测试数据",c:{b:{a:"阿萨大大"}}},
+        //     {name:"asdada", b:"阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨阿松大萨达阿萨",c:{b:{a:"阿萨大大"}}},
+        // ];
+        this.$refs.table.init();
     },
     methods:{
-        selection(v){
+        selection(v,row,item){
+            if(row){
+                row[item.prop] = v;
+            }
             console.log(v)
         },
         aa() {

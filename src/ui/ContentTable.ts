@@ -1,5 +1,5 @@
 import { ComponentOptions } from "vue"
-import pageConfig from "../data/ComponentsConfig";
+import {pageConfig} from "../data/ComponentsConfig";
 import {AxiosPromise} from "axios";
 import { windowCommon } from "../store/request/AxiosClassInterface";
 declare const window:windowCommon
@@ -130,7 +130,7 @@ export default <ComponentOptions<ContentTable>>{
             try {
                 return (<any>Object).assign(
                     JSON.parse(JSON.stringify(pageConfig)),
-                    JSON.parse(JSON.stringify(this.pageConfig))
+                    JSON.parse(JSON.stringify(this.pageConfig || {}))
                 );
             }catch (e) {
                 return {}
