@@ -8,13 +8,14 @@
             :columns="columns"
             ref="table"
             @on-selection="selection"
-        ></content-table>
+        >
+        </content-table>
     </div>
 </template>
 
 <script lang="ts">
 import {columns} from "../ui/package/UiTypes/ContentTable";
-
+import {h, shallowRef} from "vue"
 export default {
     name: "Home",
     data(){
@@ -52,6 +53,22 @@ export default {
                     type:"edit",
                     label:"快捷编辑",
                     prop:"name",
+                    emit:"test"
+                },
+                {
+                    type:"popover",
+                    label:"弹出框",
+                    prop:"name",
+                    emit:"test",
+                    popover_placement:"left",
+                    popoverComponent:shallowRef({
+                        props:{
+                          row:{}
+                        },
+                        render(){
+                            return h("div",this.row.name)
+                        },
+                    })
                 }
             ]
         }

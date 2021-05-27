@@ -40,22 +40,22 @@
                     <!--快捷编辑-->
                     <template v-else-if="['edit'].includes(item.type)">
                         <el-popover
-                            placement="bottom"
+                            :placement="item.popover_placement || 'bottom'"
                             :title="`【${item.label}】快捷修改`"
                             popper-class="contentTable-el-popover"
                             trigger="click"
-                            v-model:visible="row[getKey($index,item.prop)]">
+                            v-model:visible="row[getKey($index,item.prop,key)]">
                             <template #reference>
-                                <span @click="popoverClick(item,row)">
+                                <span class="textType" @click="popoverClick(item,row)">
                                     {{textInit(row,item)}}
                                     <i class="el-icon-edit-outline"></i>
                                 </span>
                             </template>
-                            <i class="el-icon-close" @click="row[getKey($index,item.prop)] = !row[getKey($index,item.prop)]"></i>
+                            <i class="el-icon-close" @click="row[getKey($index,item.prop,key)] = !row[getKey($index,item.prop,key)]"></i>
                             <el-input placeholder="请输入关键字" v-model="popoverValue"
-                                      @change="row[getKey($index,item.prop)] = false , emitInit(item.emit,popoverValue,row, item)"></el-input>
+                                      @change="row[getKey($index,item.prop,key)] = false , emitInit(item.emit,popoverValue,row, item)"></el-input>
                             <z-button :config="{name:(item.applyText || '应用')}"
-                                      @click="row[getKey($index,item.prop)] = false , emitInit(item.emit,popoverValue,row, item)"></z-button>
+                                      @click="row[getKey($index,item.prop,key)] = false , emitInit(item.emit,popoverValue,row, item)"></z-button>
                         </el-popover>
                     </template>
                     <!--tooltip-->
@@ -70,6 +70,27 @@
                                 {{textInit(row,item)}}
                             </span>
                         </el-tooltip>
+                    </template>
+                    <!--popover-->
+                    <template v-else-if="['popover'].includes(item.type)">
+                        <el-popover
+                            @show="emitInit('popover-show',row, item)"
+                            :placement="item.popover_placement || 'top'"
+                            :title="item.popover_title"
+                            popper-class="contentTable-el-popover"
+                            :trigger="item.popover_trigger || 'hover'">
+                            <slot name="popover" :column="item" :index="$index" :row="row" :key="key">
+                                <component :is="item.popoverComponent"
+                                           v-if="item.popoverComponent"
+                                           :column="item" :index="$index" :row="row" :key="key"></component>
+                            </slot>
+                            <template #reference>
+                                <span class="textType" :class="classNameInit(item,row, item)"
+                                      @click="emitInit(item.emit,row, item)">
+                                    {{textInit(row,item)}}
+                                </span>
+                            </template>
+                        </el-popover>
                     </template>
                     <!--默认-->
                     <template v-else>
@@ -86,7 +107,6 @@
 </template>
 
 <script lang="ts">
-
 export default{
     props:{
         columns:{
@@ -115,8 +135,8 @@ export default{
     mounted() {
     },
     methods:{
-        getKey($index,prop){
-            return `contentTable-el-popover-${$index}-${prop}`;
+        getKey($index,prop,key){
+            return `contentTable-el-popover-${$index}-${prop}-${key}`;
         },
         popoverClick(columns,row){
             if(columns.applyValue){

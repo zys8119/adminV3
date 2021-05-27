@@ -1,4 +1,4 @@
-import {DefineComponent, Prop, PropType} from "vue"
+import {DefineComponent, Prop, PropType, Component, h} from "vue"
 const ContentTable:DefineComponent<{
     columns:Prop<Array<columns>, Array<any>>;
     data?:Prop<Array<any>, Array<any>>;
@@ -6,7 +6,10 @@ const ContentTable:DefineComponent<{
 },any,any, {
     onSelection(selectionData:any[]):void
     dataChange(ContentTableData:any[]):void
-},any,any,any,any> = {};
+    popoverShow(row:any,column:any):void
+},any,any,any,any> = {
+
+};
 export default ContentTable;
 
 export interface columns {
@@ -25,6 +28,10 @@ export interface columns {
     classNameFilter?(row:any,column:any):any;
     applyText?:string;
     applyValue?:boolean;
+    popoverComponent?(h:any):Component;
+    popover_trigger?:TriggerType;
+    popover_title?:string;
+    popover_placement?:Placement;
 }
 
 export type columns_className = string | null
@@ -33,9 +40,15 @@ export type columns_className = string | null
     | "default_bg_init" | 'success_bg_init' | 'delete_bg_init' | 'primary_bg_init' | 'orange_bg_init' | 'black_bg_init'
     | "default_bg" | 'success_bg' | 'delete_bg' | 'primary_bg' | 'orange_bg' | 'black_bg';
 
-export type columns_type = string| null | "edit" | "operate" | 'tooltip' | 'number' | 'selection';
+export type columns_type = string| null | "edit" | "operate" | 'tooltip' | 'number' | 'selection' | 'popover';
 
 export type ComponentSize = 'large' | 'medium' | 'small' | 'mini'
+
+export type TriggerType = 'click' | 'hover' | 'focus' | 'manual'
+export  type AutoPlacement = "auto" | "auto-start" | "auto-end";
+export  type VariationPlacement = "top-start" | "top-end" | "bottom-start" | "bottom-end" | "right-start" | "right-end" | "left-start" | "left-end";
+export  type BasePlacement = "top" | "bottom" | "right" | "left" | "auto";
+export  type Placement = AutoPlacement | BasePlacement | VariationPlacement;
 
 export interface columns_btns {
     [key:string]:any;
