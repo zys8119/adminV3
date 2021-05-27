@@ -9,4 +9,5 @@ export default (vue:App)=>{
     importFn(vue,()=>import("./ContentTable.vue"));
     importFn(vue,()=>import("./ContentTableItem.vue"));
     importFn(vue, ()=>import("./ZButton.vue"));
+    importFn(vue, ()=>import("./Upload.vue"));
 }

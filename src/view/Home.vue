@@ -1,7 +1,15 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
-        <el-button @click="aa">打开弹框</el-button>
+        <div>
+
+            <el-button @click="aa">打开弹框</el-button>
+        </div>
+        <div>
+            <Upload>
+                <el-button type="success">文件上传</el-button>
+            </Upload>
+        </div>
         <content-table
             @test="test"
             @dataChange="dataChange"
