@@ -25,17 +25,17 @@ export default {
     data(){
         return {
             columns:<Array<columns>>[
-                {label:"45", type:"selection"},
-                {label:"45", type:"number"},
-                {label:"45", prop:"name"},
-                {label:"a54sd", prop:"b",ellipsis3:true, type:"tooltip"},
-                {label:"c", prop:"c.b.a", emit:"test", className:"primary_link", classNameFilter(row: any, column: any): any {
+                {type:"selection"},
+                {label:"数字", type:"number"},
+                {label:"普通数据", prop:"name"},
+                {label:"tooltip", prop:"b",ellipsis3:true, type:"tooltip"},
+                {label:"样式过滤", prop:"c.b.a", emit:"test", className:"primary_link", classNameFilter(row: any, column: any): any {
                     return {
                         orange:row.name === "A"
                     }
                 }},
                 {
-                    label:"45",
+                    label:"操作",
                     type:"operate",
                     btns:[
                     {
