@@ -9,6 +9,9 @@
             ref="table"
             :apiPath="api.test"
             @on-selection="selection"
+            :config="{
+                rowKey:'b',
+            }"
         >
         </content-table>
     </div>
@@ -92,6 +95,24 @@ export default {
                     prop:"name1",
                     type:"switch",
                     emit:"on-selection"
+                },
+                {
+                    label:"合并表头",
+                    align:"center",
+                    columns:[
+                        {
+                            label:"合并表头子集",
+                            prop:"name"
+                        },
+                        {
+                            label:"合并表头子集",
+                            prop:"name"
+                        },
+                        {
+                            label:"合并表头子集",
+                            prop:"name"
+                        }
+                    ]
                 }
             ]
         }

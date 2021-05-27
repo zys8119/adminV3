@@ -13,8 +13,11 @@ export default <Partial<apiOpt>>{
         return Promise.resolve({
             data:{
                 list:new Array(parseInt(<any>(Math.random()*10))).toString().split(",").map((e,k)=>({
-                    name:"A",c:{b:{a:5454}},b:Math.random()}
-                )),
+                    name:"A",c:{b:{a:5454}},b:Math.random(),
+                    children:new Array(parseInt(<any>(Math.random()*10))).toString().split(",").map((e,k)=>({
+                        name:"A",c:{b:{a:5454}},b:Math.random()
+                    }))
+                })),
                 pageNo:1,
                 pageSize:10,
                 total:100

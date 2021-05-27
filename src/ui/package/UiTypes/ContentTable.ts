@@ -3,6 +3,7 @@ const ContentTable:DefineComponent<{
     columns:Prop<Array<columns>, Array<any>>;
     data?:Prop<Array<any>, Array<any>>;
     url?:Prop<Array<any>, Array<any>>;
+    config?:Prop<object | any, object | any>;
     pagePosition?:Prop<string | FunctionConstructor,string | FunctionConstructor>;
     pageConfig?:Prop<object | any,object | any>;
     apiPath?:Prop<object | string |  any,object| string  | any>;
@@ -13,6 +14,7 @@ const ContentTable:DefineComponent<{
     switchAppend?(row:any,column:any,index:number,key:number):VNode[];
     switchEnd?(row:any,column:any,index:number,key:number):VNode[];
     custom?(row:any,column:any,index:number,key:number):VNode[];
+    header?(column:any,index:number):VNode[];
     empty?():VNode[];
     append?():VNode[];
     default?():VNode[];
@@ -46,6 +48,11 @@ export interface columns {
     placeholder?:string;
     selectData?:selectDataObj[];
     clearable?:boolean;
+    sortable?:boolean;
+    minWidth?:any;
+    fixed?:string;
+    align?:string;
+    columns?:columns[]
 }
 
 export type columns_className = string | null
