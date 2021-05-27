@@ -6,10 +6,8 @@
             <el-button @click="aa">打开弹框</el-button>
         </div>
         <div>
-            <Upload drag>
-                <template #default>
-                    <el-button type="success">文件上传</el-button>
-                </template>
+            <Upload>
+                <el-button type="success">文件上传</el-button>
             </Upload>
         </div>
         <content-table
