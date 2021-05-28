@@ -1,15 +1,13 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
-        <div>
-
-            <el-button @click="aa">打开弹框</el-button>
-        </div>
-        <div>
-            <Upload>
-                <el-button type="success">文件上传</el-button>
-            </Upload>
-        </div>
+        <el-divider></el-divider>
+        <el-button @click="aa">打开弹框</el-button>
+        <el-divider></el-divider>
+        <Upload>
+            <el-button type="success">文件上传</el-button>
+        </Upload>
+        <el-divider></el-divider>
         <content-table
             @test="test"
             @dataChange="dataChange"
