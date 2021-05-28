@@ -1,10 +1,7 @@
-/* eslint-disable no-undef */
 import { ElLoading as Loading } from 'element-plus';
-// @ts-ignore
 import AxiosClassInterface,{ windowCommon, WindowCommonAxiosRequestConfig } from './AxiosClassInterface';
 import axios, {Method, AxiosInstance} from 'axios'
 import _ from 'lodash'
-// import qs from 'qs'
 declare const window:windowCommon;
 declare const Promise:any;
 
@@ -120,12 +117,16 @@ class AxiosClass implements AxiosClassInterface{
         });
     }
 }
+
 export default class request{
     constructor(requestBaseOptions:WindowCommonAxiosRequestConfig) {
         window.common = {
             postUrl:"https://snpctest.zhijiasoft.com",
             Axios:(options:WindowCommonAxiosRequestConfig)=>(<any>new AxiosClass(_.merge(requestBaseOptions || {}, options))),
-            baseURL(){return window.baseURL || ((process.env.NODE_ENV === 'production')?'//'+window.location.host:window.common.postUrl)}
+            baseURL(){
+                // @ts-ignore
+                return window.baseURL || ((import.meta.env.PROD)?'//'+window.location.host:window.common.postUrl)
+            }
         };
     }
 }
