@@ -11,6 +11,16 @@
         {{value}}
         <Wangeditor v-model="value"></Wangeditor>
         <el-divider></el-divider>
+        <Echarts type="line" height="500px" :data="{
+            legend_data:['q','w','e'],
+            x_data:[1,2,3],
+            series:[
+                {name:'q',data:[1,2,30]},
+                {name:'w',data:[6,2,3]},
+                {name:'e',data:[8,6,60]},
+            ]
+        }"></Echarts>
+        <el-divider></el-divider>
         <content-table
             @test="test"
             @dataChange="dataChange"
