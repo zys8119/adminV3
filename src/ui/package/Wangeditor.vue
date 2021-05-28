@@ -146,16 +146,16 @@ export default {
     components: {}
 };
 </script>
-<style scoped lang="less">
+<style lang="less">
 .wangeditor {
     background-color: #ffffff;
     overflow: hidden;
     position: relative;
     z-index: 0;
-    &/deep/ .w-e-toolbar{
+    .w-e-toolbar{
         background-color: #ffffff !important;
     }
-    &/deep/ .w-e-text-container{
+    .w-e-text-container{
         max-height: 500px;
     }
 }
