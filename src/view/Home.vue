@@ -8,6 +8,9 @@
             <el-button type="success">文件上传</el-button>
         </Upload>
         <el-divider></el-divider>
+        {{value}}
+        <Wangeditor v-model="value"></Wangeditor>
+        <el-divider></el-divider>
         <content-table
             @test="test"
             @dataChange="dataChange"
@@ -30,6 +33,7 @@ export default {
     name: "Home",
     data(){
         return {
+            value:"",
             columns:<Array<columns>>[
                 {type:"selection"},
                 {label:"数字", type:"number"},
