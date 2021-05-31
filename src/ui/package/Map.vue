@@ -311,6 +311,7 @@
             },
             // 添加地图实例化
             appendMap(){
+                // @ts-ignore
                 if(window.AMap && this.$refs.mapContainer){
                     AMap.plugin([
                         'AMap.ToolBar',

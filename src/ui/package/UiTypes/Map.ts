@@ -11,17 +11,18 @@ const Wangeditor:DefineComponent<{
     modelValue?:Prop<any[], any>;
     relative?:Prop<boolean, any>;
     type?:type;
+    path?:any[];
+    icon?:string;
+    content?:string;
+    limit?:number;
+    getWadiData?:Promise<any>;
+    getWadiSearchData?:Promise<any>;
 },any,any,any, {
-    // init():void;
 }, {
-
+    default?():void;
 },any, {
-    // "on-change"(html:string):void
-    // "customInsert"(inserImg: (this: Editor, src: string) => void,
-    //                result: ResType,
-    //                editor: Editor):void
-    // "success"(xhr: XMLHttpRequest, editor: Editor, result: ResType):void
-    // "error"(xhr: XMLHttpRequest, editor: Editor):void
+    "closeMapPage"():void
+    "click"(fn:FunctionConstructor):void
 },any,any,any, any> = {};
 export type type = string | "track" | "wadi";
 export default Wangeditor;
