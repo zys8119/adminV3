@@ -52,7 +52,7 @@ export default {
                     this.echartsInit();
                 })
             })
-            if(WinOnResize) WinOnResize();
+            if(WinOnResize) (<any>WinOnResize)();
         }
     },
     methods:{
