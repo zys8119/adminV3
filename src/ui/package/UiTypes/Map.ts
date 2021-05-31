@@ -3,11 +3,13 @@ import { ConfigType } from "wangeditor/src/config"
 import Editor from "wangeditor/src/editor/index";
 import {ResType} from "wangeditor/src/menus/img/upload-img";
 const Wangeditor:DefineComponent<{
-    // value?:Prop<string, any>;
-    // config?:Prop<Partial<ConfigType>, Partial<ConfigType>>;
-    // width?:Prop<string, any>;
-    // height?:Prop<string, any>;
-    // url?:Prop<string, any>;
+    mapCenter?:Prop<number[], any>;
+    searchOption?:Prop<object, any>;
+    zoom?:Prop<number, any>;
+    show?:Prop<boolean, any>;
+    level?:Prop<number, any>;
+    modelValue?:Prop<any[], any>;
+    relative?:Prop<boolean, any>;
 },any,any,any, {
     // init():void;
 }, {
