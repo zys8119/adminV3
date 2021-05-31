@@ -143,9 +143,6 @@
             show:{type:Boolean,default:false},
             level:{type:Number,default:1},
             modelValue: {type:Array,default:()=>[]},
-            // modelModifiers: {
-            //     default: () => ([])
-            // },
             relative:{type:Boolean,default:false},
             /**
              * track：轨迹
