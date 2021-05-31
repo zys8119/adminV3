@@ -4,6 +4,7 @@
     "target": "es5",
     "sourceMap": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "lib": [
       "ES5",
       "ES6",

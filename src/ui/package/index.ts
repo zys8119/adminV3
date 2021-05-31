@@ -5,6 +5,7 @@ import ZButton from  "./ZButton.vue"
 import Upload from  "./Upload.vue"
 import Wangeditor from  "./Wangeditor.vue"
 import Echarts from  "./Echarts.vue"
+import Map from  "./Map.vue"
 export default (vue:App)=>{
     vue.component("ContentTable", ContentTable);
     vue.component("ContentTableItem", ContentTableItem);
@@ -12,5 +13,6 @@ export default (vue:App)=>{
     vue.component("Upload", Upload);
     vue.component("Wangeditor", Wangeditor);
     vue.component("Echarts", Echarts);
+    vue.component("Map", Map);
 }
 

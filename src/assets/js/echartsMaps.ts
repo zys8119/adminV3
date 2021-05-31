@@ -1,3 +1,4 @@
+// @ts-ignore
 import {EChartsOption,SeriesOption$1,DataItem} from "echarts"
 export default {
     line:data=>{

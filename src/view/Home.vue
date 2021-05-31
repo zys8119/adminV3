@@ -2,6 +2,10 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-divider></el-divider>
+        <Map>
+            <el-button>选择位置</el-button>
+        </Map>
+        <el-divider></el-divider>
         <el-button @click="aa">打开弹框</el-button>
         <el-divider></el-divider>
         <Upload>
@@ -177,6 +181,7 @@ export default {
 
 <style scoped lang="less">
 .Home{
+    padding: @unit15;
     div{
         color: @themeColor;
         //color: @success;
