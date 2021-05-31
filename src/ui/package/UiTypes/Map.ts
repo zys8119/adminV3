@@ -10,6 +10,7 @@ const Wangeditor:DefineComponent<{
     level?:Prop<number, any>;
     modelValue?:Prop<any[], any>;
     relative?:Prop<boolean, any>;
+    type?:type;
 },any,any,any, {
     // init():void;
 }, {
@@ -22,4 +23,5 @@ const Wangeditor:DefineComponent<{
     // "success"(xhr: XMLHttpRequest, editor: Editor, result: ResType):void
     // "error"(xhr: XMLHttpRequest, editor: Editor):void
 },any,any,any, any> = {};
+export type type = string | "track" | "wadi";
 export default Wangeditor;
