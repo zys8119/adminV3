@@ -58,7 +58,6 @@ export default {
     methods:{
         echartsInit(){
             // 基于准备好的dom，初始化echarts实例
-            console.log(this.$refs.echartsContentView)
             this.myChart = echarts.init(this.$refs.echartsContentView);
             let option = {};
             switch (this.type) {
