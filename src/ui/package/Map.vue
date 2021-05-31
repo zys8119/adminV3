@@ -137,16 +137,15 @@
             draggable
         },
         props: {
-            aa:{type:Array,default:()=>[]},
             mapCenter:{type:Array,default:()=>[121.622751, 29.858108]},
             searchOption:{type:Object,default:()=>({city: '宁波', citylimit: true})},
             zoom:{type:Number,default:16},
             show:{type:Boolean,default:false},
             level:{type:Number,default:1},
             modelValue: {type:Array,default:()=>[]},
-            modelModifiers: {
-                default: () => ([])
-            },
+            // modelModifiers: {
+            //     default: () => ([])
+            // },
             relative:{type:Boolean,default:false},
             /**
              * track：轨迹
@@ -304,6 +303,7 @@
             handleSure() {
                 this.$emit('closeMapPage')
                 this.$emit('update:modelValue', this.address)
+                this.$parent.$emit('update:modelValue', this.$parent.address)
             },
             // 删除地址
             deleteAddress(index,bool) {

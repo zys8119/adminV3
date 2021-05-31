@@ -2,7 +2,8 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-divider></el-divider>
-        <Map>
+        {{aaa}}
+        <Map v-model="aaa">
             <el-button>选择位置</el-button>
         </Map>
         <el-divider></el-divider>
@@ -47,6 +48,7 @@ export default {
     name: "Home",
     data(){
         return {
+            aaa:[],
             value:"",
             columns:<Array<columns>>[
                 {type:"selection"},
