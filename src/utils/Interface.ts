@@ -1,3 +1,3 @@
 export default interface $utilsOptions {
-    lodash:any;
+    [key:string]:any;
 }
