@@ -23,4 +23,18 @@ declare global {
         };
     }
     const AMap:any;
+    // @ts-ignore
+    const window:Window &  Partial<windowCommon> & Partial<WindowInterface> & typeof globalThis;
+}
+
+declare interface WindowInterface {
+    devicePixelRatio:number;
+    rd_ui_vue_map_vm_emit?(name:string,type:string):void;
+    AMap:any;
+    URL: {
+        prototype: URL;
+        new(url: string, base?: string | URL): URL;
+        createObjectURL(object: any): string;
+        revokeObjectURL(url: string): void;
+    };
 }

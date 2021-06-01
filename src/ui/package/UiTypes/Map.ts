@@ -1,7 +1,4 @@
-import {DefineComponent, Prop,VNode} from "vue"
-import { ConfigType } from "wangeditor/src/config"
-import Editor from "wangeditor/src/editor/index";
-import {ResType} from "wangeditor/src/menus/img/upload-img";
+import {DefineComponent, Prop} from "vue"
 const Wangeditor:DefineComponent<{
     mapCenter?:Prop<number[], any>;
     searchOption?:Prop<object, any>;

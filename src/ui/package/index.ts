@@ -6,13 +6,15 @@ import Upload from  "./Upload.vue"
 import Wangeditor from  "./Wangeditor.vue"
 import Echarts from  "./Echarts.vue"
 import Map from  "./Map.vue"
+import Signature from  "./Signature.vue"
 export default (vue:App)=>{
-    vue.component("ContentTable", ContentTable);
-    vue.component("ContentTableItem", ContentTableItem);
-    vue.component("ZButton", ZButton);
-    vue.component("Upload", Upload);
-    vue.component("Wangeditor", Wangeditor);
-    vue.component("Echarts", Echarts);
-    vue.component("Map", Map);
+    vue.component("ContentTable", <any>ContentTable);
+    vue.component("ContentTableItem", <any>ContentTableItem);
+    vue.component("ZButton", <any>ZButton);
+    vue.component("Upload", <any>Upload);
+    vue.component("Wangeditor", <any>Wangeditor);
+    vue.component("Echarts", <any>Echarts);
+    vue.component("Map", <any>Map);
+    vue.component("Signature", <any>Signature);
 }
 

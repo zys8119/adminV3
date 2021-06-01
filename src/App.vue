@@ -8,7 +8,7 @@
 export default {
     name: "App",
     created() {
-        (<any>window)._this = this;
+        window._this = this;
     }
 }
 </script>

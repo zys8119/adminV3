@@ -67,7 +67,7 @@ const plugin:Plugin = {
                                 $vmVue.config.globalProperties.$ZAlert = $ZXDialogAlert;
                             }
                         })
-                        .component("ZAlertFooter", ZAlertFooter)
+                        .component("ZAlertFooter", <any>ZAlertFooter)
                         .mount(container);
                     document.body.appendChild(container);
                 }

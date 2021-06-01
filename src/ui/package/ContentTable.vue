@@ -320,6 +320,7 @@ export default{
         .colorInit();
     }
     .el-pagination{
+        overflow-y: hidden;
         &.bottom{
             text-align: right;
             margin-top: @unit15;
