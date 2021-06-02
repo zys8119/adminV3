@@ -22,7 +22,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import draggable from "vuedraggable/src/vuedraggable.js"
 export default {
     name: "TreeItem",

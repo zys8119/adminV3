@@ -1,6 +1,13 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
+        <el-divider>Print</el-divider>
+        <Print>
+            <el-button>点击打印</el-button>
+            <template #content>
+                <div>我是打印内容</div>
+            </template>
+        </Print>
         <el-divider>Icon</el-divider>
         <Icon></Icon>
         <el-divider>Tree</el-divider>
