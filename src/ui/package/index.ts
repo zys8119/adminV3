@@ -12,6 +12,7 @@ import SwiperItem from  "./SwiperItem.vue"
 import InputPopover from  "./InputPopover.vue"
 import Tree from  "./Tree.vue"
 import TreeItem from  "./TreeItem.vue"
+import Icon from  "./Icon.vue"
 export default (vue:App)=>{
     vue.component("ContentTable", <any>ContentTable);
     vue.component("ContentTableItem", <any>ContentTableItem);
@@ -26,5 +27,6 @@ export default (vue:App)=>{
     vue.component("InputPopover", <any>InputPopover);
     vue.component("Tree", <any>Tree);
     vue.component("TreeItem", <any>TreeItem);
+    vue.component("Icon", <any>Icon);
 }
 

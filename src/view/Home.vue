@@ -1,6 +1,8 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
+        <el-divider>Icon</el-divider>
+        <Icon></Icon>
         <el-divider>Tree</el-divider>
         <Tree :options="options" isdraggable searchShow :searchChange="(val,node)=>new RegExp(val,'img').test(node.name)">
 <!--            <template #default="{node,data}">-->
