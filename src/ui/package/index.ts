@@ -32,6 +32,7 @@ export default (vue:App)=>{
     vue.component("TreeItem", <any>TreeItem);
     vue.component("Icon", <any>Icon);
     vue.component("Print", <any>Print);
+    vue.component("Annotation", <any>Annotation);
     vue.component("Transfer", <any>Transfer);
 }
 
