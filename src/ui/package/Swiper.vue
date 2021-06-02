@@ -1,7 +1,9 @@
 <script lang="ts">
-import Swiper from "swiper";
-import "swiper/swiper.less";
+import {SwiperOptions} from "swiper";
+import Swiper from "swiper/swiper-bundle.esm.browser.js";
+import "swiper/swiper-bundle.css";
 import {h} from "vue";
+import tr from "element-plus/packages/locale/lang/tr";
 export default {
     name: "Swiper",
     props:{
@@ -21,14 +23,13 @@ export default {
     data(){
         return {
             Swiper:null,
-            initConfig:{
-                // loop: true, // 循环模式选项
+            initConfig:<SwiperOptions>{
+                loop: true, // 循环模式选项
 
                 // 如果需要分页器
                 pagination: {
-                    el: '.swiper-pagination',
+                    el: '.swiper-pagination'
                 },
-
                 // 如果需要前进后退按钮
                 navigation: {
                     nextEl: '.swiper-button-next',
