@@ -1,6 +1,6 @@
 <template>
     <div class="Home">
-        <div>全局样式测试</div>
+        <div class="globalStyle">全局样式测试</div>
         <el-divider>Transfer</el-divider>
         <Transfer></Transfer>
         <el-divider>Annotation</el-divider>
@@ -244,8 +244,8 @@ export default {
 <style scoped lang="less">
 .Home{
     padding: @unit15;
-    div{
-        //color: @success;
+    .globalStyle{
+        color: @themeColor;
         font-size: @unit15;
     }
 }
