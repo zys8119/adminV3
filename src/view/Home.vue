@@ -2,6 +2,10 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-divider></el-divider>
+        <InputPopover v-model="InputPopover">
+            <el-input v-model="InputPopover"></el-input>
+        </InputPopover>
+        <el-divider></el-divider>
         <Swiper>
             <SwiperItem>BBBBB</SwiperItem>
             <SwiperItem>AAAAAAAAA</SwiperItem>
@@ -56,6 +60,7 @@ export default {
     name: "Home",
     data(){
         return {
+            InputPopover:null,
             aaa:[],
             value:"",
             columns:<Array<columns>>[

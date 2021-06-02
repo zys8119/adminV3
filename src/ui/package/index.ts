@@ -9,6 +9,7 @@ import Map from  "./Map.vue"
 import Signature from  "./Signature.vue"
 import Swiper from  "./Swiper.vue"
 import SwiperItem from  "./SwiperItem.vue"
+import InputPopover from  "./InputPopover.vue"
 export default (vue:App)=>{
     vue.component("ContentTable", <any>ContentTable);
     vue.component("ContentTableItem", <any>ContentTableItem);
@@ -20,5 +21,6 @@ export default (vue:App)=>{
     vue.component("Signature", <any>Signature);
     vue.component("Swiper", <any>Swiper);
     vue.component("SwiperItem", <any>SwiperItem);
+    vue.component("InputPopover", <any>InputPopover);
 }
 
