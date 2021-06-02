@@ -1,6 +1,8 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
+        <el-divider>Transfer</el-divider>
+        <Transfer></Transfer>
         <el-divider>Annotation</el-divider>
         <Annotation>
             <div>按时打卡i哈克斯的爱上了多久啊是</div>
