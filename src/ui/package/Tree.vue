@@ -12,85 +12,90 @@
             <TreeItem
                 @draggable="(...args)=>draggable(args[0],level,parentNode,args[1],args[2])"
                 :draggableMove="draggableMove"
+                :showNameField="showNameField"
                 :options="currentOptions" :isdraggable="isdraggable && draggableFilter(_)">
-                <div  class="node_row" :style="{
+                <template #default="{item,index}">
+                    <div  class="node_row" :style="{
                 height:!lazyLoading ? clacHeight(item)*nodeHeight + 'px':false,
                 transition:`height ${atf} ${attime}ms`,
-            }" v-for="(item, key) in currentOptions" :key="key" v-if="searchChange(currentSearch,item)">
-                    <div class="node"
-                         :style="{
+            }"  v-if="searchChange(currentSearch,item)">
+                        <div class="node"
+                             :style="{
                     paddingLeft:paddingLeft,
                     height:!lazyLoading ? nodeHeight+'px':false,
                     lineHeight:nodeHeight+'px',
                 }" :class="{
                     node_parent:!!item[childrenField] && item[childrenField].length > 0,
                     node_child:!item[childrenField],
-                    node_top:(isTop && key === 0),
-                    checked:checkedMap === ((keyMap)?`${keyMap},${key}`:`${key}`),
-                    checked_parent:(checkedMapArr[level] == key) && !!item[childrenField] && item[childrenField].length > 0
-                }" @click="toggleClick(item, key,{
+                    node_top:(isTop && index === 0),
+                    checked:checkedMap === ((keyMap)?`${keyMap},${index}`:`${index}`),
+                    checked_parent:(checkedMapArr[level] == index) && !!item[childrenField] && item[childrenField].length > 0
+                }" @click="toggleClick(item, index,{
                     data:item,
-                    key:key,
-                    keyMap:(keyMap)?`${keyMap},${key}`:`${key}`,
+                    key:index,
+                    keyMap:(keyMap)?`${keyMap},${index}`:`${index}`,
                     parent:parentNode,
                     node_parent:!!item[childrenField] && item[childrenField].length > 0,
                     node_child:!item[childrenField],
-                    node_top:(isTop && key === 0),
+                    node_top:(isTop && index === 0),
                     node_open:!item.node_open,
                     level:level,
-                    checked:checkedMap === ((keyMap)?`${keyMap},${key}`:`${key}`),
+                    checked:checkedMap === ((keyMap)?`${keyMap},${index}`:`${index}`),
                 })">
-                        <slot :data="item" :node="{
+                            <slot :data="item" :node="{
                     data:item,
-                    key:key,
-                    keyMap:(keyMap)?`${keyMap},${key}`:`${key}`,
+                    key:index,
+                    keyMap:(keyMap)?`${keyMap},${index}`:`${index}`,
                     parent:parentNode,
                     node_parent:!!item[childrenField] && item[childrenField].length > 0,
                     node_child:!item[childrenField],
-                    node_top:(isTop && key === 0),
+                    node_top:(isTop && index === 0),
                     node_open:!item.node_open,
                     level:level,
-                    checked:checkedMap === ((keyMap)?`${keyMap},${key}`:`${key}`),
+                    checked:checkedMap === ((keyMap)?`${keyMap},${index}`:`${index}`),
                 }" :self="_">{{item[showNameField]}}</slot>
-                    </div>
-                    <z-tree v-if="item[childrenField] && (item.node_open || !lazyLoading)"
-                            :options="item[childrenField]"
-                            :optionsAll="optionsAll"
-                            :isTop="false"
-                            :indent="indent"
-                            :indentIndex="indentIndex+1"
-                            :showNameField="showNameField"
-                            :childrenField="childrenField"
-                            :nodeHeight="nodeHeight"
-                            :keyMap="(keyMap)?`${keyMap},${key}`:`${key}`"
-                            :parentNode="item"
-                            :atf="atf"
-                            :attime="attime"
-                            @parent="emitParent"
-                            @child="emitChild"
-                            @node="emitNode"
-                            @checked="emitChecked"
-                            :checked="checkedMap"
-                            :level= "level + 1"
-                            :search="currentSearch"
-                            :searchShow="searchShow"
-                            :searchChange="searchChange"
-                            :isdraggable="isdraggable"
-                            :draggableFilter="draggableFilter"
-                            @draggable="(...args)=>draggable(args[0],args[1],args[2],false,args[4])"
-                            :draggableMove="draggableMove"
-                            :lazyLoading="lazyLoading"
-                            :self="self"
-                            :ref="`tree${key}`"
-                            :class="{
+                        </div>
+                        <z-tree v-if="item[childrenField] && (item.node_open || !lazyLoading)"
+                                :options="item[childrenField]"
+                                :optionsAll="optionsAll"
+                                :isTop="false"
+                                :indent="indent"
+                                :indentIndex="indentIndex+1"
+                                :showNameField="showNameField"
+                                :childrenField="childrenField"
+                                :nodeHeight="nodeHeight"
+                                :keyMap="(keyMap)?`${keyMap},${index}`:`${index}`"
+                                :parentNode="item"
+                                :atf="atf"
+                                :attime="attime"
+                                @parent="emitParent"
+                                @child="emitChild"
+                                @node="emitNode"
+                                @checked="emitChecked"
+                                :checked="checkedMap"
+                                :level= "level + 1"
+                                :search="currentSearch"
+                                :searchShow="searchShow"
+                                :searchChange="searchChange"
+                                :isdraggable="isdraggable"
+                                :draggableFilter="draggableFilter"
+                                @draggable="(...args)=>draggable(args[0],args[1],args[2],false,args[4])"
+                                :draggableMove="draggableMove"
+                                :lazyLoading="lazyLoading"
+                                :self="self"
+                                :ref="`tree${index}`"
+                                :class="{
                                 node_open_show:item.node_open_show,
                                 node_open_hide:item.node_open_hide,
                                 lazyLoading:!lazyLoading
                             }"
-                    >
-                        <slot :node="node" :data="data" :self="self"  slot-scope="{node, data, self}">{{data[showNameField]}}</slot>
-                    </z-tree>
-                </div>
+                        >
+                            <template #default="{node, data, self}">
+                                <slot :node="node" :data="data" :self="self">{{data[showNameField]}}</slot>
+                            </template>
+                        </z-tree>
+                    </div>
+                </template>
             </TreeItem>
         </div>
     </div>
@@ -267,7 +272,7 @@ export default {
             if(bool){
                 let coypData = JSON.parse(JSON.stringify(data));
                 coypData.forEach((item,key)=>{
-                    this.$set(this.currentOptions, key, item);
+                    this.currentOptions[key] = item;
                 });
                 this.$nextTick(()=>{
                     if(this.keyMap){
@@ -277,7 +282,7 @@ export default {
                             // console.log(findObj);
                             coypData.forEach((item,key)=>{
                                 if(findObj){
-                                    this.$set(findObj, key, item);
+                                    findObj[key] = item;
                                 }
                             });
                         });
@@ -333,21 +338,21 @@ export default {
                 this.emitChecked(node.keyMap);
             }
             if(this.lazyLoading){
-                this.$set(item,'node_open_show',false);
-                this.$set(item,'node_open_hide',false);
+                item.node_open_show = false;
+                item.node_open_hide = false;
                 if(item.node_open){
-                    this.$set(item,'node_open_show',false);
-                    this.$set(item,'node_open_hide',true);
-                    this.$set(item,'node_open',false);
+                    item.node_open_show = false;
+                    item.node_open_hide = true;
+                    item.node_open = false;
                 }else {
-                    this.$set(item,'node_open',true);
-                    this.$set(item,'node_open_show',true);
-                    this.$set(item,'node_open_hide',false);
+                    item.node_open_show = true;
+                    item.node_open_hide = false;
+                    item.node_open = true;
                 }
             }else {
                 item.node_open = !item.node_open
             }
-            this.$set(this.currentOptions, key, item);
+            this.currentOptions[key] = item;
             if(node.node_parent){
                 // 父节点切换
                 this.emitParent(node);

@@ -1,25 +1,29 @@
 <template>
-    <div>
+    <div class="TreeItem">
         <template v-if="isdraggable">
             <draggable v-model="currentOptions"
                        @update="$emit('draggable',currentOptions, true,$event)"
                        :animation="500"
-                       item-key="address"
+                       :item-key="showNameField"
                        :move="draggableMove"
             >
                 <template #item="{ element,index }">
-                    <slot element="element" index="index"></slot>
+                    <div>
+                        <slot :item="element" :index="index"></slot>
+                    </div>
                 </template>
             </draggable>
         </template>
         <template v-else>
-            <slot></slot>
+            <template v-for="(item,key) in currentOptions" :key="key">
+                <slot :item="item" :index="key"></slot>
+            </template>
         </template>
     </div>
 </template>
 
 <script>
-import draggable from "vuedraggable"
+import draggable from "vuedraggable/src/vuedraggable.js"
 export default {
     name: "TreeItem",
     components:{
@@ -31,10 +35,15 @@ export default {
             type:Boolean,
             default:false,
         },
+        // 是否拖拽
+        showNameField:{
+            type:String,
+            default:null,
+        },
         // 选项
         options:{
             type:Array,
-            default:Array,
+            default:()=>[],
         },
         // 拖拽移动处理回调
         draggableMove:{

@@ -2,7 +2,13 @@
     <div class="Home">
         <div>全局样式测试</div>
         <el-divider>Tree</el-divider>
-        <Tree></Tree>
+        <Tree :options="options" isdraggable searchShow :searchChange="(val,node)=>new RegExp(val,'img').test(node.name)">
+<!--            <template #default="{node,data}">-->
+<!--                <div>-->
+<!--                    {{data.name}}-自定义内容-{{node.key}}-{{node.node_open}}-->
+<!--                </div>-->
+<!--            </template>-->
+        </Tree>
         <el-divider>InputPopover</el-divider>
         <InputPopover v-model="InputPopover">
             <el-input v-model="InputPopover"></el-input>
@@ -65,6 +71,24 @@ export default {
             InputPopover:null,
             aaa:[],
             value:"",
+            options:[
+                {name:"ASdada",node_id:"asd"},
+                {name:"ASdada",node_id:"asd"},
+                {name:"ASdada",node_id:"asd"},
+                {name:"有孩子",node_id:"asd",children:[
+                    {name:"as"},
+                    {name:"as"},
+                    {name:"as666",children:[
+                            {name:"a87"},
+                            {name:"a87"},
+                            {name:"a88787"},
+                            {name:"a87"},
+                            {name:"a87879"},
+                    ]},
+                    {name:"as625"},
+                ]},
+                {name:"ASdada",node_id:"asd"},
+            ],
             columns:<Array<columns>>[
                 {type:"selection"},
                 {label:"数字", type:"number"},
