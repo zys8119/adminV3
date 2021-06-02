@@ -3,7 +3,7 @@
 export default {
     name: "SwiperItem",
     render() {
-        return this.$slots.default
+        return this.$slots.default()
     }
 }
 </script>
