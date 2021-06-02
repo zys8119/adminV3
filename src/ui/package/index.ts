@@ -10,6 +10,8 @@ import Signature from  "./Signature.vue"
 import Swiper from  "./Swiper.vue"
 import SwiperItem from  "./SwiperItem.vue"
 import InputPopover from  "./InputPopover.vue"
+import Tree from  "./Tree.vue"
+import TreeItem from  "./TreeItem.vue"
 export default (vue:App)=>{
     vue.component("ContentTable", <any>ContentTable);
     vue.component("ContentTableItem", <any>ContentTableItem);
@@ -22,5 +24,7 @@ export default (vue:App)=>{
     vue.component("Swiper", <any>Swiper);
     vue.component("SwiperItem", <any>SwiperItem);
     vue.component("InputPopover", <any>InputPopover);
+    vue.component("Tree", <any>Tree);
+    vue.component("TreeItem", <any>TreeItem);
 }
 
