@@ -1,6 +1,16 @@
 <template>
     <div class="Home">
         <div>全局样式测试</div>
+        <el-divider>Annotation</el-divider>
+        <Annotation>
+            <div>按时打卡i哈克斯的爱上了多久啊是</div>
+            <div>按时打卡i哈克斯的爱上了多久啊是卡萨丁拉萨的</div>
+            <div>按时打卡i哈克斯的爱上了多久啊是卡萨丁拉萨的</div>
+            <div>按时打卡i哈克斯的
+                <div>asdasda</div>
+                <span>asdasd</span>爱上了多久啊是卡萨丁拉萨的两岸三地啊</div>
+            <div>按时打卡i哈克斯的爱上了多久啊是卡萨丁拉萨的两岸三地啊</div>
+        </Annotation>
         <el-divider>Print</el-divider>
         <Print>
             <el-button>点击打印</el-button>
