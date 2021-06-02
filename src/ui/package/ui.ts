@@ -6,3 +6,4 @@ export { default as Map } from "./UiTypes/Map";
 export { default as Signature } from "./UiTypes/Signature";
 export { default as Swiper } from "./UiTypes/Swiper";
 export { default as InputPopover } from "./UiTypes/InputPopover";
+export { default as Tree } from "./UiTypes/Tree";
