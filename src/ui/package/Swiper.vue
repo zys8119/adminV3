@@ -1,20 +1,21 @@
-<script>
-import Swiper from "swiper/js/swiper.js";
+<script lang="ts">
+import Swiper from "swiper";
+import {h as c} from "vue";
 export default {
     name: "Swiper",
     props:{
-        config:{type:Object,default:Object}
+        config:{type:Object,default:()=>({})}
     },
-    render(c) {
-        return c("div",{
-            class:"swiper-containe"
-        },[
-            c("div",{class:"swiper-wrapper"},this.$slots.default?this.$slots.default.map(e=>c("div",{class:"swiper-slide"},[e])):null),
-            this.currentConfig.pagination && this.currentConfig.pagination.el ? c("div",{class:"swiper-pagination"}): null,
-            this.currentConfig.navigation && this.currentConfig.navigation.prevEl ? c("div",{class:"swiper-button-prev"}) : null,
-            this.currentConfig.navigation && this.currentConfig.navigation.nextEl ? c("div",{class:"swiper-button-next"}) : null,
-            this.currentConfig.swiperScrollbar? c("div",{class:"swiper-scrollbar"}) : null,
-        ])
+    render() {
+        // return c("div",{
+        //     class:"swiper-containe"
+        // },[
+        //     c("div",{class:"swiper-wrapper"},this.$slots.default?this.$slots.default.map(e=>c("div",{class:"swiper-slide"},[e])):null),
+        //     this.currentConfig.pagination && this.currentConfig.pagination.el ? c("div",{class:"swiper-pagination"}): null,
+        //     this.currentConfig.navigation && this.currentConfig.navigation.prevEl ? c("div",{class:"swiper-button-prev"}) : null,
+        //     this.currentConfig.navigation && this.currentConfig.navigation.nextEl ? c("div",{class:"swiper-button-next"}) : null,
+        //     this.currentConfig.swiperScrollbar? c("div",{class:"swiper-scrollbar"}) : null,
+        // ])
     },
     data(){
         return {
@@ -63,7 +64,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~swiper/css/swiper.min.css";
+//@import "~swiper/swiper";
 .swiper-containe{
     overflow: hidden;
     position: relative;

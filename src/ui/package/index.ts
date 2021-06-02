@@ -7,6 +7,8 @@ import Wangeditor from  "./Wangeditor.vue"
 import Echarts from  "./Echarts.vue"
 import Map from  "./Map.vue"
 import Signature from  "./Signature.vue"
+import Swiper from  "./Swiper.vue"
+import SwiperItem from  "./SwiperItem.vue"
 export default (vue:App)=>{
     vue.component("ContentTable", <any>ContentTable);
     vue.component("ContentTableItem", <any>ContentTableItem);
@@ -16,5 +18,7 @@ export default (vue:App)=>{
     vue.component("Echarts", <any>Echarts);
     vue.component("Map", <any>Map);
     vue.component("Signature", <any>Signature);
+    vue.component("Swiper", <any>Swiper);
+    vue.component("SwiperItem", <any>SwiperItem);
 }
 
