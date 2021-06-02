@@ -4,7 +4,8 @@ const Print:DefineComponent<{
     afterPrint?:Prop<FunctionConstructor, any>;
 },any,any,any, {
 }, {
-    default?():VNode | VNode[]
+    default?():VNode | VNode[];
+    content?():VNode | VNode[];
 },any, {
 },any,any,any, any> = {};
 export default Print;
