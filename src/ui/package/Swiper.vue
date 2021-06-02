@@ -3,7 +3,6 @@ import {SwiperOptions} from "swiper";
 import Swiper from "swiper/swiper-bundle.esm.browser.js";
 import "swiper/swiper-bundle.css";
 import {h} from "vue";
-import tr from "element-plus/packages/locale/lang/tr";
 export default {
     name: "Swiper",
     props:{
