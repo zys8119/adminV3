@@ -45,6 +45,11 @@ export default {
             this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
             this.ctx.lineWidth = this.lineWidth;
             this.ctx.strokeStyle = this.strokeStyle;
+            const img = document.createElement("img");
+            img.src = this.base64;
+            img.onload = ()=>{
+                (<CanvasRenderingContext2D>this.ctx).drawImage(img,0,0, img.width,img.height)
+            }
             this.$refs.canvas.addEventListener('mousedown',(e)=>this.touchstart(e,false));
             this.$refs.canvas.addEventListener('mousemove',(e)=>this.touchmove(e,false));
             this.$refs.canvas.addEventListener('mouseup',(e)=>this.touchend(e,false));
