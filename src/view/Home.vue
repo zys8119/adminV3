@@ -245,7 +245,6 @@ export default {
 .Home{
     padding: @unit15;
     div{
-        color: @themeColor;
         //color: @success;
         font-size: @unit15;
     }
