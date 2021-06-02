@@ -56,6 +56,11 @@
 
 <script>
     import {on, off} from "element-plus/packages/utils/dom";
+    import copy from "./images/Annotation/1.png";
+    import line from "./images/Annotation/2.png";
+    import notes from "./images/Annotation/3.png";
+    import search from "./images/Annotation/4.png";
+    import deleteImg from "./images/Annotation/5.png";
     export default {
         name: "Annotation",
         props:{
@@ -74,14 +79,14 @@
                 visible:false,
                 visibleClickShow:false,
                 btnList: [
-                    {name: '复制', img: './src/ui/package/images/Annotation/1.png', type: 'copy'},
-                    {name: '划线', img: './src/ui/package/images/Annotation/2.png', type: 'line'},
-                    {name: '高亮', img: './src/ui/package/images/Annotation/3.png', type: 'notes'},
-                    {name: '搜索', img: './src/ui/package/images/Annotation/4.png', type: 'search'},
+                    {name: '复制', img: copy, type: 'copy'},
+                    {name: '划线', img: line, type: 'line'},
+                    {name: '高亮', img: notes, type: 'notes'},
+                    {name: '搜索', img: search, type: 'search'},
                 ],
                 btnDelList: [
-                    {name: '删除标记', img: './src/ui/package/images/Annotation/5.png', type: 'delete'},
-                    {name: '搜索', img: './src/ui/package/images/Annotation/4.png', type: 'search'},
+                    {name: '删除标记', img: deleteImg, type: 'delete'},
+                    {name: '搜索', img:search, type: 'search'},
                 ],
                 popoverStyles:{},
                 selection:{},

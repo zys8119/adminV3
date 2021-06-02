@@ -131,6 +131,7 @@
 <script lang="ts">
     import region from "./data/NingboRegion.json"
     import draggable from "vuedraggable/src/vuedraggable.js"
+    import maps from "./js/maps.js?raw"
     export default {
         name:"Map",
         components:{
@@ -177,9 +178,36 @@
                 region,
                 regionIndex: 0,
                 streetIndex: -1,
+                src:null,
             };
         },
+        beforeUnmount() {
+            try {
+                URL.revokeObjectURL(this.src)
+            }catch (e) {
+                // err
+            }
+        },
         methods: {
+            // 初始化
+            initData() {
+                if(!this.currentShow){
+                    return;
+                }
+                if(document.getElementById("amapJs")){
+                    this.appendMap();
+                }else {
+                    this.src = URL.createObjectURL(new Blob([maps],{type:"application/javascript"}));
+                    var jsapi = document.createElement('script');
+                    jsapi.charset = 'utf-8';
+                    jsapi.src = this.src;
+                    jsapi.id = "amapJs";
+                    jsapi.onload = ()=>{
+                        this.appendMap()
+                    };
+                    document.head.appendChild(jsapi);
+                }
+            },
             // 初始化
             init(){
                 this.valueInit();
@@ -440,25 +468,6 @@
                         this.addMarker(e.loc[0], e.loc[1], e);
                     });
                 });
-            },
-            // 初始化
-            initData() {
-                if(!this.currentShow){
-                    return;
-                }
-                if(document.getElementById("amapJs")){
-                    this.appendMap();
-                }else {
-                    let url = "./src/assets/js/maps.js";
-                    var jsapi = document.createElement('script');
-                    jsapi.charset = 'utf-8';
-                    jsapi.src = url;
-                    jsapi.id = "amapJs";
-                    jsapi.onload = ()=>{
-                        this.appendMap()
-                    };
-                    document.head.appendChild(jsapi);
-                }
             },
             // 获取地图amap实例对象
             getAmap(callback = new Function()) {
