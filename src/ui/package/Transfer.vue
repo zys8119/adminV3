@@ -1,12 +1,14 @@
 <template>
     <div class="Transfer">
-        asdasd
+        <TransferTree></TransferTree>
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import TransferTree from "./Transfer/TransferTree.vue"
 export default {
-    name: "Transfer"
+    name: "Transfer",
+    components:{TransferTree},
 }
 </script>
 
