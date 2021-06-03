@@ -54,7 +54,18 @@ export default {
                         {name:"3-4",id:"1444"},
                     ]},
                 {name:"4",id:"1444"},
-            ]
+            ].concat(new Array(1000).fill({name:"3",id:"1444",children:[
+                    {name:"3-1",id:"1444"},
+                    {name:"3-2",id:"1444"},
+                    {name:"3-3",id:"1444",children:[
+                            {name:"3-3-1",id:"1444",children:[
+                                    {name:"3-3-1-1",id:"1444",children:[
+
+                                        ]},
+                                ]},
+                        ]},
+                    {name:"3-4",id:"1444"},
+                ]}))
         }
     },
     methods:{
