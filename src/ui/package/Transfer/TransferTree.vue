@@ -12,7 +12,7 @@
                 <div :style="{marginLeft:search ? null : `${(item.level-1)*15}px`}">
                     <el-checkbox v-model="item.checkbox" @change="checkboxChange($event, item)"  v-if="showCheckbox"></el-checkbox>
                     <slot v-bind:="item">
-                        <span>{{item.data[fieldName]}}</span>
+                        <span>{{$utils.lodash.get(item.data,fieldName)}}</span>
                     </slot>
                 </div>
             </div>
@@ -37,30 +37,7 @@ export default {
         showSearch:{type:Boolean,default:true},
         showCheckbox:{type:Boolean,default:true},
         searchPlaceholder:{type:String,default:"请输入关键字"},
-        options:{
-            type:Array,
-            default:()=>[
-                {name:"1",id:"1444"},
-                {name:"2",id:"1444",children:[
-                    {name:"2-1",id:"1444"},
-                    {name:"2-2",id:"1444"},
-                    {name:"2-3",id:"1444"},
-                ]},
-                {name:"3",id:"1444",children:[
-                    {name:"3-1",id:"1444"},
-                    {name:"3-2",id:"1444"},
-                    {name:"3-3",id:"1444",children:[
-                        {name:"3-3-1",id:"1444",children:[
-                            {name:"3-3-1-1",id:"1444",children:[
-
-                            ]},
-                        ]},
-                    ]},
-                    {name:"3-4",id:"1444"},
-                ]},
-                {name:"4",id:"1444"},
-            ]
-        }
+        options:{type:Array, default:()=>[]},
     },
     computed:{
         copyOptions:{
