@@ -31,12 +31,11 @@ export default {
         modelValue: {type:Array,default:()=>[]},
         fieldName:{type:String,default:"node_name"},
         nodeId:{type:String,default:"node_id"},
-        // nodeId:{type:String,default:null},
         childrenFieldName:{type:String,default:"children"},
+        index:{type:Number,default:2},
     },
     data(){
         return {
-            index:1,
             optionsMap:{},
             options:options
         }
@@ -47,7 +46,14 @@ export default {
             return this.options
         },
         modelValueMap(){
-            return (this.modelValue || []).reduce((a,b)=> (a[b] = true) && a, {});
+            return (this.modelValue || []).reduce((a, b, i) => {
+                if(this.index === 1){
+                    a[b] = true;
+                }else {
+                    a[i+1] = (b || []).reduce((c,d)=>(c[d] = true) && c , {})
+                }
+                return a;
+            }, {});
         },
         optionsMapDeep(){
             return Object.keys(this.optionsMap)
@@ -74,13 +80,23 @@ export default {
             this.$nextTick(()=>{
                 if(this.index === 1){
                     this.$emit("update:modelValue",this.optionsMap[1].map(it=>it.data[this.nodeId]))
+                }else {
+                    this.$emit("update:modelValue",Object.keys(this.optionsMap).map(k=>(this.optionsMap[k] || []).map(it=>it.data[this.nodeId])))
                 }
             })
         },
         initValue(){
-            this.arrowRight(1,this.$refs.left.currentOptions.filter(e=>{
-                return this.modelValueMap[e.deep[e.deep.length-1]];
-            }));
+            if(this.index === 1){
+                this.arrowRight(1,this.$refs.left.currentOptions.filter(e=>{
+                    return this.modelValueMap[e.deep[e.deep.length-1]];
+                }));
+            }else {
+                new Array(this.index).fill(0).forEach((e,k)=>{
+                    this.arrowRight(k+1,this.$refs.left.currentOptions.filter(e=>{
+                        return this.modelValueMap[k+1][e.deep[e.deep.length-1]];
+                    }));
+                })
+            }
         },
         filterInit(node){
             const nodeDeepStr = JSON.stringify(node.deep);
