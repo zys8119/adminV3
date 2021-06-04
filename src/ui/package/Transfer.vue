@@ -27,7 +27,7 @@
                     <TransferTree :ref="`right${i}`"
                                   :height="height"
                                   :single="single"
-                                  :selectionFilter="nodeType"
+                                  :selectionFilter="({data},node)=>nodeType(data,node)"
                                   :fieldName="`data.${fieldName}`"
                                   :nodeId="nodeId"
                                   :showSearch="showSearch"

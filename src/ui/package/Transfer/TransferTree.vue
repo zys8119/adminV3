@@ -134,7 +134,7 @@ export default {
             this.$emit("checkbox",{val});
         },
         getSelection(){
-            return this.currentOptions.filter(node=>node.checkbox && this.selectionFilter(node))
+            return this.currentOptions.filter(node=>node.checkbox && this.selectionFilter(node,node))
         },
         getNodeDeep(node){
             return node.deep.map((e,k)=>{
