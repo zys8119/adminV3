@@ -92,16 +92,7 @@ export default {
             InputPopover:null,
             aaa:[],
             value:"",
-            trfValue:[
-                [
-                    "b4d28eb6-29d7-11e9-8bc7-142d27f1f022",
-                    "c9fb6cf6-2441-11e9-bd9e-e0d55e8f2d9a",
-                ],
-                [
-                    "7c412dc8-243d-11e9-86a4-e0d55e8f2d9a",
-                    "f6a97746-25c8-11e9-90bd-e0d55e8f2d9a",
-                ]
-            ],
+            trfValue:[],
             options:[
                 {name:"ASdada",node_id:"asd"},
                 {name:"ASdada",node_id:"asd"},

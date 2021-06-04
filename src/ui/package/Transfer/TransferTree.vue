@@ -5,11 +5,10 @@
             <div>
                 <el-checkbox v-model="checkboxAll" @change="checkboxChangeAll($event)"></el-checkbox>
                 <span>全选</span>
-                <span>{{currentOptions.length}}</span>
             </div>
         </div>
-        <div class="TransferTreeNodeContent">
-            <template v-for="(item,key) in currentOptions" :key="key">
+        <div class="TransferTreeNodeContent" :style="{height:height ? `${height}px` : null}">
+            <template v-for="(item,key) in currentSingleOptions" :key="key">
                 <div class="TransferTreeNode" v-if="item.is_open" @click="nodeClick(item,'nodeClick')">
                     <div :style="{marginLeft:search ? null : `${(item.level-1)*15}px`}">
                         <el-checkbox v-model="item.checkbox" @click.stop="()=>{}" @change="checkboxChange($event, item)"  v-if="showCheckbox"></el-checkbox>
@@ -42,6 +41,9 @@ export default {
         searchPlaceholder:{type:String,default:"请输入关键字"},
         options:{type:Array, default:()=>[]},
         filterInit:{type:Function, default:()=>true},
+        selectionFilter:{type:Function, default:()=>true},
+        single:{type:Boolean, default:()=>false},
+        height:{type:Number, default:null},
     },
     computed:{
         copyOptions:{
@@ -59,6 +61,15 @@ export default {
             set(val){
                 return val;
             }
+        },
+        currentOptionsMaps(){
+            return this.currentOptions.reduce((a,b)=>(a[this.$utils.lodash.get(b,this.nodeId)] = b) && a,{})
+        },
+        currentSingleOptions(){
+            if(this.single){
+                return [...new Set(this.currentOptions.map(({data})=>this.$utils.lodash.get(data,this.nodeId)))].map(nodeId=>this.currentOptionsMaps[nodeId])
+            }
+            return this.currentOptions;
         }
     },
     methods:{
@@ -123,7 +134,7 @@ export default {
             this.$emit("checkbox",{val});
         },
         getSelection(){
-            return this.currentOptions.filter(e=>e.checkbox)
+            return this.currentOptions.filter(node=>node.checkbox && this.selectionFilter(node))
         },
         getNodeDeep(node){
             return node.deep.map((e,k)=>{

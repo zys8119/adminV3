@@ -1,6 +1,16 @@
 <template>
     <div class="Transfer">
-        <TransferTree :options="currentOptions" :filterInit="filterInit" ref="left" :nodeId="nodeId" :fieldName="fieldName" :childrenFieldName="childrenFieldName"></TransferTree>
+        <TransferTree :options="currentOptions"
+                      :height="leftHeight"
+                      :selectionFilter="nodeType"
+                      :filterInit="filterInit"
+                      ref="left"
+                      :nodeId="nodeId"
+                      :showSearch="showSearch"
+                      :showCheckbox="showCheckbox"
+                      :searchPlaceholder="searchPlaceholder"
+                      :fieldName="fieldName"
+                      :childrenFieldName="childrenFieldName"></TransferTree>
         <div class="TransferRightContent">
             <template v-for="i in index" :key="i">
                 <div class="TransferRightContentItem">
@@ -14,7 +24,17 @@
                             </div>
                         </div>
                     </div>
-                    <TransferTree :ref="`right${i}`" :fieldName="`data.${fieldName}`" :nodeId="nodeId"  :options="optionsMap[i.toString()] || []" :childrenFieldName="childrenFieldName"></TransferTree>
+                    <TransferTree :ref="`right${i}`"
+                                  :height="height"
+                                  :single="single"
+                                  :selectionFilter="nodeType"
+                                  :fieldName="`data.${fieldName}`"
+                                  :nodeId="nodeId"
+                                  :showSearch="showSearch"
+                                  :showCheckbox="showCheckbox"
+                                  :searchPlaceholder="searchPlaceholder"
+                                  :options="optionsMap[i.toString()] || []"
+                                  :childrenFieldName="childrenFieldName"></TransferTree>
                 </div>
             </template>
         </div>
@@ -32,7 +52,14 @@ export default {
         fieldName:{type:String,default:"node_name"},
         nodeId:{type:String,default:"node_id"},
         childrenFieldName:{type:String,default:"children"},
+        nodeType:{type:Function,default:(node)=>node.data.node_type === 0},
         index:{type:Number,default:2},
+        // 默认不开启去重，避免资源开销
+        single:{type:Boolean,default:false},
+        height:{type:Number,default:500},
+        showSearch:{type:Boolean,default:true},
+        showCheckbox:{type:Boolean,default:true},
+        searchPlaceholder:{type:String,default:"请输入关键字"},
     },
     data(){
         return {
@@ -41,6 +68,19 @@ export default {
         }
     },
     computed:{
+        leftHeight(){
+            let height = this.height;
+            if(this.showCheckbox && this.showSearch){
+                height = this.height + 70;
+            }else
+            if(this.showSearch){
+                height = this.height + 40;
+            }else
+            if(this.showCheckbox){
+                height = this.height + 30;
+            }
+            return height*this.index;
+        },
         currentOptions(){
             this.optionsMap = {};
             return this.options
@@ -93,7 +133,7 @@ export default {
             }else {
                 new Array(this.index).fill(0).forEach((e,k)=>{
                     this.arrowRight(k+1,this.$refs.left.currentOptions.filter(e=>{
-                        return this.modelValueMap[k+1][e.deep[e.deep.length-1]];
+                        return (this.modelValueMap[k+1] || {})[e.deep[e.deep.length-1]];
                     }));
                 })
             }
@@ -145,7 +185,7 @@ export default {
     .TransferTree{
         flex: 1;
         .TransferTreeNodeContent{
-            max-height: 300px;
+            height: 300px;
             overflow-x: hidden;
         }
     }
