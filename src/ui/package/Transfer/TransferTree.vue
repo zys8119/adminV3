@@ -5,18 +5,21 @@
             <div>
                 <el-checkbox v-model="checkboxAll" @change="checkboxChangeAll($event)"></el-checkbox>
                 <span>全选</span>
+                <span>{{currentOptions.length}}</span>
             </div>
         </div>
-        <template v-for="(item,key) in currentOptions" :key="key">
-            <div class="TransferTreeNode" v-if="item.is_open" @click="nodeClick(item,'nodeClick')">
-                <div :style="{marginLeft:search ? null : `${(item.level-1)*15}px`}">
-                    <el-checkbox v-model="item.checkbox" @change="checkboxChange($event, item)"  v-if="showCheckbox"></el-checkbox>
-                    <slot v-bind:="item">
-                        <span>{{$utils.lodash.get(item.data,fieldName)}}</span>
-                    </slot>
+        <div class="TransferTreeNodeContent">
+            <template v-for="(item,key) in currentOptions" :key="key">
+                <div class="TransferTreeNode" v-if="item.is_open" @click="nodeClick(item,'nodeClick')">
+                    <div :style="{marginLeft:search ? null : `${(item.level-1)*15}px`}">
+                        <el-checkbox v-model="item.checkbox" @change="checkboxChange($event, item)"  v-if="showCheckbox"></el-checkbox>
+                        <slot v-bind:="item">
+                            <span>{{$utils.lodash.get(item.data,fieldName)}}</span>
+                        </slot>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
 </template>
 

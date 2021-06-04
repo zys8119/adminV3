@@ -24,6 +24,7 @@
 <script lang="ts">
 import TransferTree from "./Transfer/TransferTree.vue"
 import options from "./data/options.json"
+import tr from "element-plus/packages/locale/lang/tr";
 export default {
     name: "Transfer",
     components:{TransferTree},
@@ -59,33 +60,32 @@ export default {
             options
         }
     },
+    computed:{
+        optionsMapDeep(){
+            return Object.keys(this.optionsMap)
+                .reduce((a,b)=>{
+                    (this.optionsMap[b] || []).forEach(it=>{
+                        a[JSON.stringify(it.deep)] = true;
+                    })
+                    return a;
+                },{});
+        }
+    },
     methods:{
         filterInit(node){
-            return Object.keys(this.optionsMap).reduce((a,b)=>a.concat(this.optionsMap[b]),[]).map(e=>JSON.stringify(e.deep)).indexOf(JSON.stringify(node.deep)) === -1;
+            // return Object.keys(this.optionsMap)
+            // .reduce((a,b)=>a.concat(this.optionsMap[b]),[])
+            // .map(e=>JSON.stringify(e.deep)).indexOf(JSON.stringify(node.deep)) === -1;
+            return !this.optionsMapDeep[JSON.stringify(node.deep)];
         },
         arrowRight(i){
-            console.time("A")
             const getSelection = this.$refs.left.getSelection();
-            console.timeEnd("A")
-            console.time("B")
             this.optionsMap[i.toString()] = (this.optionsMap[i.toString()] || []).concat(JSON.parse(JSON.stringify(getSelection)));
-            console.timeEnd("B")
-            console.log(getSelection)
-            console.time("C")
-            // getSelection.forEach(it=>{
-            //     const index = this.$refs.left.currentOptions.indexOf(it)
-            //     if(index > -1){
-            //         this.$refs.left.currentOptions.splice(index,1)
-            //     }
-            // });
-            console.log(getSelection.filter(it=>!this.$refs.left.currentOptions.includes(it)))
-            console.timeEnd("C")
-            console.time("D")
             this.$refs.left.checkboxAll = false;
-            console.timeEnd("D")
-            console.time("E")
-            this.$refs.left.$forceUpdate();
-            console.timeEnd("E")
+            this.$refs.left.$nextTick(()=>{
+                this.$refs.left.$forceUpdate();
+            })
+
         },
         arrowLeft(i){
             const trf = this.$refs[`right${i}`];
@@ -105,11 +105,15 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .Transfer{
     display: flex;
     .TransferTree{
         flex: 1;
+        .TransferTreeNodeContent{
+            max-height: 300px;
+            overflow-x: hidden;
+        }
     }
     .TransferRightContent{
         flex: 1;
