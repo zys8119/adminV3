@@ -12,7 +12,7 @@
             <template v-for="(item,key) in currentOptions" :key="key">
                 <div class="TransferTreeNode" v-if="item.is_open" @click="nodeClick(item,'nodeClick')">
                     <div :style="{marginLeft:search ? null : `${(item.level-1)*15}px`}">
-                        <el-checkbox v-model="item.checkbox" @change="checkboxChange($event, item)"  v-if="showCheckbox"></el-checkbox>
+                        <el-checkbox v-model="item.checkbox" @click.stop="()=>{}" @change="checkboxChange($event, item)"  v-if="showCheckbox"></el-checkbox>
                         <slot v-bind:="item">
                             <span>{{$utils.lodash.get(item.data,fieldName)}}</span>
                         </slot>
@@ -36,6 +36,7 @@ export default {
     props:{
         fieldName:{type:String,default:"name"},
         childrenFieldName:{type:String,default:"children"},
+        nodeId:{type:String,default:null},
         showSearch:{type:Boolean,default:true},
         showCheckbox:{type:Boolean,default:true},
         searchPlaceholder:{type:String,default:"请输入关键字"},
@@ -71,11 +72,12 @@ export default {
         },
         currentOptionsInit(options,result,extra:any = {}){
             options.forEach((it,key)=>{
+                const deepkey = this.nodeId && it[this.nodeId] ? it[this.nodeId] : key;
                 const node = {
                     data:it,
                     level:extra.level || 1,
                     is_open:Object.prototype.toString.call(extra.is_open) === "[object Boolean]" ? extra.is_open : true,
-                    deep:extra.deep ? (<Array<number>>extra.deep).concat([key]) : [key],
+                    deep:extra.deep ? (<Array<number>>extra.deep).concat([deepkey]) : [deepkey],
                     checkbox:false,
                 }
                 if(this.filterInit(node, it,key)){
@@ -92,26 +94,22 @@ export default {
             })
         },
         nodeClick(item, type, extra:any = {}){
-            let parentNode = null;
             const itemChildren = this.currentOptions.filter(e=>{
-                if(JSON.stringify(item.deep.slice(0,item.deep.length -1)) === JSON.stringify(e.deep)){
-                    parentNode = e;
-                }
-                let bool = item.deep.length+1 === e.deep.length;
-                if(type === "checkbox"){
-                    bool = true;
-                }
-                return e !== item && bool && JSON.stringify((<number[]>e.deep).slice(0,item.deep.length)) === JSON.stringify(item.deep);
+                return e !== item && JSON.stringify((<number[]>e.deep).slice(0,item.deep.length)) === JSON.stringify(item.deep);
             });
             itemChildren.forEach(it=>{
                 if(type === "checkbox"){
                     it.checkbox = extra.val;
                 }else {
-                    it.is_open = !it.is_open;
+                    if(item.deep.length+1 === it.deep.length){
+                        it.is_open = !it.is_open;
+                    }else {
+                        it.is_open = false;
+                    }
                 }
             })
             this.$forceUpdate();
-            this.$emit(type,item, parentNode,extra);
+            this.$emit(type,item,extra);
         },
         checkboxChange(val, item){
             this.nodeClick(item, "checkbox", {val})
