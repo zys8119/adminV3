@@ -1,7 +1,7 @@
 <template>
     <div class="TransferTree">
         <el-input @change="searchChange" v-model="search" v-if="showSearch" :placeholder="searchPlaceholder"></el-input>
-        <div class="TransferTreeNode" v-if="showCheckbox">
+        <div class="TransferTreeNode" v-if="showCheckbox && !search">
             <div>
                 <el-checkbox v-model="checkboxAll" @change="checkboxChangeAll($event)"></el-checkbox>
                 <span>全选</span>
