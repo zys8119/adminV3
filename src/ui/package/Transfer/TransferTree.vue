@@ -21,7 +21,6 @@
 </template>
 
 <script lang="ts">
-
 export default {
     name: "TransferTree",
     data(){
@@ -38,6 +37,7 @@ export default {
         showCheckbox:{type:Boolean,default:true},
         searchPlaceholder:{type:String,default:"请输入关键字"},
         options:{type:Array, default:()=>[]},
+        filterInit:{type:Function, default:()=>true},
     },
     computed:{
         copyOptions:{
@@ -50,7 +50,7 @@ export default {
         },
         currentOptions:{
             get(){
-                return this.getCurrentOptions();
+                return this.getCurrentOptions(this.copyOptions,true);
             },
             set(val){
                 return val;
@@ -58,10 +58,12 @@ export default {
         }
     },
     methods:{
-        getCurrentOptions(){
+        getCurrentOptions(options:any[],ClearMap?:boolean){
             let result = [];
-            this.currentOptionsMap = {};
-            this.currentOptionsInit((JSON.parse(JSON.stringify(this.copyOptions || []))),result,{});
+            if(ClearMap){
+                this.currentOptionsMap = {};
+            }
+            this.currentOptionsInit((JSON.parse(JSON.stringify(options || []))),result,{});
             return result;
         },
         currentOptionsInit(options,result,extra:any = {}){
@@ -73,14 +75,16 @@ export default {
                     deep:extra.deep ? (<Array<number>>extra.deep).concat([key]) : [key],
                     checkbox:false,
                 }
-                this.currentOptionsMap[JSON.stringify(node.deep)] = node;
-                result.push(node);
-                if(it[this.childrenFieldName] && Object.prototype.toString.call(it[this.childrenFieldName]) === "[object Array]"){
-                    this.currentOptionsInit(it[this.childrenFieldName], result,{
-                        ...node,
-                        level:node.level+1,
-                        is_open:false,
-                    });
+                if(this.filterInit(node, it,key)){
+                    this.currentOptionsMap[JSON.stringify(node.deep)] = node;
+                    result.push(node);
+                    if(it[this.childrenFieldName] && Object.prototype.toString.call(it[this.childrenFieldName]) === "[object Array]"){
+                        this.currentOptionsInit(it[this.childrenFieldName], result,{
+                            ...node,
+                            level:node.level+1,
+                            is_open:false,
+                        });
+                    }
                 }
             })
         },
@@ -128,10 +132,10 @@ export default {
         searchChange(val){
             if(val){
                 this.currentOptions.forEach(it=>{
-                    it.is_open = it.data[this.fieldName].indexOf(val) > -1;
+                    it.is_open = this.$utils.lodash.get(it.data,this.fieldName).indexOf(val) > -1;
                 });
             }else {
-                this.currentOptions = this.getCurrentOptions();
+                this.currentOptions = this.getCurrentOptions(this.copyOptions,true);
             }
             this.$forceUpdate();
         }

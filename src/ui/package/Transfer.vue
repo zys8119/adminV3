@@ -1,6 +1,6 @@
 <template>
     <div class="Transfer">
-        <TransferTree :options="options" ref="left" :fieldName="fieldName" :childrenFieldName="childrenFieldName"></TransferTree>
+        <TransferTree :options="options" :filterInit="filterInit" ref="left" :fieldName="fieldName" :childrenFieldName="childrenFieldName"></TransferTree>
         <div class="TransferRightContent">
             <template v-for="i in index" :key="i">
                 <div class="TransferRightContentItem">
@@ -54,21 +54,13 @@ export default {
                         {name:"3-4",id:"1444"},
                     ]},
                 {name:"4",id:"1444"},
-            ].concat(new Array(1000).fill({name:"3",id:"1444",children:[
-                    {name:"3-1",id:"1444"},
-                    {name:"3-2",id:"1444"},
-                    {name:"3-3",id:"1444",children:[
-                            {name:"3-3-1",id:"1444",children:[
-                                    {name:"3-3-1-1",id:"1444",children:[
-
-                                        ]},
-                                ]},
-                        ]},
-                    {name:"3-4",id:"1444"},
-                ]}))
+            ]
         }
     },
     methods:{
+        filterInit(node){
+            return Object.keys(this.optionsMap).reduce((a,b)=>a.concat(this.optionsMap[b]),[]).map(e=>JSON.stringify(e.deep)).indexOf(JSON.stringify(node.deep)) === -1;
+        },
         arrowRight(i){
             const getSelection = this.$refs.left.getSelection();
             this.optionsMap[i.toString()] = (this.optionsMap[i.toString()] || []).concat(JSON.parse(JSON.stringify(getSelection)));
@@ -81,7 +73,20 @@ export default {
             this.$refs.left.checkboxAll = false;
             this.$refs.left.$forceUpdate();
         },
-        arrowLeft(){}
+        arrowLeft(i){
+            const trf = this.$refs[`right${i}`];
+            const getSelection = trf.getSelection().reverse();
+            const currentOptions = (this.optionsMap[i.toString()] || []);
+            const currentOptionsDeep = currentOptions.map(e=>JSON.stringify(e.deep));
+            getSelection.forEach(it=>{
+                const index = currentOptionsDeep.indexOf(JSON.stringify(it.data.deep))
+                if(index > -1){
+                    currentOptions.splice(index,1);
+                }
+            })
+            trf.checkboxAll = false;
+            trf.$forceUpdate();
+        }
     }
 }
 </script>
