@@ -2,7 +2,6 @@
     <div class="Home">
         <div class="globalStyle">全局样式测试</div>
         <el-divider>Transfer</el-divider>
-        {{trfValue}}
         <Transfer v-model="trfValue"></Transfer>
         <el-divider>Annotation</el-divider>
         <Annotation>
