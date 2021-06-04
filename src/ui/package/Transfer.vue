@@ -70,6 +70,7 @@ export default {
             console.time("B")
             this.optionsMap[i.toString()] = (this.optionsMap[i.toString()] || []).concat(JSON.parse(JSON.stringify(getSelection)));
             console.timeEnd("B")
+            console.log(getSelection)
             console.time("C")
             // getSelection.forEach(it=>{
             //     const index = this.$refs.left.currentOptions.indexOf(it)
@@ -77,6 +78,7 @@ export default {
             //         this.$refs.left.currentOptions.splice(index,1)
             //     }
             // });
+            console.log(getSelection.filter(it=>!this.$refs.left.currentOptions.includes(it)))
             console.timeEnd("C")
             console.time("D")
             this.$refs.left.checkboxAll = false;
