@@ -4,7 +4,7 @@
         <div class="TransferTreeNode" v-if="showCheckbox && !search">
             <div>
                 <el-checkbox v-model="checkboxAll" @change="checkboxChangeAll($event)"></el-checkbox>
-                <span>全选</span>
+                <span>全选 已选：{{selected}}/{{currentOptions.length}}</span>
             </div>
         </div>
         <div class="TransferTreeNodeContent" :style="{height:height ? `${height}px` : null}">
@@ -30,6 +30,7 @@ export default {
             checkboxAll:false,
             currentOptionsMap:{},
             search:null,
+            selected:0,
         }
     },
     props:{
@@ -70,9 +71,12 @@ export default {
                 return [...new Set(this.currentOptions.map(({data})=>this.$utils.lodash.get(data,this.nodeId)))].map(nodeId=>this.currentOptionsMaps[nodeId])
             }
             return this.currentOptions;
-        }
+        },
     },
     methods:{
+        selectedInit(){
+            this.selected = this.getSelection().length;
+        },
         getCurrentOptions(options:any[],ClearMap?:boolean){
             let result = [];
             if(ClearMap){
@@ -120,6 +124,7 @@ export default {
                 }
             })
             this.$forceUpdate();
+            this.selectedInit();
             this.$emit(type,item,extra);
         },
         checkboxChange(val, item){
@@ -131,6 +136,7 @@ export default {
                 it.checkbox = val;
             });
             this.$forceUpdate();
+            this.selectedInit();
             this.$emit("checkbox",{val});
         },
         getSelection(){
