@@ -55,7 +55,7 @@ export default {
         nodeType:{type:Function,default:(node)=>node.data.node_type === 0},
         index:{type:Number,default:2},
         // 默认不开启去重，避免资源开销
-        single:{type:Boolean,default:false},
+        single:{type:Boolean,default:true},
         height:{type:Number,default:500},
         showSearch:{type:Boolean,default:true},
         showCheckbox:{type:Boolean,default:true},

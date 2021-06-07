@@ -4,7 +4,7 @@
         <div class="TransferTreeNode" v-if="showCheckbox && !search">
             <div>
                 <el-checkbox v-model="checkboxAll" @change="checkboxChangeAll($event)"></el-checkbox>
-                <span>全选 已选：{{selected}}/{{currentOptions.length}}</span>
+                <span>全选 已选：{{selected}}/{{currentSingleOptions.length}}</span>
             </div>
         </div>
         <div class="TransferTreeNodeContent" :style="{height:height ? `${height}px` : null}">
