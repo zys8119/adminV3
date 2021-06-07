@@ -68,7 +68,7 @@ export default {
         },
         currentSingleOptions(){
             if(this.single){
-                return [...new Set(this.currentOptions.map(({data})=>this.$utils.lodash.get(data,this.nodeId)))].map(nodeId=>this.currentOptionsMaps[nodeId])
+                return [...new Set(this.currentOptions.map(({data})=>this.$utils.lodash.get(data,this.nodeId)))].map((nodeId:string)=>this.currentOptionsMaps[nodeId])
             }
             return this.currentOptions;
         },

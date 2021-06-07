@@ -5,6 +5,7 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "downlevelIteration": true,
     "lib": [
       "ES5",
       "ES6",
