@@ -1,6 +1,7 @@
 <template>
     <div class="Transfer">
         <TransferTree :options="currentOptions"
+                      transferType="left"
                       :height="leftHeight"
                       :selectionFilter="nodeType"
                       :filterInit="filterInit"
@@ -10,7 +11,17 @@
                       :showCheckbox="showCheckbox"
                       :searchPlaceholder="searchPlaceholder"
                       :fieldName="fieldName"
-                      :childrenFieldName="childrenFieldName"></TransferTree>
+                      :childrenFieldName="childrenFieldName">
+            <template #default="scoped">
+                <slot v-bind:="{...scoped,type:'left',index:0}">
+                    <span class="arrow-down-up">
+                        <span>{{ scoped.data[fieldName] }}</span>
+                        <i class="el-icon-arrow-down" v-if="scoped.data[childrenFieldName] && scoped.data[childrenFieldName].length > 0 && scoped.node_open"></i>
+                        <i class="el-icon-arrow-up" v-if="scoped.data[childrenFieldName] && scoped.data[childrenFieldName].length > 0 && !scoped.node_open"></i>
+                    </span>
+                </slot>
+            </template>
+        </TransferTree>
         <div class="TransferRightContent">
             <template v-for="i in index" :key="i">
                 <div class="TransferRightContentItem">
@@ -25,6 +36,7 @@
                         </div>
                     </div>
                     <TransferTree :ref="`right${i}`"
+                                  transferType="right"
                                   :height="height"
                                   :single="single"
                                   :selectionFilter="({data},node)=>nodeType(data,node)"
@@ -34,7 +46,15 @@
                                   :showCheckbox="showCheckbox"
                                   :searchPlaceholder="searchPlaceholder"
                                   :options="optionsMap[i.toString()] || []"
-                                  :childrenFieldName="childrenFieldName"></TransferTree>
+                                  :childrenFieldName="childrenFieldName">
+                        <template #default="scoped">
+                            <slot v-bind:="{...scoped,...scoped.data,type:'right',index:i}">
+                                <span>
+                                    {{ scoped.data.data[fieldName] }}
+                                </span>
+                            </slot>
+                        </template>
+                    </TransferTree>
                 </div>
             </template>
         </div>
@@ -148,6 +168,8 @@ export default {
                 getSelection = getSelection || this.$refs.left.getSelection();
                 this.optionsMap[i.toString()] = (this.optionsMap[i.toString()] || []).concat(getSelection);
                 this.$refs.left.checkboxAll = false;
+                this.$refs.left.selected = 0;
+                this.$refs.left.search = null;
                 this.$refs.left.$nextTick(() => {
                     this.$refs.left.$forceUpdate
                 }).then(()=>{
@@ -167,7 +189,9 @@ export default {
                         currentOptions.splice(index,1);
                     }
                 })
+                trf.selected = 0;
                 trf.checkboxAll = false;
+                trf.search = null;
                 trf.$nextTick(()=>{
                     trf.$forceUpdate();
                 }).then(()=>{
@@ -209,6 +233,14 @@ export default {
                     }
                 }
             }
+        }
+    }
+    .TransferTreeNodeRow{
+        display: flex;
+        .arrow-down-up{
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
         }
     }
 }

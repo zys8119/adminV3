@@ -9,3 +9,6 @@ export { default as InputPopover } from "./UiTypes/InputPopover";
 export { default as Tree } from "./UiTypes/Tree";
 export { default as Icon } from "./UiTypes/Icon";
 export { default as Print } from "./UiTypes/Print";
+export { default as Annotation } from "./UiTypes/Annotation";
+export { default as TransferTree } from "./UiTypes/TransferTree";
+export { default as Transfer } from "./UiTypes/Transfer";

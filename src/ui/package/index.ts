@@ -16,6 +16,7 @@ import Icon from  "./Icon.vue"
 import Print from  "./Print.vue"
 import Annotation from  "./Annotation.vue"
 import Transfer from  "./Transfer.vue"
+import TransferTree from  "./Transfer/TransferTree.vue"
 export default (vue:App)=>{
     vue.component("ContentTable", <any>ContentTable);
     vue.component("ContentTableItem", <any>ContentTableItem);
@@ -33,6 +34,7 @@ export default (vue:App)=>{
     vue.component("Icon", <any>Icon);
     vue.component("Print", <any>Print);
     vue.component("Annotation", <any>Annotation);
+    vue.component("TransferTree", <any>TransferTree);
     vue.component("Transfer", <any>Transfer);
 }
 

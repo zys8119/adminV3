@@ -10,7 +10,7 @@
         <div class="TransferTreeNodeContent" :style="{height:height ? `${height}px` : null}">
             <template v-for="(item,key) in currentSingleOptions" :key="key">
                 <div class="TransferTreeNode" v-if="item.is_open" @click="nodeClick(item,'nodeClick')">
-                    <div :style="{marginLeft:search ? null : `${(item.level-1)*15}px`}">
+                    <div :style="{marginLeft:search ? null : `${(item.level-1)*15}px`}" class="TransferTreeNodeRow">
                         <el-checkbox v-model="item.checkbox" @click.stop="()=>{}" @change="checkboxChange($event, item)"  v-if="showCheckbox"></el-checkbox>
                         <slot v-bind:="item">
                             <span>{{$utils.lodash.get(item.data,fieldName)}}</span>
@@ -34,6 +34,7 @@ export default {
         }
     },
     props:{
+        transferType:{type:String,default:"left"},
         fieldName:{type:String,default:"name"},
         childrenFieldName:{type:String,default:"children"},
         nodeId:{type:String,default:null},
@@ -64,18 +65,26 @@ export default {
             }
         },
         currentOptionsMaps(){
-            return this.currentOptions.reduce((a,b)=>(a[this.$utils.lodash.get(b,this.nodeId)] = b) && a,{})
+            return this.currentOptions.reduce((a,b)=>(a[this.$utils.lodash.get(b.data && b.data.data ? b.data.data || b.data || b : b,this.nodeId)] = b) && a,{})
         },
         currentSingleOptions(){
-            if(this.single){
-                return [...new Set(this.currentOptions.map(({data})=>this.$utils.lodash.get(data,this.nodeId)))].map((nodeId:string)=>this.currentOptionsMaps[nodeId])
+            if(this.single && this.nodeId){
+                return [...new Set(this.currentOptions.map(({data})=>this.$utils.lodash.get(data.data || data,this.nodeId)))].map((nodeId:string)=>this.currentOptionsMaps[nodeId])
             }
             return this.currentOptions;
         },
     },
     methods:{
         selectedInit(){
-            this.selected = this.getSelection().length;
+            let getSelection = this.getSelection()
+            if(this.single && this.nodeId){
+                try {
+                    getSelection = [...new Set(getSelection.map(e=>(e.data && e.data.data ? e.data.data : e.data)[this.nodeId]))]
+                }catch (e) {
+                    // err
+                }
+            }
+            this.selected = getSelection.length;
         },
         getCurrentOptions(options:any[],ClearMap?:boolean){
             let result = [];
@@ -110,7 +119,15 @@ export default {
         },
         nodeClick(item, type, extra:any = {}){
             const itemChildren = this.currentOptions.filter(e=>{
-                return e !== item && JSON.stringify((<number[]>e.deep).slice(0,item.deep.length)) === JSON.stringify(item.deep);
+                if((this.single && this.nodeId) || (this.transferType === "right" && type === "checkbox")){
+                    try {
+                        return e !== item && item.data.data[this.nodeId] === e.data.data[this.nodeId];
+                    }catch (e){}
+                }
+                else {
+                    return e !== item && JSON.stringify((<number[]>e.deep).slice(0,item.deep.length)) === JSON.stringify(item.deep);
+                }
+
             });
             itemChildren.forEach(it=>{
                 if(type === "checkbox"){
@@ -118,6 +135,7 @@ export default {
                 }else {
                     if(item.deep.length+1 === it.deep.length){
                         it.is_open = !it.is_open;
+                        item.node_open = it.is_open;
                     }else {
                         it.is_open = false;
                     }
@@ -137,7 +155,7 @@ export default {
             });
             this.$forceUpdate();
             this.selectedInit();
-            this.$emit("checkbox",{val});
+            this.$emit("checkboxAll",{val});
         },
         getSelection(){
             return this.currentOptions.filter(node=>node.checkbox && this.selectionFilter(node,node))
