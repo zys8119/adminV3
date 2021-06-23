@@ -24,8 +24,10 @@
             </el-dropdown>
         </div>
         <div class="leftNav" :class="{off:leftNavMenus.length === 0}">
-            <el-tree :data="leftNavMenus">
-                <template #default="{data}">{{data.title}}</template>
+            <el-tree :data="leftNavMenus" @node-click="nodeClick">
+                <template #default="{data}">
+                    <div class="leftNavItem">{{data.title}}</div>
+                </template>
             </el-tree>
         </div>
     </div>
@@ -64,6 +66,13 @@ export default {
             setTimeout(()=>{
                 this.$router.push("/login")
             })
+        },
+        nodeClick(data){
+            if(!data.children){
+                if(data.path){
+                    this.$router.push(data.path)
+                }
+            }
         }
     }
 }
@@ -124,6 +133,7 @@ export default {
         }
     }
     .leftNav{
+        @color:#0f9960;
         width: @leftNavWidth;
         position: fixed;
         left: 0;
@@ -133,13 +143,40 @@ export default {
         transition: @transition;
         overflow: hidden;
         user-select: none;
+        background-color: @color;
         &.off{
             width: 0;
             border-right: transparent;
         }
-        :deep(.el-tree__empty-text){
-            display: none;
+        :deep(.el-tree){
+            background-color: transparent;
+            .el-tree__empty-text{
+                display: none;
+            }
+            .el-tree-node__content{
+                height: 40px;
+                .leftNavItem{
+                    color: #ffffff;
+                }
+                &:hover{
+                    background-color:tint( @color, 50%);
+                }
+            }
+            .el-tree-node{
+                &:focus{
+                    .el-tree-node__content{
+                        background-color:transparent;
+                    }
+                }
+                &.is-current{
+                    &>.el-tree-node__content{
+                        background-color:tint( @color, 50%);
+                    }
+                }
+            }
+
         }
+
     }
 }
 </style>
