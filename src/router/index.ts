@@ -10,6 +10,7 @@ export default createRouter({
         {
             path:"/",
             component:()=>import("../view/Home.vue"),
+            redirect:"/home",
             children:[
                 {
                     path:"home",
