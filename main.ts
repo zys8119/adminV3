@@ -10,6 +10,18 @@ import alertPlug from "./src/store/plug/alertPlug"
 import uiPlug from "./src/ui"
 import apiPlug from "./src/api"
 import {airforcePlugOptionsType} from "./src/store/request/AxiosClassInterface";
+router.beforeEach((to, from, next) => {
+    if(localStorage.getItem("userInfo")){
+        try {
+            store.state.airforce.input("userInfo",JSON.parse(localStorage.getItem("userInfo")))
+        }catch (e){}
+    }
+    if(store.state.airforce.userInfo ||  to.path === "/login"){
+        next();
+    }else {
+        next("/login");
+    }
+})
 createApp(<any>App)
     .use(ElementPlus,{locale})
     .use(router)

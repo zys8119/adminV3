@@ -1,4 +1,4 @@
-import { Plugin, getCurrentInstance,ComponentInternalInstance } from "vue"
+import { Plugin,ComponentInternalInstance } from "vue"
 import { AxiosPromise } from "axios"
 import api,{apiOpt} from "./api"
 class ApiProxy {
@@ -10,7 +10,8 @@ class ApiProxy {
                 }
                 if(Object.prototype.toString.call(target[<any>p]) === "[object Function]"){
                     return function (this:ComponentInternalInstance,...agrs):AxiosPromise<any>{
-                        return target[<any>p].call(getCurrentInstance(),...agrs);
+                        // @ts-ignore
+                        return target[<any>p].call(window._this,...agrs);
                     };
                 }
                 return target[<any>p];

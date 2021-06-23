@@ -37,4 +37,10 @@ export default interface $utilsOptions {
      * @param string
      */
     addJs?(string: string):Promise<any>;
+
+    /**
+     * MD5加密
+     * @param string
+     */
+    MD5?(string: string):string;
 }

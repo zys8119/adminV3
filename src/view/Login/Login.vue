@@ -4,12 +4,11 @@
             <div class="container">
                 <h1>日志监控中台</h1>
                 <div class="form">
-                    <input type="text" placeholder="账号" v-model="formData.name">
-                    <input type="password" placeholder="密码" v-model="formData.name">
+                    <input type="text" placeholder="账号" v-model="formData.username">
+                    <input type="password" placeholder="密码" v-model="formData.password">
                     <button type="submit" id="login-button" @click="login">登录</button>
                 </div>
             </div>
-
             <ul class="bg-bubbles">
                 <li v-for="i in 10" :key="i"></li>
             </ul>
@@ -27,9 +26,14 @@ export default {
     },
     methods:{
         login(){
-            console.log(this)
-            if(this.$utils.is_S(this.formData.name)){return this.$message.error("asdad")};
-            // this.api.User
+            if(this.$utils.is_S(this.formData.username)){return this.$message.error("请输入账号")};
+            if(this.$utils.is_S(this.formData.password)){return this.$message.error("请输入密码")};
+            this.api.User.Auth.login({
+                ...this.formData,
+                password:this.$utils.MD5(this.formData.password),
+            }).then(()=>{
+                this.$router.push("/");
+            })
         }
     }
 }
