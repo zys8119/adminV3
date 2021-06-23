@@ -6,6 +6,10 @@ export default createRouter({
         {
             path:"/",
             component:()=>import("../view/Home.vue")
+        },
+        {
+            path:"/login",
+            component:()=>import("../view/Login/Login.vue")
         }
     ],
 });

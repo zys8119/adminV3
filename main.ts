@@ -9,11 +9,16 @@ import airforcePlug from "./src/store/plug/airforcePlug"
 import alertPlug from "./src/store/plug/alertPlug"
 import uiPlug from "./src/ui"
 import apiPlug from "./src/api"
+import {airforcePlugOptionsType} from "./src/store/request/AxiosClassInterface";
 createApp(<any>App)
     .use(ElementPlus,{locale})
     .use(router)
     .use(store)
-    .use(airforcePlug)
+    .use(airforcePlug,<airforcePlugOptionsType>{
+        requestBaseOptions:{
+            baseURL:"http://localhost:81/"
+        }
+    })
     .use(alertPlug)
     .use(uiPlug)
     .use(apiPlug)
