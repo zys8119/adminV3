@@ -1,6 +1,7 @@
 <template>
     <div class="Home">
         asdasdasd
+        <div v-for="i in 100">{{i}}</div>
     </div>
 </template>
 

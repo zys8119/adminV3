@@ -30,6 +30,9 @@
                 </template>
             </el-tree>
         </div>
+        <div class="viewportMain">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -144,6 +147,7 @@ export default {
         overflow: hidden;
         user-select: none;
         background-color: @color;
+        z-index: 1;
         &.off{
             width: 0;
             border-right: transparent;
@@ -177,6 +181,15 @@ export default {
 
         }
 
+    }
+    .viewportMain{
+        position: fixed;
+        z-index: 1;
+        width: calc(100% - @leftNavWidth);
+        height: calc(100% - @h);
+        left: @leftNavWidth;
+        top: @h;
+        overflow-x: hidden;
     }
 }
 </style>
