@@ -67,6 +67,10 @@ class AxiosClass implements AxiosClassInterface{
                     'Content-Type':headers['Content-Type'] || (this.options.isFormData) ? 'application/x-www-form-urlencoded;charset=UTF-8' : 'application/json',
                 }
             };
+            if(window._this && window._this.$store.state.airforce.userInfo.token){
+                this.requestBody.headers['token'] = window._this.$store.state.airforce.userInfo.token;
+                this.requestBody.headers['token_url'] = window._this.$route.path;
+            } 
             if (sessionStorage.getItem('userInfo')) this.requestBody.headers['AUTHORIZATION'] = JSON.parse(sessionStorage.getItem('userInfo')).token;
             if (sessionStorage.getItem('unit')) this.requestBody.headers['UNIT'] = sessionStorage.getItem('unit');
         }

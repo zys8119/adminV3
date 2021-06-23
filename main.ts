@@ -16,7 +16,7 @@ router.beforeEach((to, from, next) => {
             store.state.airforce.input("userInfo",JSON.parse(localStorage.getItem("userInfo")))
         }catch (e){}
     }
-    if(store.state.airforce.userInfo ||  to.path === "/login"){
+    if(store.state.airforce.userInfo.id ||  to.path === "/login"){
         next();
     }else {
         next("/login");
@@ -28,7 +28,7 @@ createApp(<any>App)
     .use(store)
     .use(airforcePlug,<airforcePlugOptionsType>{
         requestBaseOptions:{
-            baseURL:"http://localhost:81/"
+            baseURL:"http://localhost:81/",
         }
     })
     .use(alertPlug)
