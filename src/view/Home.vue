@@ -2,12 +2,12 @@
     <div class="Home">
         <div class="topNav">
             <div class="topNavHeader">日志监控中台</div>
-            <el-tabs class="menus" v-model="editableTabsValue" type="card">
+            <el-tabs class="menus" v-model="activeNav" type="card">
                 <el-tab-pane
                     v-for="(item, index) in menus"
                     :key="item.name"
                     :label="item.title"
-                    :name="item.name"
+                    :name="item.id"
                 >
                 </el-tab-pane>
             </el-tabs>
@@ -18,12 +18,16 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item divided>用户中心</el-dropdown-item>
-                        <el-dropdown-item divided @click.native="logout">推出登录</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
         </div>
-
+        <div class="leftNav" :class="{off:leftNavMenus.length === 0}">
+            <el-tree :data="leftNavMenus">
+                <template #default="{data}">{{data.title}}</template>
+            </el-tree>
+        </div>
     </div>
 </template>
 
@@ -32,12 +36,15 @@ export default {
     name: "Home",
     data(){
         return {
-            editableTabsValue:null,
+            activeNav:"160576915126284",
         }
     },
     computed:{
         menus(){
             return this.airforce.userInfo?.menus || [];
+        },
+        leftNavMenus(){
+            return (this.menus.find(e=>e.id === this.activeNav) || {}).children || []
         }
     },
     mounted() {
@@ -53,7 +60,7 @@ export default {
     methods:{
         logout(){
             localStorage.clear();
-            this.airforce.input("userInfo",null);
+            this.airforce.input("userInfo", null,{},true);
             setTimeout(()=>{
                 this.$router.push("/login")
             })
@@ -64,13 +71,22 @@ export default {
 
 <style scoped lang="less">
 .Home{
+    @h:50px;
+    @leftNavWidth:160px;
+    @transition:all ease-in 300ms;
     .topNav{
         display: flex;
         align-items: center;
         background-color: @themeColor;
-        @h:50px;
+        height: @h;
+        overflow: hidden;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1;
         .topNavHeader{
-            width: 160px;
+            width: @leftNavWidth;
             text-align: center;
             background-color: @themeColor;
             line-height: @h;
@@ -105,6 +121,24 @@ export default {
             .el-dropdown-link{
                 padding: 0 @unit15;
             }
+        }
+    }
+    .leftNav{
+        width: @leftNavWidth;
+        position: fixed;
+        left: 0;
+        top: @h;
+        height: calc(100% - @h);
+        border-right: 1px solid #d8d8d8;
+        transition: @transition;
+        overflow: hidden;
+        user-select: none;
+        &.off{
+            width: 0;
+            border-right: transparent;
+        }
+        :deep(.el-tree__empty-text){
+            display: none;
         }
     }
 }
