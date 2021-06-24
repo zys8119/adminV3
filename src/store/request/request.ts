@@ -109,16 +109,17 @@ class AxiosClass implements AxiosClassInterface{
                     sessionStorage.clear();
                     window.location.hash = '/login'
                     reject(response.data)
-                }else if (response.data.code === 110001) {
-                    // 权限不足自动退出登录
-                    localStorage.clear();
-                    window._this.airforce.input("userInfo", null,{},true);
-                    setTimeout(()=>{
-                        window._this.$router.push("/login").then(()=>{
-                            reject(response.data)
-                        })
-                    })
                 }
+                // else if (response.data.code === 110001) {
+                //     // 权限不足自动退出登录
+                //     localStorage.clear();
+                //     window._this.airforce.input("userInfo", null,{},true);
+                //     setTimeout(()=>{
+                //         window._this.$router.push("/login").then(()=>{
+                //             reject(response.data)
+                //         })
+                //     })
+                // }
                 else {
                     reject(response.data);
                 }

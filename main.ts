@@ -11,12 +11,12 @@ import uiPlug from "./src/ui"
 import apiPlug from "./src/api"
 import {airforcePlugOptionsType} from "./src/store/request/AxiosClassInterface";
 router.beforeEach((to, from, next) => {
-    if(localStorage.getItem("userInfo")){
+    if((!store.state.airforce.userInfo || !store.state.airforce.userInfo.id)  && localStorage.getItem("userInfo")){
         try {
             store.state.airforce.input("userInfo",JSON.parse(localStorage.getItem("userInfo")))
         }catch (e){}
     }
-    if(store.state.airforce.userInfo.id ||  to.path === "/login"){
+    if((store.state.airforce.userInfo && store.state.airforce.userInfo.id) ||  to.path === "/login"){
         next();
     }else {
         next("/login");

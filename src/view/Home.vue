@@ -24,7 +24,7 @@
             </el-dropdown>
         </div>
         <div class="leftNav" :class="{off:leftNavMenus.length === 0}">
-            <el-tree ref="elTree" :data="leftNavMenus"
+            <el-tree ref="elTree" :data="leftNavCurrentMenus"
                      @node-click="nodeClick"
                      node-key="id"
                      :default-expanded-keys="defaultExpandedKeys"
@@ -35,13 +35,15 @@
                 </template>
             </el-tree>
         </div>
-        <div class="viewportMain">
+        <div class="viewportMain" :class="{off:leftNavMenus.length === 0}">
             <router-view></router-view>
         </div>
     </div>
 </template>
 
 <script lang="ts">
+import {WindowCommonAxiosRequestConfig} from "../store/request/AxiosClassInterface";
+
 export default {
     name: "Home",
     data(){
@@ -57,37 +59,56 @@ export default {
         leftNavMenus(){
             return (this.menus.find(e=>e.id === this.activeNav) || {}).children || []
         },
+        leftNavCurrentMenus(){
+            return this.leftNavCurrentMenusInit(JSON.parse(JSON.stringify(this.leftNavMenus)));
+        },
         defaultExpandedKeys(){
             return (this.findPath || []).slice(1).map(e=>e.id)
         },
         currentNodeKey(){
-            return this.defaultExpandedKeys.reverse()[0]
+            return (this.findPath || []).filter(e=>e.is_child_page === 1).map(e=>e.id).reverse()[0]
         }
     },
     watch:{
         currentNodeKey(){
-            this.$refs.elTree?.setCurrentKey(this.currentNodeKey)
+            this.$nextTick(()=>{
+                this.$refs.elTree.setCurrentKey(this.currentNodeKey)
+            })
         }
     },
     mounted() {
-        this.axios({
+        this.axios(<WindowCommonAxiosRequestConfig>{
             url:"/User/Auth/getUserInfo",
             method:"get",
             ModuleName:"userInfo",
             ModuleFilter:(res: any)=> {
-                this.$nextTick(()=>{
-                    this.findPath = this.$utils.findPath(res.data.menus,{path:this.$route.path},"children");
-                    if(this.findPath){
-                        this.activeNav = this.findPath[0]?.id;
-                    }else {
-                        this.activeNav = res.data.menus[0]?.id;
-                    }
-                })
+                this.init(res.data.menus);
                 return Promise.resolve(res.data)
+            },
+            data:{
+                is_child_page:true,
             }
         })
     },
     methods:{
+        init(menus){
+            this.$nextTick(()=>{
+                this.findPath = this.$utils.findPath(menus,{path:this.$route.path},"children");
+                if(this.findPath){
+                    this.activeNav = this.findPath[0]?.id;
+                }else {
+                    this.activeNav = menus[0]?.id;
+                }
+            })
+        },
+        leftNavCurrentMenusInit(options){
+            return options.filter(e=>{
+                if(e.children){
+                    e.children = this.leftNavCurrentMenusInit(e.children);
+                }
+                return e.is_child_page === 1
+            });
+        },
         logout(){
             localStorage.clear();
             this.airforce.input("userInfo", null,{},true);
@@ -98,7 +119,9 @@ export default {
         nodeClick(data){
             if(!data.children){
                 if(data.path){
-                    this.$router.push(data.path)
+                    this.$router.push(data.path).then(()=>{
+                        this.init(this.airforce?.userInfo?.menus);
+                    })
                 }
             }
         }
@@ -215,6 +238,11 @@ export default {
         left: @leftNavWidth;
         top: @h;
         overflow-x: hidden;
+        transition: @transition;
+        &.off{
+            left: 0;
+            width: 100%;
+        }
     }
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
     <div class="Home">
+        <el-button @click="$router.push('/test')">跳转测试页面</el-button>
         asdasdasd
         <div v-for="i in 100">{{i}}</div>
     </div>
