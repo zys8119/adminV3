@@ -36,7 +36,45 @@
             </el-tree>
         </div>
         <div class="viewportMain" :class="{off:leftNavMenus.length === 0}">
-            <router-view></router-view>
+            <div class="el-breadcrumb-box el-breadcrumb-tabs">
+                <div class="el-breadcrumb-box-content">
+                    <el-tabs class="menus" :model-value="currentActiveMenusKey" type="card" :closable="activeMenus.length > 1"
+                             @tab-click="activeMenusChange(activeMenus[$event.index])"
+                             @tab-remove="activeMenusRemove"
+                    >
+                        <el-tab-pane
+                            v-for="(item, index) in activeMenus"
+                            :key="item.name"
+                            :label="item.title"
+                            :name="item.id"
+                        >
+                        </el-tab-pane>
+                    </el-tabs>
+                    <el-dropdown class="dropdown">
+                        <span class="el-dropdown-link">
+                            <i class="el-icon-menu"></i>
+                        </span>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item @click.native="showRouterViewInit">刷新当前页面</el-dropdown-item>
+                                <el-dropdown-item @click.native="closeOtherPage">关闭其他页面</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
+                </div>
+            </div>
+            <div class="el-breadcrumb-box el-breadcrumb-row">
+                <div class="el-breadcrumb-box-content">
+                    <el-breadcrumb separator-class="el-icon-arrow-right" v-if="findPath">
+                        <el-breadcrumb-item :to="{ path: item.path }" v-for="(item,key) in findPath" :key="key">{{ item.title }}</el-breadcrumb-item>
+                    </el-breadcrumb>
+                </div>
+            </div>
+            <div class="viewportMainContent">
+                <div class="viewportMainContentRouterView" v-if="showRouterView">
+                    <router-view></router-view>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -49,12 +87,14 @@ export default {
     data(){
         return {
             activeNav:null,
-            findPath:null
+            findPath:null,
+            activeMenus:[],
+            showRouterView:true,
         }
     },
     computed:{
         menus(){
-            return this.airforce.userInfo?.menus || [];
+            return (this.airforce.userInfo?.menus || []).filter(e=>e.is_child_page === 1);
         },
         leftNavMenus(){
             return (this.menus.find(e=>e.id === this.activeNav) || {}).children || []
@@ -67,13 +107,35 @@ export default {
         },
         currentNodeKey(){
             return (this.findPath || []).filter(e=>e.is_child_page === 1).map(e=>e.id).reverse()[0]
+        },
+        currentActiveMenus(){
+            if(this.findPath && this.findPath.length > 0) {
+                return  this.findPath[this.findPath.length - 1];
+            }else {
+                return null;
+            }
+        },
+        currentActiveMenusKey(){
+            return (this.currentActiveMenus || {}).id;
         }
     },
     watch:{
         currentNodeKey(){
             this.$nextTick(()=>{
-                this.$refs.elTree.setCurrentKey(this.currentNodeKey)
+                this.$refs.elTree.setCurrentKey(this.currentNodeKey);
+                this.$nextTick(()=>{
+                    if(this.findPath && this.findPath.length > 0){
+                        // const currentNode = this.findPath[this.findPath.length - 1];
+                        if(!this.activeMenus.map(e=>e.id).includes(this.currentActiveMenusKey)){
+                            this.activeMenus.push(this.currentActiveMenus);
+                        }
+                    }
+
+                })
             })
+        },
+        $route(){
+            this.init(this.airforce?.userInfo?.menus);
         }
     },
     mounted() {
@@ -82,6 +144,7 @@ export default {
             method:"get",
             ModuleName:"userInfo",
             ModuleFilter:(res: any)=> {
+                this.activeMenus = [];
                 this.init(res.data.menus);
                 return Promise.resolve(res.data)
             },
@@ -91,6 +154,30 @@ export default {
         })
     },
     methods:{
+        showRouterViewInit(){
+            this.showRouterView = false;
+            this.$nextTick(()=>{
+                this.showRouterView = true;
+            })
+        },
+        closeOtherPage(){
+            this.activeMenus = this.activeMenus.filter(e=>e.id === this.currentActiveMenusKey)
+        },
+        activeMenusRemove(id){
+            const index = this.activeMenus.findIndex(e=>e.id === id);
+            this.activeMenus.splice(index,1);
+            const next = this.activeMenus[index-1] || this.activeMenus[index];
+            if(next){
+                this.$router.push(next.path);
+            }else {
+                this.$router.push("/")
+            }
+        },
+        activeMenusChange(e){
+            if(e.path){
+                this.$router.push(e.path);
+            }
+        },
         init(menus){
             this.$nextTick(()=>{
                 this.findPath = this.$utils.findPath(menus,{path:this.$route.path},"children");
@@ -119,9 +206,11 @@ export default {
         nodeClick(data){
             if(!data.children){
                 if(data.path){
-                    this.$router.push(data.path).then(()=>{
-                        this.init(this.airforce?.userInfo?.menus);
-                    })
+                    if(this.$route.path !== data.path){
+                        this.$router.push(data.path)
+                    }else {
+                        this.showRouterViewInit();
+                    }
                 }
             }
         }
@@ -231,17 +320,77 @@ export default {
 
     }
     .viewportMain{
+        @hh: @h - 10px;
         position: fixed;
         z-index: 1;
         width: calc(100% - @leftNavWidth);
         height: calc(100% - @h);
         left: @leftNavWidth;
         top: @h;
-        overflow-x: hidden;
+        overflow: hidden;
         transition: @transition;
         &.off{
             left: 0;
             width: 100%;
+        }
+        .el-breadcrumb-box{
+            height:@hh;
+            width: 100%;
+            border-bottom: 1px solid #d8d8d8;
+            margin-bottom: @unit15;
+            .el-breadcrumb-box-content{
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: @hh;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                z-index: 2;
+                background-color: #ffffff;
+                .el-breadcrumb{
+                    margin-left: @unit15;
+                    flex: 1;
+                }
+                .el-dropdown-link{
+                    margin-right: @unit15;
+                    margin-left: @unit15;
+                }
+            }
+            &.el-breadcrumb-row{
+                border-bottom: none;
+                .el-breadcrumb-box-content{
+                    top:@hh+1px;
+                }
+            }
+            &.el-breadcrumb-tabs{
+                :deep(.el-tabs){
+                    flex: 1;
+                    max-width: calc(100% - 50px);
+                    &>.el-tabs__header{
+                      margin: 0;
+                    }
+                    .el-tabs__content{
+                        display: none;
+                    }
+                }
+            }
+        }
+        .viewportMainContent{
+            @top:@hh*2 + 1px + @unit15;
+            position: absolute;
+            left: 0;
+            top: @top;
+            width: 100%;
+            height: calc(100% - @top);
+            overflow-x: hidden;
+            z-index: 1;
+            transition: @transition;
+            .viewportMainContentRouterView{
+                padding: @unit15;
+                padding-top: 0;
+            }
         }
     }
 }
