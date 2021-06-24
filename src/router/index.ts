@@ -4,6 +4,10 @@ export default createRouter({
     history:createWebHashHistory(),
     routes:[
         {
+            path:"/:pathMatch(.*)*",
+            redirect:"/",
+        },
+        {
             path:"/login",
             component:()=>import("../view/Login/Login.vue"),
         },

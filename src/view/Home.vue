@@ -24,7 +24,12 @@
             </el-dropdown>
         </div>
         <div class="leftNav" :class="{off:leftNavMenus.length === 0}">
-            <el-tree :data="leftNavMenus" @node-click="nodeClick">
+            <el-tree ref="elTree" :data="leftNavMenus"
+                     @node-click="nodeClick"
+                     node-key="id"
+                     :default-expanded-keys="defaultExpandedKeys"
+                     :current-node-key="currentNodeKey"
+            >
                 <template #default="{data}">
                     <div class="leftNavItem">{{data.title}}</div>
                 </template>
@@ -41,7 +46,8 @@ export default {
     name: "Home",
     data(){
         return {
-            activeNav:"160576915126284",
+            activeNav:null,
+            findPath:null
         }
     },
     computed:{
@@ -50,6 +56,17 @@ export default {
         },
         leftNavMenus(){
             return (this.menus.find(e=>e.id === this.activeNav) || {}).children || []
+        },
+        defaultExpandedKeys(){
+            return (this.findPath || []).slice(1).map(e=>e.id)
+        },
+        currentNodeKey(){
+            return this.defaultExpandedKeys.reverse()[0]
+        }
+    },
+    watch:{
+        currentNodeKey(){
+            this.$refs.elTree?.setCurrentKey(this.currentNodeKey)
         }
     },
     mounted() {
@@ -57,7 +74,15 @@ export default {
             url:"/User/Auth/getUserInfo",
             method:"get",
             ModuleName:"userInfo",
-            ModuleFilter(res: any) {
+            ModuleFilter:(res: any)=> {
+                this.$nextTick(()=>{
+                    this.findPath = this.$utils.findPath(res.data.menus,{path:this.$route.path},"children");
+                    if(this.findPath){
+                        this.activeNav = this.findPath[0]?.id;
+                    }else {
+                        this.activeNav = res.data.menus[0]?.id;
+                    }
+                })
                 return Promise.resolve(res.data)
             }
         })

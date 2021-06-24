@@ -43,4 +43,19 @@ export default interface $utilsOptions {
      * @param string
      */
     MD5?(string: string):string;
+
+    /**
+     * 多维数组根据条件查找元素的路径
+     * @param options 数据源
+     * @param criteria 查询条件
+     * @param optionsOld 原始数据源
+     * @param parent 当前元素的父级
+     * @param resDataAll 返回结果
+     * @param childName 子集字段名称
+     * @returns {*}
+     *
+     * 使用：
+     * this.findPath(data,{fieldId: "14000000"},"child")
+     */
+    findPath?(options,criteria,optionsOld,parent,resDataAll,childName):object[];
 }

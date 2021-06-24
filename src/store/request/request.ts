@@ -67,7 +67,7 @@ class AxiosClass implements AxiosClassInterface{
                     'Content-Type':headers['Content-Type'] || (this.options.isFormData) ? 'application/x-www-form-urlencoded;charset=UTF-8' : 'application/json',
                 }
             };
-            if(window._this && window._this.$store.state.airforce.userInfo.token){
+            if(window._this && window._this.$store.state.airforce.userInfo?.token){
                 this.requestBody.headers['token'] = window._this.$store.state.airforce.userInfo.token;
                 this.requestBody.headers['token_url'] = window._this.$route.path;
             } 
@@ -109,7 +109,17 @@ class AxiosClass implements AxiosClassInterface{
                     sessionStorage.clear();
                     window.location.hash = '/login'
                     reject(response.data)
-                }else {
+                }else if (response.data.code === 110001) {
+                    // 权限不足自动退出登录
+                    localStorage.clear();
+                    window._this.airforce.input("userInfo", null,{},true);
+                    setTimeout(()=>{
+                        window._this.$router.push("/login").then(()=>{
+                            reject(response.data)
+                        })
+                    })
+                }
+                else {
                     reject(response.data);
                 }
             })

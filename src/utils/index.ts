@@ -395,4 +395,40 @@ export default <$utilsOptions>{
         }
         return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();
     },
+    findPath(options,criteria,optionsOld,parent,resDataAll,childName='children'){
+        if(typeof optionsOld == 'string'){
+            childName = optionsOld;
+            optionsOld = null;
+        }
+        optionsOld = optionsOld || options;
+        let resData = null;
+        resDataAll = resDataAll || [];
+        options.forEach((item,$findPathIndex)=>{
+            if(!resData){
+                let bool = true;
+                for(let key in criteria){
+                    if(criteria[key] != item[key]){
+                        bool = false;
+                    }
+                }
+                if(bool){
+                    resData = item;
+                    resDataAll.unshift({
+                        ...item,
+                        $findPathIndex
+                    });
+                    if(optionsOld && parent){
+                        this.findPath(optionsOld,parent,optionsOld,null,resDataAll,childName);
+                    }
+                }
+                if(item[childName] && item[childName].length > 0){
+                    this.findPath(item[childName],criteria,optionsOld,item,resDataAll,childName);
+                }
+            }
+        });
+        if(resDataAll.length > 0){
+            return resDataAll;
+        }
+        return null;
+    },
 }
