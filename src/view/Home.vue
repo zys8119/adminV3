@@ -2,7 +2,7 @@
     <div class="Home">
         <div class="topNav">
             <div class="topNavHeader">日志监控中台</div>
-            <el-tabs class="menus" v-model="activeNav" type="card">
+            <el-tabs class="menus" v-model="activeNav" type="card" @tab-click="activeNavChange(menus[$event.index])">
                 <el-tab-pane
                     v-for="(item, index) in menus"
                     :key="item.name"
@@ -154,6 +154,11 @@ export default {
         })
     },
     methods:{
+        activeNavChange(it){
+            if(!it.children && it.path){
+                this.$router.push(it.path);
+            }
+        },
         showRouterViewInit(){
             this.showRouterView = false;
             this.$nextTick(()=>{
