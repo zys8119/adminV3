@@ -55,9 +55,11 @@ export interface columns {
     sortable?:boolean;
     minWidth?:any;
     fixed?:string;
-    align?:string;
+    align?:columns_align;
     columns?:columns[]
 }
+
+export type columns_align = string | null | "center" | "left" | "right"
 
 export type columns_className = string | null
     | "default" | 'success' | 'delete' | 'primary' | 'orange' | 'black'

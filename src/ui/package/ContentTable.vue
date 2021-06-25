@@ -64,7 +64,7 @@
                             :sortable="item.sortable"
                             :min-width="item.minWidth"
                             :fixed="item.fixed"
-                            :align="item.align"
+                            :align="item.align || 'center'"
                         >
                             <template #header="{columnheader, $indexheader}" v-if="$slots.header">
                                 <slot name="header" :column="columnheader" :index="$indexheader"></slot>

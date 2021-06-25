@@ -33,5 +33,16 @@ export default{
                 })
             }
         }
+    },
+    LogNakadai:{
+        ApplicationType:{
+            list(data){
+                return this.axios(<WindowCommonAxiosRequestConfig>{
+                    url:"/LogNakadai/ApplicationType/list",
+                    method:"get",
+                    data
+                })
+            }
+        }
     }
 }

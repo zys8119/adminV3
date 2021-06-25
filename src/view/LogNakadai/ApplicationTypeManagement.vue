@@ -3,7 +3,11 @@
         <filter-content v-model="params.search" :btns="[
             {name:'新增应用'}
         ]"></filter-content>
-        <content-table :columns="columns"></content-table>
+        <content-table
+            ref="table"
+            :apiPath="api.LogNakadai.ApplicationType.list"
+            :columns="columns"
+        ></content-table>
     </div>
 </template>
 
@@ -25,7 +29,19 @@ export default {
             ]
         }
     },
+    mounted() {
+        this.init();
+    },
     methods:{
+        init(){
+            this.reset()
+        },
+        reset(){
+            this.search();
+        },
+        search(){
+            this.$refs.table.init();
+        }
     }
 }
 </script>
