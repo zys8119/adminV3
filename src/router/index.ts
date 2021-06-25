@@ -18,12 +18,12 @@ export default createRouter({
             children:[
                 {
                     path:"home",
-                    component:Layout,
+                    component:()=>import("../view/Home/Home.vue"),
                 },
                 {
                     path:"log-nakadai",
                     name:"日志中台",
-                    component:()=>import("../view/Home/Home.vue"),
+                    component:Layout,
                     children:[
                         {
                             path:"application-management",
