@@ -18,6 +18,19 @@ export default{
                     localStorage.setItem("userInfo",JSON.stringify(this.airforce.userInfo))
                     return res;
                 })
+            },
+            getUserInfo(data,ModuleFilter = new Function){
+                return this.axios(<WindowCommonAxiosRequestConfig>{
+                    url:"/User/Auth/getUserInfo",
+                    method:"get",
+                    ModuleName:"userInfo",
+                    ModuleFilter:(res: any)=> {
+                        this.activeMenus = [];
+                        ModuleFilter(res);
+                        return Promise.resolve(res.data)
+                    },
+                    data
+                })
             }
         }
     }

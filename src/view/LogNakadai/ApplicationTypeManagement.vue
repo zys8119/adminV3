@@ -1,11 +1,7 @@
 <template>
     <div class="ApplicationTypeManagement">
-        <filter-content v-model="params.search" @AAA="aa" :rightBtns="[
-            {name:'asdasd',emit:'AAA'}
-        ]"></filter-content>
-        {{params.search}}
+        <filter-content v-model="params.search"></filter-content>
         <content-table :columns="columns"></content-table>
-        <div v-for="i in 100">{{i}}</div>
     </div>
 </template>
 
@@ -18,14 +14,16 @@ export default {
         return {
             params:{},
             columns:<Array<columns>>[
-
+                {label:"应用名称", prop:"name"},
+                {label:"应用id", prop:"name"},
+                {label:"操作", type:"operate", btns:[
+                    {name:"编辑", type:"text", className:"primary"},
+                    {name:"删除", type:"text", className:"default"},
+                ]},
             ]
         }
     },
     methods:{
-        aa(it){
-            console.log(it)
-        }
     }
 }
 </script>

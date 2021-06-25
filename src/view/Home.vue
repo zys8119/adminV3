@@ -139,18 +139,10 @@ export default {
         }
     },
     mounted() {
-        this.axios(<WindowCommonAxiosRequestConfig>{
-            url:"/User/Auth/getUserInfo",
-            method:"get",
-            ModuleName:"userInfo",
-            ModuleFilter:(res: any)=> {
-                this.activeMenus = [];
-                this.init(res.data.menus);
-                return Promise.resolve(res.data)
-            },
-            data:{
-                is_child_page:true,
-            }
+        this.api.User.Auth.getUserInfo({
+            is_child_page:true,
+        },(res)=>{
+            this.init(res.data.menus)
         })
     },
     methods:{
