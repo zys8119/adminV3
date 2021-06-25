@@ -12,7 +12,7 @@
             </div>
             <div class="FilterContentRight">
                 <slot name="right">
-                    <ZButton type="primary" v-for="(item,key) in rightBtns" :key="key" :config="item" @click="item.emit ? $emit(item.emit,item) : ()=>{}"></ZButton>
+                    <ZButton v-for="(item,key) in btns" :key="key" :config="item" @click="item.emit ? $emit(item.emit,item) : ()=>{}"></ZButton>
                 </slot>
             </div>
         </div>
@@ -23,7 +23,7 @@
 export default {
     name: "FilterContent",
     props:{
-        rightBtns:{type:Array, default:()=>[]},
+        btns:{type:Array, default:()=>[]},
         modelValue:{type:String,default:null},
         search:{type:String,default:"搜索"},
         reset:{type:String,default:"重置"},

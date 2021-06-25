@@ -1,6 +1,8 @@
 <template>
     <div class="ApplicationTypeManagement">
-        <filter-content v-model="params.search"></filter-content>
+        <filter-content v-model="params.search" :btns="[
+            {name:'新增应用'}
+        ]"></filter-content>
         <content-table :columns="columns"></content-table>
     </div>
 </template>
