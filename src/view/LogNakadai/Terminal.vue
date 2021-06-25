@@ -1,16 +1,16 @@
 <template>
-    <div class="Home">
-        首页详情
+    <div class="Terminal">
+        终端
     </div>
 </template>
 
 <script>
 export default {
-    name: "Home",
+    name: "Terminal"
 }
 </script>
 
 <style scoped lang="less">
-.Home{
+.Terminal{
 }
 </style>

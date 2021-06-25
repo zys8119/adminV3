@@ -1,5 +1,5 @@
 import {createRouter,createWebHashHistory} from "vue-router"
-
+const Layout = ()=>import("../view/Layout.vue")
 export default createRouter({
     history:createWebHashHistory(),
     routes:[
@@ -18,12 +18,27 @@ export default createRouter({
             children:[
                 {
                     path:"home",
-                    component:()=>import("../view/Home/Home.vue"),
+                    component:Layout,
                 },
                 {
-                    path:"test",
-                    component:()=>import("../view/Test/Test.vue"),
-                }
+                    path:"log-nakadai",
+                    name:"日志中台",
+                    component:()=>import("../view/Home/Home.vue"),
+                    children:[
+                        {
+                            path:"application-management",
+                            component:()=>import("../view/LogNakadai/ApplicationManagement.vue")
+                        },
+                        {
+                            path:"application-type-management",
+                            component:()=>import("../view/LogNakadai/ApplicationTypeManagement.vue")
+                        },
+                        {
+                            path:"terminal",
+                            component:()=>import("../view/LogNakadai/Terminal.vue")
+                        }
+                    ]
+                },
             ]
         },
     ],

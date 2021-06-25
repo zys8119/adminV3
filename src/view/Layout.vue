@@ -1,16 +1,16 @@
 <template>
-    <div class="Test">
-        测试页面内容
+    <div class="Layout">
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
 export default {
-    name: "Test"
+    name: "Layout"
 }
 </script>
 
 <style scoped lang="less">
-.Test{
+.Layout{
 }
 </style>
