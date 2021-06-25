@@ -1,7 +1,7 @@
 import { Plugin,ComponentInternalInstance } from "vue"
 import { AxiosPromise } from "axios"
 import api,{apiOpt} from "./api"
-class ApiProxy {
+export class ApiProxy {
     constructor(vue, obj) {
         return new Proxy(obj,{
             get(target: Partial<apiOpt>, p: PropertyKey, receiver: any): any {

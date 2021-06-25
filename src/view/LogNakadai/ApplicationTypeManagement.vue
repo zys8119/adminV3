@@ -1,8 +1,8 @@
 <template>
     <div class="ApplicationTypeManagement">
         <filter-content v-model="params.search" :btns="[
-            {name:'新增应用'}
-        ]"></filter-content>
+            {name:'新增应用类型', emit:'add'}
+        ]" @add="add"></filter-content>
         <content-table
             ref="table"
             :apiPath="api.LogNakadai.ApplicationType.list"
@@ -37,10 +37,21 @@ export default {
             this.reset()
         },
         reset(){
+            this.params = {};
             this.search();
         },
         search(){
             this.$refs.table.init();
+        },
+        add(){
+            this.$ZAlert.show({
+                title:"新增应用类型",
+                width:"500px",
+                _components:()=>import("./Alert/AddType.vue"),
+                _event:{
+                    onSave:this.reset
+                }
+            })
         }
     }
 }

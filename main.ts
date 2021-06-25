@@ -9,7 +9,7 @@ import airforcePlug from "./src/store/plug/airforcePlug"
 import alertPlug from "./src/store/plug/alertPlug"
 import uiPlug from "./src/ui"
 import apiPlug from "./src/api"
-import {airforcePlugOptionsType} from "./src/store/request/AxiosClassInterface";
+import {GlobalConfig} from "./src/config";
 router.beforeEach((to, from, next) => {
     if((!store.state.airforce.userInfo || !store.state.airforce.userInfo.id)  && localStorage.getItem("userInfo")){
         try {
@@ -26,11 +26,7 @@ createApp(<any>App)
     .use(ElementPlus,{locale})
     .use(router)
     .use(store)
-    .use(airforcePlug,<airforcePlugOptionsType>{
-        requestBaseOptions:{
-            baseURL:"http://localhost:81/",
-        }
-    })
+    .use(airforcePlug,GlobalConfig)
     .use(alertPlug)
     .use(uiPlug)
     .use(apiPlug)

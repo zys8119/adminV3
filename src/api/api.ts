@@ -42,6 +42,13 @@ export default{
                     method:"get",
                     data
                 })
+            },
+            add(data){
+                return this.axios(<WindowCommonAxiosRequestConfig>{
+                    url:"/LogNakadai/ApplicationType/add",
+                    method:"post",
+                    data
+                })
             }
         }
     }
