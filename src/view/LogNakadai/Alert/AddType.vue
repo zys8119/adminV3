@@ -14,14 +14,28 @@
 <script>
 export default {
     name: "AddType",
+    props:{
+        row:{type:Object,default:null}
+    },
     data(){
         return {
             formData:{}
         }
     },
+    mounted() {
+        this.formData = this.row ? {...this.row} : {};
+    },
     methods:{
         save(){
             if(this.$utils.is_S(this.formData.name)){return this.$message.error("请输入应用类型名称")}
+            if(this.row){
+                this.api.LogNakadai.ApplicationType.update(this.formData).then(()=>{
+                    this.$message({type:"success", message:"保存成功"});
+                    this.$emit("save")
+                    this.$ZAlert.hide();
+                })
+                return;
+            }
             this.api.LogNakadai.ApplicationType.add(this.formData).then(()=>{
                 this.$message({type:"success", message:"保存成功"});
                 this.$emit("save")

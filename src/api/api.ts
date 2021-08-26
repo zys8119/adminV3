@@ -49,6 +49,20 @@ export default{
                     method:"post",
                     data
                 })
+            },
+            update(data){
+                return this.axios(<WindowCommonAxiosRequestConfig>{
+                    url:"/LogNakadai/ApplicationType/update",
+                    method:"put",
+                    data
+                })
+            },
+            delete(data){
+                return this.axios(<WindowCommonAxiosRequestConfig>{
+                    url:"/LogNakadai/ApplicationType/delete",
+                    method:"post",
+                    data
+                })
             }
         }
     }
