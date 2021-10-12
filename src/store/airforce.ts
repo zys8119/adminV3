@@ -80,7 +80,7 @@ export default <Module<any,any>>{
                 if(options.ModuleName){
                     injectee.state.input(options.ModuleName, undefined);
                 }
-                return Promise.reject(err);
+                return err;
             })
         }
     }

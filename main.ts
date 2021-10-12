@@ -9,29 +9,11 @@ import airforcePlug from "./src/store/plug/airforcePlug"
 import alertPlug from "./src/store/plug/alertPlug"
 import uiPlug from "./src/ui"
 import apiPlug from "./src/api"
-import {airforcePlugOptionsType} from "./src/store/request/AxiosClassInterface";
-import  "./src/mockjs/index";
-router.beforeEach((to, from, next) => {
-    if((!store.state.airforce.userInfo || !store.state.airforce.userInfo.id)  && localStorage.getItem("userInfo")){
-        try {
-            store.state.airforce.input("userInfo",JSON.parse(localStorage.getItem("userInfo")))
-        }catch (e){}
-    }
-    if((store.state.airforce.userInfo && store.state.airforce.userInfo.id) ||  to.path === "/login"){
-        next();
-    }else {
-        next("/login");
-    }
-})
 createApp(<any>App)
     .use(ElementPlus,{locale})
     .use(router)
     .use(store)
-    .use(airforcePlug,<airforcePlugOptionsType>{
-        requestBaseOptions:{
-            baseURL:"http://localhost:81/",
-        }
-    })
+    .use(airforcePlug)
     .use(alertPlug)
     .use(uiPlug)
     .use(apiPlug)

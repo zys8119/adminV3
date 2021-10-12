@@ -67,10 +67,6 @@ class AxiosClass implements AxiosClassInterface{
                     'Content-Type':headers['Content-Type'] || (this.options.isFormData) ? 'application/x-www-form-urlencoded;charset=UTF-8' : 'application/json',
                 }
             };
-            if(window._this && window._this.$store.state.airforce.userInfo?.token){
-                this.requestBody.headers['token'] = window._this.$store.state.airforce.userInfo.token;
-                this.requestBody.headers['token_url'] = window._this.$route.path;
-            } 
             if (sessionStorage.getItem('userInfo')) this.requestBody.headers['AUTHORIZATION'] = JSON.parse(sessionStorage.getItem('userInfo')).token;
             if (sessionStorage.getItem('unit')) this.requestBody.headers['UNIT'] = sessionStorage.getItem('unit');
         }
@@ -102,25 +98,14 @@ class AxiosClass implements AxiosClassInterface{
         this.service.interceptors.response.use(response => {
             if(this.isLoading) {this.loadingInstance.close()}
             if (this.isLoadingProgress) window._this.$LP.hide();
-            if (response.data.code !== 200) window._this.$message.error(response.data.message || response.data.msg || '接口错误');
+            if (response.data.code !== 0) window._this.$message.error(response.data.message || response.data.msg || '接口错误');
             return new Promise((resolve, reject) => {
-                if (response.data.code === 200) resolve(response.data)
+                if (response.data.code === 0) resolve(response.data)
                 else if (response.data.code === 401) {
                     sessionStorage.clear();
                     window.location.hash = '/login'
                     reject(response.data)
-                }
-                // else if (response.data.code === 110001) {
-                //     // 权限不足自动退出登录
-                //     localStorage.clear();
-                //     window._this.airforce.input("userInfo", null,{},true);
-                //     setTimeout(()=>{
-                //         window._this.$router.push("/login").then(()=>{
-                //             reject(response.data)
-                //         })
-                //     })
-                // }
-                else {
+                }else {
                     reject(response.data);
                 }
             })
