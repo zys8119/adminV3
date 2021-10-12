@@ -10,6 +10,7 @@ import alertPlug from "./src/store/plug/alertPlug"
 import uiPlug from "./src/ui"
 import apiPlug from "./src/api"
 import {airforcePlugOptionsType} from "./src/store/request/AxiosClassInterface";
+import  "./src/mockjs/index";
 router.beforeEach((to, from, next) => {
     if((!store.state.airforce.userInfo || !store.state.airforce.userInfo.id)  && localStorage.getItem("userInfo")){
         try {
