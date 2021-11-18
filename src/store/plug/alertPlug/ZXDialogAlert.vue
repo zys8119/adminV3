@@ -3,25 +3,25 @@
         ZXDialogAlertRight:layout === 'right'
     }" v-if="showBox">
         <el-dialog :title="title"
-               v-model="show"
-               :width="modeConfig.alert ? calcWidth : width"
-               :fullscreen="fullscreen"
-               :top="top"
-               :modal="modal"
-               :append-to-body="appendToBody"
-               :lock-scroll="lockScroll"
-               :custom-class="customClassName"
-               :close-on-click-modal="closeOnClickModal"
-               :close-on-press-escape="closeOnPressEscape"
-               :show-close="showClose"
-               :before-close="beforeClose"
-               :center="center"
-               :destroy-on-close="destroyOnClose"
-               @open="onShow"
-               @opened="onOpened"
-               @closed="onClosed"
-               @close="onHide"
-               ref="dialog">
+                   v-model="show"
+                   :width="modeConfig.alert ? calcWidth : width"
+                   :fullscreen="fullscreen"
+                   :top="top"
+                   :modal="modal"
+                   :append-to-body="appendToBody"
+                   :lock-scroll="lockScroll"
+                   :custom-class="customClassName"
+                   :close-on-click-modal="closeOnClickModal"
+                   :close-on-press-escape="closeOnPressEscape"
+                   :show-close="showClose"
+                   :before-close="beforeClose"
+                   :center="center"
+                   :destroy-on-close="destroyOnClose"
+                   @open="onShow"
+                   @opened="onOpened"
+                   @closed="onClosed"
+                   @close="onHide"
+                   ref="dialog">
             <div class="ZXDialogAlert-el-dialog-box">
                 <div class="ZXDialogAlert-el-dialog" :style="{maxHeight:maxHeightIndex+'px',height:layout === 'right' && showBoxDialog?maxHeightIndex + 'px':'auto',overflow: 'auto',paddingRight: '10px'}">
                     <component ref="component" v-if="show && _components && temp" :is="temp"></component>
@@ -240,8 +240,14 @@ export default {
                         _vm[temp] = shallowRef(currentView);
                         _vm.$nextTick(()=>{
                             // runtime-core.cjs.prod vue核心代码，function emit，位置【line：355】
-                            _vm.$refs[ref]._.vnode.props = {
-                                ..._vm.$refs[ref]._.vnode.props,
+                            let vnode = null;
+                            try {
+                                vnode = _vm.$refs[ref]._.vnode;
+                            }catch (e){
+                                vnode = _vm.getVnode(currentView, this._.vnode);
+                            }
+                            vnode.props = {
+                                ...vnode.props,
                                 ...(currentView.emits || {}),
                                 ..._emits
                             }
@@ -252,6 +258,24 @@ export default {
                     // err
                 }
             })()
+        },
+        getVnode(target,vnode){
+            if(vnode.type === target){
+                return vnode
+            }else if(vnode.component && vnode.component.subTree){
+                return this.getVnode(target, vnode.component.subTree)
+            }else if(Object.prototype.toString.call(vnode.children) === "[object Array]"){
+                let result = null;
+                for(let i = 0; i < vnode.children.length; i++){
+                    result = this.getVnode(target, vnode.children[i])
+                    if(result){
+                        break;
+                    }
+                }
+                return result;
+            }else {
+                return  null
+            }
         },
         getRefs(keyName,callback){
             if(this.$refs[keyName]){
